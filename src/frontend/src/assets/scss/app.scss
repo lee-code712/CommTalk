@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#main-app {
+    .content-area {
+        display: flex;
+    }
+
+    .main-section {
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+        padding: 50px;
+        width: calc(100% - 364px);
+        height: 100vh;
+        background-color: #F8F8F8;
+    }
+
+    .side-bar {
+        padding: 20px;
+        width: 324px;
+        min-width: 324px;
+        max-width: 324px;
+    }
+}

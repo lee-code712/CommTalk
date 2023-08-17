@@ -1,6 +1,7 @@
 <template>
   <div class="home-component">
-    <img src="@/assets/images/banner.png" style="width: 1080px;"/>
+    <div class="banner-wrap"></div>
+
     <div class="pinned-wrap">
       <div>게시판 고정</div>
       <button @click="showModal = true" class="setting-pin">
@@ -62,12 +63,16 @@ export default {
           title: '게시판 1',
           posts: [
             { title: '게시물 제목', date: '2023-08-15' },
+            { title: '게시물 제목', date: '2023-08-15' },
+            { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' }
           ]
         },
         {
           title: '게시판 2',
           posts: [
+            { title: '게시물 제목', date: '2023-08-15' },
+            { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' }
           ]
@@ -76,12 +81,16 @@ export default {
           title: '게시판 3',
           posts: [
             { title: '게시물 제목', date: '2023-08-15' },
+            { title: '게시물 제목', date: '2023-08-15' },
+            { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' }
           ]
         },
         {
           title: '게시판 4',
           posts: [
+            { title: '게시물 제목', date: '2023-08-15' },
+            { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' }
           ]

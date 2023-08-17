@@ -1,7 +1,6 @@
 .side-section {
     .popular-posts-wrap {
         padding: 0px 20px;
-        width: 400px;
         background-color: #FFF;
         border-radius: 8px;
         border: 1px solid #F7F6F9;
@@ -11,10 +10,11 @@
             align-items: center;
             height: 50px;
             font-weight: bold;
+            border-bottom: 1px solid #F7F6F9;
         }
         .side-section-box {
             padding: 20px 0px;
-
+            border-bottom: 1px solid #F7F6F9;
             .writer-date-wrap {
                 display: flex;
                 align-items: center;
@@ -69,7 +69,6 @@
     .hot-posts-wrap {
         margin-top: 34px;
         padding: 0px 20px;
-        width: 400px;
         background-color: #FFF;
         border-radius: 8px;
         border: 1px solid #F7F6F9;
@@ -79,6 +78,7 @@
             align-items: center;
             height: 50px;
             font-weight: bold;
+            border-bottom: 1px solid #F7F6F9;
         }
 
         .side-section-box {

@@ -14,8 +14,6 @@ body {
       
         /* 새로 추가된 부분 */
         height: 100vh;
-        width: 1620px;
-        max-width: 1620px;
         box-sizing: border-box; /* border를 포함한 너비 계산 */
         border-left: 1px solid #F1F1F1;
         border-right: 1px solid #F1F1F1;
@@ -26,7 +24,7 @@ body {
             justify-content: space-between;
             align-items: center;
             padding: 0px 30px;
-            width: 100%;
+            width: calc(100% - 60px);
             height: 80px;
             background-color: #FFF;
             border-bottom: 1px solid #f1f1f1;
@@ -51,7 +49,7 @@ body {
         
                     &:hover {
                         cursor: pointer;
-                        background-color: black;
+                        background-color: #f1f1f1;
                     }
                 }
         
@@ -82,11 +80,17 @@ body {
         .main-content {
             display: flex;
             justify-content: space-between;
-            padding: 30px;
-
-            .router-view {
-                width: 1080px;
-            }
+            gap: 30px;
+            padding: 30px calc((100vw - 300px - 1554px) / 2);
+            max-width: 1554px;
+        }
+        
+        .router-view {
+            width: 70%;
+        }
+        
+        .side-section-wrap {
+            width: 30%;
         }
     }
       

@@ -1,4 +1,14 @@
 .home-component {
+  .banner-wrap {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    background-image: url("@/assets/images/banner.png");
+    background-size: cover; /* Use background-size instead of object-fit */
+    background-position: center; /* Center the background image */
+  }
+  
+
     .pinned-wrap {
         display: flex;
         justify-content: space-between;
@@ -24,37 +34,38 @@
     }
 
     .board-box-wrap {
-        margin-top: 14px;
-      
-        .board-box {
-          margin-bottom: 16px; /* 각 board-box 사이의 간격을 설정합니다 */
-          padding: 0px 20px;
-          width: 490px;
-          background-color: #FFF;
-          border-radius: 8px;
-          border: 1px solid #F7F6F9;
-      
-          .side-section-box-title {
-            display: flex;
-            align-items: center;
-            height: 50px;
-            font-weight: bold;
+      margin-top: 14px;
+    
+      .board-box {
+        margin-bottom: 16px;
+        padding: 0px 20px;
+        width: calc(100% / 2 - 50px);
+        background-color: #FFF;
+        border-radius: 8px;
+        border: 1px solid #F7F6F9;
+    
+        .side-section-box-title {
+          display: flex;
+          align-items: center;
+          height: 50px;
+          font-weight: bold;
+          border-bottom: 1px solid #F7F6F9;
+        }
+    
+        .side-section-box {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 50px;
+    
+          .title {
+            font-size: 14px;
           }
-      
-          .side-section-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 50px;
-      
-            .title {
-              font-size: 14px;
-            }
-            .date {
-              font-size: 12px;
-              color: #9C9E9C;
-            }
+          .date {
+            font-size: 12px;
+            color: #9C9E9C;
           }
         }
       }
+    }
 }

@@ -1,29 +1,44 @@
 <template>
   <div id="main-app">
-    <Header/>
     <div class="content-area">
       <Sidebar/>
+
       <div class="main-section">
-        <router-view/>
-        <div class="side-section">
-          <SideSection/>
+        <div class="header">
+          <div class="page-name">게시판</div>
+          <gnb>
+              <div class="form-control">
+                  <input type="search" placeholder="search for.."/>
+                  <img src="@/assets/images/fi-rr-search.png"/>
+              </div>
+          </gnb>
+        </div>
+
+        <div class="main-content">
+          <router-view class="router-view" />
+
+          <div class="side-section-wrap">
+            <SideSection/>
+          </div>
         </div>
       </div>
+
+      <UserInfo/>
     </div>
   </div>
 </template>
 
 <script>
-import Header from '@/components/layout/HeaderComponent.vue'
 import Sidebar from '@/components/layout/SideBar.vue'
 import SideSection from '@/components/layout/SideSection.vue'
+import UserInfo from '@/components/layout/UserInfo.vue'
 
 export default {
   name: 'App',
   components: {
-    Header,
     Sidebar,
-    SideSection
+    SideSection,
+    UserInfo
   }
 }
 </script>

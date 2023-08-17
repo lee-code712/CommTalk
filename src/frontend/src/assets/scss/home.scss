@@ -2,7 +2,59 @@
     .pinned-wrap {
         display: flex;
         justify-content: space-between;
-        margin-top: 40px;
+        margin-top: 30px;
         width: 100%;
+        color: #9C9E9C;
+        font-size: 12px;
     }
+
+    .setting-pin {
+        display: flex; 
+        align-items:center; 
+        gap: 4px;
+        border: transparent;
+        background-color: inherit;
+        color: #9C9E9C;
+        font-size: 12px;
+
+        img {
+            width: 14px;
+            height: 14px;
+        }
+    }
+
+    .board-box-wrap {
+        margin-top: 14px;
+      
+        .board-box {
+          margin-bottom: 10px; /* 각 board-box 사이의 간격을 설정합니다 */
+          padding: 0px 20px;
+          width: 310px;
+          background-color: #FFF;
+          border-radius: 8px;
+          border: 1px solid #F7F6F9;
+      
+          .side-section-box-title {
+            display: flex;
+            align-items: center;
+            height: 50px;
+            font-weight: bold;
+          }
+      
+          .side-section-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+      
+            .title {
+              font-size: 14px;
+            }
+            .date {
+              font-size: 12px;
+              color: #9C9E9C;
+            }
+          }
+        }
+      }
 }

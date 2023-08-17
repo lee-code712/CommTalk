@@ -7,17 +7,6 @@
   </div>
 </template>
 
-<style scoped lang="scss">
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  padding: 0px 20px;
-  height: 80px;
-  border-bottom: 1px solid #f1f1f1;
-  color: #7C6ABF;
-}
-</style>
-
 <script>
 import AccordionMenu from '@/components/AccordionMenu.vue';
 
@@ -50,3 +39,7 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+ @import "@/assets/scss/sidebar.scss";
+</style>

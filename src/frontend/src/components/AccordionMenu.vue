@@ -40,55 +40,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.accordion-menu {
-  width: 300px;
-  margin: 0 auto;
-}
-
-.accordion-item {
-  border-radius: 4px;
-}
-
-.accordion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
-  border-radius: 4px 4px 0 0;
-  font-size: 14px;
-}
-
-.accordion-icon {
-  font-size: 18px;
-}
-
-.accordion-content {
-  background-color: #fff;
-  border-radius: 0 0 4px 4px;
-  font-size: 12px;
-  color: #9C9E9C;
-}
-
-.sub-items {
-  display: flex;
-}
-
-.column {
-  flex: 1;
-  padding: 0 10px;
-}
-
-.sub-items ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sub-items li {
-  margin: 16px 0;
-  padding: 0px 10px;
-}
+<style scoped lang="scss">
+ @import "@/assets/scss/accordionmenu.scss";
 </style>

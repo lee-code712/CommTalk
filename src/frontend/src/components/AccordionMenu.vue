@@ -54,7 +54,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 10px 20px;
   cursor: pointer;
   border-bottom: 1px solid #f0f0f0;
   border-radius: 4px 4px 0 0;
@@ -89,5 +89,6 @@ export default {
 
 .sub-items li {
   margin: 16px 0;
+  padding: 0px 10px;
 }
 </style>

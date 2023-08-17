@@ -1,21 +1,11 @@
 <template>
   <div class="home-component">
-    <img src="@/assets/images/banner.png" style="width: 714px;"/>
+    <img src="@/assets/images/banner.png" style="width: 1080px;"/>
     <div class="pinned-wrap">
       <div>게시판 고정</div>
       <button @click="showModal = true" class="setting-pin">
         <img src="@/assets/images/fi-rr-thumbtack.png" />나만의 핀 설정하기
       </button>
-
-      <ModalComponent v-if="showModal" @close="showModal = false">
-        <template #header>
-          <div class="modal-title">나의 핀 설정하기</div>
-          <div class="modal-close" @click="showModal = false">×</div>
-        </template>
-        <div>
-          모달 내용
-        </div>
-      </ModalComponent>
     </div>
 
     <div class="board-box-wrap">
@@ -30,8 +20,23 @@
         </div>
       </div>
     </div>
+    <ModalComponent v-if="showModal" @close="showModal = false">
+      <template #header>
+        <div class="modal-title">나의 핀 설정하기</div>
+        <div class="modal-close" @click="showModal = false">×</div>
+      </template>
+      <div>
+        아래에서 선택한 최대 8개의 게시판을 메인화면에 고정할 수 있습니다.
+
+        <div v-for="(checkbox, index) in checkboxes" :key="index">
+          <input type="checkbox" :id="'checkbox-'+ index" v-model="checkbox.checked"/>
+          <label :for="'checkbox-' + index">{{checkbox.label}}</label>
+        </div>
+      </div>
+    </ModalComponent>
   </div>
 </template>
+
 
 <script>
 import ModalComponent from "@/components/ModalComponent.vue";
@@ -46,6 +51,12 @@ export default {
   data() {
     return {
       showModal: false,
+      checkboxes: [
+        { label: '게시판 1', checked: false },
+        { label: '게시판 2', checked: false },
+        { label: '게시판 3', checked: false },
+        { label: '게시판 4', checked: false },
+      ],
       boards: [
         {
           title: '게시판 1',
@@ -74,7 +85,7 @@ export default {
             { title: '게시물 제목', date: '2023-08-15' },
             { title: '게시물 제목', date: '2023-08-15' }
           ]
-        }
+        },
       ]
     };
   },

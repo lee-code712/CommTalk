@@ -11,6 +11,13 @@
                   <input type="search" placeholder="search for.."/>
                   <img src="@/assets/images/fi-rr-search.png"/>
               </div>
+
+              <div class="icon-wrap">
+                <img src="@/assets/images/fi-rr-envelope.png"/>
+              </div>
+              <div class="icon-wrap">
+                <img src="@/assets/images/fi-rr-user.png"/>
+              </div>
           </gnb>
         </div>
 
@@ -22,8 +29,6 @@
           </div>
         </div>
       </div>
-
-      <UserInfo/>
     </div>
   </div>
 </template>
@@ -31,14 +36,12 @@
 <script>
 import Sidebar from '@/components/layout/SideBar.vue'
 import SideSection from '@/components/layout/SideSection.vue'
-import UserInfo from '@/components/layout/UserInfo.vue'
 
 export default {
   name: 'App',
   components: {
     Sidebar,
-    SideSection,
-    UserInfo
+    SideSection
   }
 }
 </script>

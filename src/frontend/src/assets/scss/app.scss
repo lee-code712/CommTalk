@@ -10,13 +10,12 @@ body {
     }
  
     .main-section {
-        padding: 0px 30px;
         flex-grow: 1; /* 남은 공간을 모두 차지하도록 */
       
         /* 새로 추가된 부분 */
         height: 100vh;
-        width: 1140px;
-        max-width: 1140px; /* 최대 너비 설정 (전체 - sidebar + user-info) */
+        width: 1620px;
+        max-width: 1620px;
         box-sizing: border-box; /* border를 포함한 너비 계산 */
         border-left: 1px solid #F1F1F1;
         border-right: 1px solid #F1F1F1;
@@ -26,8 +25,11 @@ body {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0px 30px;
             width: 100%;
             height: 80px;
+            background-color: #FFF;
+            border-bottom: 1px solid #f1f1f1;
 
             .page-name {
                 font-size: 18px;
@@ -66,6 +68,7 @@ body {
                     background-color: #FFF;
                     width: 380px;
                     border-radius: 8px;
+                    border: 1px solid #F7F6F9;
         
                     input[type=search] {
                         width: 100%;
@@ -79,21 +82,15 @@ body {
         .main-content {
             display: flex;
             justify-content: space-between;
+            padding: 30px;
 
             .router-view {
-                width: 714px;
+                width: 1080px;
             }
         }
     }
       
-    .user-info {
-        flex: 0 0 480px;
-        max-width: calc(100vw - 1140px); /* 최대 너비 지정 */
-        /* 미디어 쿼리를 통한 추가적인 조정이 가능합니다. */
-    }
-      
-    .sidebar,
-    .user-info {
+    .sidebar {
         flex: 0 0 300px;
     }
 }

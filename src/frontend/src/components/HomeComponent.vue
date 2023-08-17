@@ -27,7 +27,7 @@
         <div class="modal-close" @click="showModal = false">×</div>
       </template>
       <div>
-        아래에서 선택한 최대 8개의 게시판을 메인화면에 고정할 수 있습니다.
+        <div class="desc">아래에서 선택한 최대 8개의 게시판을 메인화면에 고정할 수 있습니다.</div>
 
         <div v-for="(checkbox, index) in checkboxes" :key="index">
           <input type="checkbox" :id="'checkbox-'+ index" v-model="checkbox.checked"/>

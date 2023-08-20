@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,31 +19,34 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "members")
-public class Member {
-	
-	@Column(name = "member_id")
+@Table(name = "boards")
+public class Board {
+
+	@Column(name = "board_id")
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "username", nullable = false)
-	private String username;
+	@Column(name = "board_name", nullable = false)
+	private String name;
 	
-	@Column(name = "email", nullable = false, unique = true)
-	private String email;
+	@Column(name = "board_desc")
+	private String desc;
 	
-	private String phone;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+	private Category category;
 	
-	@Column(name = "nickname", unique = true)
-	private String nickname;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+	private Member owner;
 	
-	@Column(name = "registered_at")
+	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date registeredAt;
+	private Date createdAt;
 	
 	@PrePersist
     protected void onCreate() {
-        registeredAt = new Date();
+		createdAt = new Date();
     }
 	
 }

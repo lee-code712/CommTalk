@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,31 +18,27 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "members")
-public class Member {
+@Table(name = "attachments")
+public class Attachment {
 
-	@Column(name = "member_id")
+	@Column(name = "attachment_id")
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "username", nullable = false)
-	private String username;
+	@Column(name = "fileName", nullable = false)
+	private String fileName;
 	
-	@Column(name = "email", nullable = false, unique = true)
-	private String email;
+	@ManyToOne
+    @JoinColumn(name = "post_id")
+	private Post post;
 	
-	private String phone;
-	
-	@Column(name = "nickname", unique = true)
-	private String nickname;
-	
-	@Column(name = "registered_at")
+	@Column(name = "uploaded_at")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date registeredAt;
+	private Date uploadedAt;
 	
 	@PrePersist
     protected void onCreate() {
-        registeredAt = new Date();
+		uploadedAt = new Date();
     }
 	
 }

@@ -72,11 +72,11 @@ public class Post {
 	private Date deletedAt;
 	
 	/* 추가 */
-	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinColumn(name = "post_id")
 	private List<PostHashtag> hashtags;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany
 	@JoinColumn(name = "post_id")
 	private List<Attachment> attachments;
 	

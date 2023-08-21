@@ -51,16 +51,17 @@ DROP TABLE IF EXISTS `boards`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `boards` (
   `board_id` int NOT NULL AUTO_INCREMENT,
+  `board_name` varchar(45) NOT NULL,
   `board_desc` varchar(255) DEFAULT NULL,
   `category_id` int DEFAULT NULL,
   `owner_id` int DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`board_id`),
   KEY `category_id_idx` (`category_id`),
   KEY `member_id_idx` (`owner_id`),
   CONSTRAINT `categories_boards` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
   CONSTRAINT `members_boards` FOREIGN KEY (`owner_id`) REFERENCES `members` (`member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +70,7 @@ CREATE TABLE `boards` (
 
 LOCK TABLES `boards` WRITE;
 /*!40000 ALTER TABLE `boards` DISABLE KEYS */;
+INSERT INTO `boards` VALUES (1,'게시판1','게시판 소개',3,10,'2023-08-19 15:20:53'),(2,'게시판2','게시판 소개',3,10,'2023-08-19 15:23:54'),(3,'게시판3','게시판 소개',4,10,'2023-08-19 15:24:47'),(4,'게시판4','게시판 소개',4,10,'2023-08-19 15:25:03');
 /*!40000 ALTER TABLE `boards` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +85,7 @@ CREATE TABLE `categories` (
   `category_id` int NOT NULL AUTO_INCREMENT,
   `category_name` varchar(255) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +94,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (3,'카테고리1'),(4,'카테고리2');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,13 +113,15 @@ CREATE TABLE `comments` (
   `parent_comment_id` int DEFAULT NULL,
   `is_anonymous` tinyint DEFAULT '0',
   `is_deleted` tinyint DEFAULT '0',
-  `likes_count` bigint DEFAULT '0',
+  `likes` bigint DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`comment_id`),
   KEY `posts_comments_idx` (`post_id`),
   KEY `members_comments_idx` (`writer_id`),
+  KEY `comments_comments_idx` (`parent_comment_id`),
+  CONSTRAINT `comments_comments` FOREIGN KEY (`parent_comment_id`) REFERENCES `comments` (`comment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `members_comments` FOREIGN KEY (`writer_id`) REFERENCES `members` (`member_id`),
   CONSTRAINT `posts_comments` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -140,9 +145,9 @@ DROP TABLE IF EXISTS `engagement_actions`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `engagement_actions` (
   `action_id` int NOT NULL AUTO_INCREMENT,
-  `action_type` enum('like','scrap') NOT NULL,
-  `post_id` int NOT NULL,
-  `member_id` int NOT NULL,
+  `action_type` enum('like','scrap') DEFAULT NULL,
+  `post_id` int DEFAULT NULL,
+  `member_id` int DEFAULT NULL,
   PRIMARY KEY (`action_id`),
   KEY `posts_engagement_actions_idx` (`post_id`),
   KEY `members_engagement_actions_idx` (`member_id`),
@@ -174,8 +179,10 @@ CREATE TABLE `members` (
   `phone` varchar(20) DEFAULT NULL,
   `nickname` varchar(50) DEFAULT NULL,
   `registered_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`member_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`member_id`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  UNIQUE KEY `nickname_UNIQUE` (`nickname`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,6 +191,7 @@ CREATE TABLE `members` (
 
 LOCK TABLES `members` WRITE;
 /*!40000 ALTER TABLE `members` DISABLE KEYS */;
+INSERT INTO `members` VALUES (10,'test','test@example.com','010-1111-1111','talktalk','2023-08-19 12:06:34');
 /*!40000 ALTER TABLE `members` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,11 +206,11 @@ CREATE TABLE `messages` (
   `message_id` int NOT NULL AUTO_INCREMENT,
   `content` text NOT NULL,
   `post_id` int DEFAULT NULL,
+  `comment_id` int DEFAULT NULL,
   `sender_id` int DEFAULT NULL,
   `receiver_id` int DEFAULT NULL,
-  `comment_id` int DEFAULT NULL,
   `sent_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `read_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `read_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`message_id`),
   KEY `posts_messages_idx` (`post_id`),
   KEY `members_messages_idx` (`sender_id`),
@@ -232,10 +240,12 @@ DROP TABLE IF EXISTS `pinned_boards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pinned_boards` (
-  `member_id` int NOT NULL,
-  `board_id` int NOT NULL,
-  PRIMARY KEY (`member_id`,`board_id`),
+  `pinned_id` int NOT NULL,
+  `member_id` int DEFAULT NULL,
+  `board_id` int DEFAULT NULL,
+  PRIMARY KEY (`pinned_id`),
   KEY `boards_pinned_boards_idx` (`board_id`),
+  KEY `members_pinned_boards` (`member_id`),
   CONSTRAINT `boards_pinned_boards` FOREIGN KEY (`board_id`) REFERENCES `boards` (`board_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `members_pinned_boards` FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -258,9 +268,11 @@ DROP TABLE IF EXISTS `post_hashtags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_hashtags` (
-  `post_id` int NOT NULL,
+  `hashtag_id` int NOT NULL,
   `hashtag` varchar(255) NOT NULL,
-  PRIMARY KEY (`post_id`,`hashtag`),
+  `post_id` int DEFAULT NULL,
+  PRIMARY KEY (`hashtag_id`),
+  KEY `posts_post_hashtags` (`post_id`),
   CONSTRAINT `posts_post_hashtags` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -285,24 +297,21 @@ CREATE TABLE `posts` (
   `post_id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
-  `category_id` int DEFAULT NULL,
   `board_id` int DEFAULT NULL,
   `author_id` int DEFAULT NULL,
   `is_anonymous` tinyint DEFAULT '0',
   `is_commentable` tinyint DEFAULT '0',
   `is_deleted` tinyint DEFAULT '0',
-  `view_count` bigint DEFAULT '0',
-  `likes_count` bigint DEFAULT '0',
-  `scrap_count` bigint DEFAULT '0',
+  `views` bigint DEFAULT '0',
+  `likes` bigint DEFAULT '0',
+  `scraps` bigint DEFAULT '0',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`post_id`),
-  KEY `category_id_idx` (`category_id`),
   KEY `board_id_idx` (`board_id`),
   KEY `member_id_idx` (`author_id`),
   CONSTRAINT `boards_posts` FOREIGN KEY (`board_id`) REFERENCES `boards` (`board_id`),
-  CONSTRAINT `categories_posts` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
   CONSTRAINT `members_posts` FOREIGN KEY (`author_id`) REFERENCES `members` (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -361,6 +370,7 @@ CREATE TABLE `reports` (
   `post_id` int DEFAULT NULL,
   `reporter_id` int DEFAULT NULL,
   `reported_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`report_id`),
   KEY `posts_reports_idx` (`post_id`),
   KEY `members_reports_idx` (`reporter_id`),
@@ -387,4 +397,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-15 19:58:32
+-- Dump completed on 2023-08-20 22:35:43

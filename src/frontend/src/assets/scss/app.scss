@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#main-app {
+    .content-area {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+ 
+    .main-section {
+        flex-grow: 1; /* 남은 공간을 모두 차지하도록 */
+      
+        /* 새로 추가된 부분 */
+        height: 100vh;
+        box-sizing: border-box; /* border를 포함한 너비 계산 */
+        border-left: 1px solid #F1F1F1;
+        border-right: 1px solid #F1F1F1;
+        background-color: #F5F7FB;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 30px;
+            width: calc(100% - 60px);
+            height: 80px;
+            background-color: #FFF;
+            border-bottom: 1px solid #f1f1f1;
+
+            .page-name {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            gnb {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 16px;
+        
+                .icon-wrap {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 100%;
+        
+                    &:hover {
+                        cursor: pointer;
+                        background-color: #f1f1f1;
+                    }
+                }
+        
+                img {
+                    width: 16px;
+                    height: 16px;
+                }
+        
+                .form-control {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px 20px;
+                    background-color: #FFF;
+                    width: 380px;
+                    border-radius: 8px;
+                    border: 1px solid #F7F6F9;
+        
+                    input[type=search] {
+                        width: 100%;
+                        border: none;
+                        background-color: inherit;
+                    }
+                }
+            }
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 30px calc((100vw - 300px - 1554px) / 2);
+            max-width: 1554px;
+        }
+        
+        .router-view {
+            width: 70%;
+        }
+        
+        .side-section-wrap {
+            width: 30%;
+        }
+    }
+      
+    .sidebar {
+        flex: 0 0 300px;
+    }
+}

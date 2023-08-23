@@ -1,0 +1,99 @@
+.side-section {
+    .popular-posts-wrap {
+        padding: 0px 20px;
+        background-color: #FFF;
+        border-radius: 8px;
+        border: 1px solid #F7F6F9;
+
+        .side-section-box-title {
+            display: flex;
+            align-items: center;
+            height: 50px;
+            font-weight: bold;
+            border-bottom: 1px solid #F7F6F9;
+        }
+        .side-section-box {
+            padding: 20px 0px;
+            border-bottom: 1px solid #F7F6F9;
+            .writer-date-wrap {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 4px;
+                color: #9C9E9C;
+                font-size: 12px;
+            }
+
+            .title {
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+
+            .content {
+                font-size: 12px;
+                color: #9C9E9C;
+            }
+
+            .board-action-wrap {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+                font-size: 12px;
+
+                .board-name {
+                    color: #4D4DA3;
+                }
+            }
+
+            .action-wrap {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .action {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    color: #9C9E9C;
+                }
+            }
+
+            img {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+
+    .hot-posts-wrap {
+        margin-top: 34px;
+        padding: 0px 20px;
+        background-color: #FFF;
+        border-radius: 8px;
+        border: 1px solid #F7F6F9;
+
+        .side-section-box-title {
+            display: flex;
+            align-items: center;
+            height: 50px;
+            font-weight: bold;
+            border-bottom: 1px solid #F7F6F9;
+        }
+
+        .side-section-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+
+            .title {
+                font-size: 14px;
+            }
+            .date {
+                font-size: 12px;
+                color: #9C9E9C;
+            }
+        }
+    }
+}

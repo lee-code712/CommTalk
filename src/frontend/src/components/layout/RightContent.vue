@@ -8,8 +8,11 @@
     <div class="category-wrap">
       <div class="title-angle-wrap">
         <h3>카테고리</h3>
-        <img src="@/assets/images/fi-rr-angle-small-up.png"/>
+        <span class="angle-icon" @click="toggleAccordion">
+        <img v-bind:src="angleIconSrc" />
+        </span>
       </div>
+      <AccordionMenu v-if="category.open" :categories="categories" :updateCategory="updateCategory" />
     </div>
 
     <div class="popular-posts">
@@ -36,10 +39,17 @@
 </template>
 
 <script>
+import AccordionMenu from '@/components/AccordionMenu.vue';
   export default {
     name: 'RightContent',
+    components: {
+      AccordionMenu,
+    },
     data() {
       return {
+        category: {
+          open: true
+        },
         items: [
           {title: '실시간 인기 글 1', comment: '10', view: '3,200', like: '1,213'},
           {title: '실시간 인기 글 2', comment: '10', view: '3,200', like: '1,213'},
@@ -61,11 +71,21 @@
       }
     },
     methods: {
-    updateCategory(index) {
-      this.categories[index].expanded = !this.categories[index].expanded;
-      this.categories = [...this.categories];
+      toggleAccordion() {
+        this.category.open = !this.category.open;
+      },
+      updateCategory(index) {
+        this.categories[index].expanded = !this.categories[index].expanded;
+        this.categories = [...this.categories];
+      },
     },
-  },
+    computed: {
+      angleIconSrc() {
+        return this.category.open
+          ? require('@/assets/images/fi-rr-angle-small-up.png')
+          : require('@/assets/images/fi-rr-angle-small-down.png');
+      },
+    },
   }
 </script>
 
@@ -93,6 +113,11 @@
         color: #FFF;
         border: transparent;
         border-radius: 4px;
+
+        &:hover {
+          background-color: #496EEF;
+          cursor: pointer;
+        }
       }
     }
 

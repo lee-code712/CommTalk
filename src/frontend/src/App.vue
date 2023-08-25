@@ -1,47 +1,28 @@
 <template>
-  <div id="main-app">
-    <div class="content-area">
-      <Sidebar/>
+  <div id="app">
+    <HeaderLayout/>
 
-      <div class="main-section">
-        <div class="header">
-          <div class="page-name">게시판</div>
-          <gnb>
-              <div class="form-control">
-                  <input type="search" placeholder="search for.."/>
-                  <img src="@/assets/images/fi-rr-search.png"/>
-              </div>
+    <div class="content-wrap">
+      <div class="left-content">
+        <router-view class="router-view" />
+      </div>
 
-              <div class="icon-wrap">
-                <img src="@/assets/images/fi-rr-envelope.png"/>
-              </div>
-              <div class="icon-wrap">
-                <img src="@/assets/images/fi-rr-user.png"/>
-              </div>
-          </gnb>
-        </div>
-
-        <div class="main-content">
-          <router-view class="router-view" />
-
-          <div class="side-section-wrap">
-            <SideSection/>
-          </div>
-        </div>
+      <div class="right-content">
+        <RightContent/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Sidebar from '@/components/layout/SideBar.vue'
-import SideSection from '@/components/layout/SideSection.vue'
+import HeaderLayout from '@/components/layout/HeaderLayout.vue'
+import RightContent from '@/components/layout/RightContent.vue'
 
 export default {
   name: 'App',
   components: {
-    Sidebar,
-    SideSection
+    HeaderLayout,
+    RightContent,
   }
 }
 </script>
@@ -52,4 +33,18 @@ export default {
 
 <style scoped lang="scss">
   @import '@/assets/scss/app.scss';
+
+  .content-wrap {
+    display: flex;
+    gap: 20px;
+    margin: 0 auto;
+    width: 1200px;
+
+    .left-content {
+      width: 70%;
+    }
+    .right-content {
+      width: 30%;
+    }
+  }
 </style>

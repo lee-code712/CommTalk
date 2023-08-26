@@ -72,12 +72,13 @@ public class Post {
 	private Date deletedAt;
 	
 	/* 추가 */
-	@OneToMany
-	@JoinColumn(name = "post_id")
+	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Comment> comments;
+	
+	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PostHashtag> hashtags;
 	
-	@OneToMany
-	@JoinColumn(name = "post_id")
+	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Attachment> attachments;
 	
 	@PrePersist
@@ -89,6 +90,21 @@ public class Post {
 	@PreUpdate
     protected void onUpdate() {
 		updatedAt = new Date();
+    }
+	
+	public void addComments(Comment comment) {
+		comments.add(comment);
+		comment.setPost(this);
+    }
+	
+	public void addHashtags(PostHashtag hashtag) {
+		hashtags.add(hashtag);
+		hashtag.setPost(this);
+    }
+	
+	public void addAttachments(Attachment attachment) {
+		attachments.add(attachment);
+		attachment.setPost(this);
     }
 	
 }

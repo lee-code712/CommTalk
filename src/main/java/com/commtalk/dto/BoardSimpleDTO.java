@@ -5,13 +5,12 @@ import com.commtalk.model.Board;
 import lombok.Data;
 
 @Data
-public class BoardDTO {
+public class BoardSimpleDTO {
 	
 	private Long boardId;
-	
 	private String boardName;
 	
-	public BoardDTO(Board board) {
+	public BoardSimpleDTO(Board board) {
 		this.boardId = board.getId();
 		this.boardName = board.getName();
 	}

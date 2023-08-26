@@ -12,6 +12,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	
 	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board ORDER BY p.views DESC")
 	List<Post> findTop4ByViewsWithCommentsAndBoard();
+	
+	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board b WHERE b.id = :boardId ORDER BY p.createdAt DESC")
+	List<Post> findTop4ByCreatedAtWithCommentsAndBoard(@Param("boardId") Long boardId);
 
 	@Query("SELECT DISTINCT p FROM Post p " +
 	       "JOIN FETCH p.board b " +

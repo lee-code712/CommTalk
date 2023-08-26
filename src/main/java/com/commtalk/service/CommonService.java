@@ -1,7 +1,6 @@
 package com.commtalk.service;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
@@ -57,6 +56,7 @@ public class CommonService {
 		List<PostDTO> postDTOs = posts.stream()
 				.map(post -> new PostDTO(post))
 				.collect(Collectors.toList());	
+		
 		return JSONFactory.getJSONStringFromList(postDTOs);
 	}
 

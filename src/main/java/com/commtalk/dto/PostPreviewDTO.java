@@ -22,4 +22,5 @@ public class PostPreviewDTO {
 		this.board = new BoardSimpleDTO(post.getBoard());
 		this.commentCnt = post.getComments().size();
 	}
+	
 }

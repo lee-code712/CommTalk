@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.commtalk.controller.exception.ErrorMsg;
@@ -72,13 +73,13 @@ public class CommonController {
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
 	})
-	public ResponseEntity<?> getSearchPosts() throws Exception {
+	public ResponseEntity<?> getSearchPosts(@RequestParam String keyword) throws Exception {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";
 
 		try {
-			response = commonSvc.getPopularPostsByViews();
+			response = commonSvc.getPostsByKeyword(keyword);
 			
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
 		} catch (Exception e) {

@@ -14,8 +14,6 @@ import com.commtalk.CommtalkApplication;
 import com.commtalk.model.Board;
 import com.commtalk.model.Member;
 import com.commtalk.model.Post;
-import com.commtalk.utils.JSONFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 @SpringBootTest(classes=CommtalkApplication.class)
 public class postRepositoryTest {
@@ -61,11 +59,9 @@ public class postRepositoryTest {
 	}
 	
 	@Test
-	@Transactional
+//	@Transactional
 	public void testSelectByKeyword() {
 		List<Post> posts = postRepository.findByTitleOrContent("");
-		System.out.println(posts.size());
-//		posts.forEach(post -> System.out.println(post.toString()));
 		assertNotNull(posts);
 	}
 

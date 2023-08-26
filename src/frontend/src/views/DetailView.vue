@@ -1,0 +1,207 @@
+<template>
+  <div class="about">
+    <div class="board-content-wrap">
+      <div class="board-content-header">
+        <div class="label-title-wrap">
+          <div class="board-label">{{ boardLabel }}</div>
+          <div class="title">{{ title }}</div>
+        </div>
+
+        <div class="msg-notice-wrap">
+          <span>쪽지</span> 
+          <span>신고</span>
+        </div>
+      </div>
+
+      <div class="writer-date-wrap">
+        <span>{{ writer }}</span>
+        <span>{{ date }}</span>
+      </div>
+
+      <div class="board-content-body">
+        <div class="board-content"><pre>{{ content }}</pre></div>
+
+        <div class="hashtags">
+          <div class="hashtag" v-for="(tag, index) in hashtags" :key="index">{{ tag }}</div>
+        </div>
+
+        <div class="activity-wrap" :class="{ 'no-margin' : showComment.open }">
+          <div class="comment-btn">
+            <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
+            댓글 {{ commentCount }}
+            <div class="hr">|</div> 
+            <span class="angle-icon" @click="toggleComment">
+              <img style="width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
+            </span>
+          </div>
+          <div class="like-btn">
+            <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+            공감 {{ likeCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="comment-wrap" v-if="showComment.open">
+        <div class="comment-box" v-for="(comment, index) in comments" :key="index">
+          <div class="comment-header">
+            <div class="writer-date-wrap">
+              <span>{{ comment.writer }}</span>
+              <span>{{ comment.commentDate }}</span>
+            </div>
+
+            <div class="msg-notice-wrap">
+              <span>쪽지</span> 
+              <span>신고</span>
+            </div>
+          </div>
+
+          <div class="comment-body">
+            <div class="comment">
+              {{ comment.commentContent }}
+            </div>
+
+            <div class="activity-wrap">
+              <div class="comment-btn">
+                <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
+                대댓글 달기 {{ comment.commentCount }}
+              </div>
+              <div class="like-btn">
+                <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                공감하기 {{ comment.likeCount }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comment-box on reply">
+            <div class="comment-box-inner">
+              <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
+              <div class="my-comment-wrap">
+                <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+                <div class="my-comment-btn-wrap">
+                  <div class="file-anonymous-wrap">
+                    <div class="anonymous">
+                      <label>
+                        <input type="checkbox"/>
+                        <span>익명</span>
+                      </label>
+                    </div>
+                    <div class="file-wrap">
+                      <input type="file"/>
+                    </div>
+                  </div>
+                  <button class="submit-btn">등록</button>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="comment-box on" v-for="(reply, index) in replies" :key="index">
+          <div class="comment-box-inner">
+            <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
+            <div class="detail-info">
+              <div class="comment-header">
+                <div class="writer-date-wrap">
+                  <span>{{ reply.writer }}</span>
+                  <span>{{ reply.replyDate }}</span>
+                </div>
+
+                <div class="msg-notice-wrap">
+                  <span>쪽지</span> 
+                  <span>신고</span>
+                </div>
+              </div>
+
+              <div class="comment-body">
+                <div class="comment">
+                  {{ reply.replyContent }}
+                </div>
+
+                <div class="activity-wrap">
+                  <div class="like-btn">
+                    <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                    공감하기 {{ reply.likeCount }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-comment-wrap">
+      <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+      <div class="my-comment-btn-wrap">
+         <div class="file-anonymous-wrap">
+          <div class="anonymous">
+            <label>
+              <input type="checkbox"/>
+              <span>익명</span>
+            </label>
+          </div>
+          <div class="file-wrap">
+            <input type="file"/>
+          </div>
+        </div>
+        <button class="submit-btn">등록</button>
+      </div>
+    </div>
+
+    <button type="button" class="list-btn">목록보기</button>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'AboutView',
+  data() {
+    return {
+      showComment: {
+        open: 'true'
+      },
+      boardLabel: '자유 게시판',
+      title: '벌써 8월 말이라닝..',
+      writer: '작성자',
+      date: '2023-08-25',
+      content: `인생에 있는 큰 비밀은 큰 비밀 따위는 없다는 것이다. 당신의 목표가 무엇이든 열심히 할 의지가 있다면 달성할 수 있다.`,
+      hashtags: ['# 가을', '# 스무살', '# 내년 반오십'],
+      commentCount: 20,
+      likeCount: 10,
+      comments: [
+        {
+          writer: '작성자',
+          commentDate: '2023-08-25',
+          commentContent: '시간이 정말 빨리 가는 것 같아여 속은 고딩인뎅',
+          commentCount: 10,
+          likeCount: 14
+        },
+      ],
+      replies: [
+        {
+          writer: '작성자',
+          replyDate: '2023-08-26',
+          replyContent: '씻기 귀찮넹',
+          likeCount: 3
+        }
+      ]
+    };
+  },
+   computed: {
+      angleIconSrc() {
+        return this.showComment.open
+          ? require('@/assets/images/fi-rr-angle-small-up.png')
+          : require('@/assets/images/fi-rr-angle-small-down.png');
+      },
+    },
+    methods: {
+      toggleComment() {
+        this.showComment.open = !this.showComment.open;
+      },
+    },
+};
+</script>
+
+<style scoped lang="scss">
+  @import "@/assets/scss/detail.scss";
+</style>

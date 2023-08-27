@@ -12,13 +12,13 @@ public class CategoryDTO {
 	
 	private Long categoryId;
 	private String categoryName;
-	private List<BoardDTO> boards;
+	private List<BoardSimpleDTO> boards;
 	
 	public CategoryDTO(Category category) {
 		this.categoryId = category.getId();
 		this.categoryName = category.getName();
 		this.boards = category.getBoards().stream()
-				.map((board) -> new BoardDTO(board))
+				.map((board) -> new BoardSimpleDTO(board))
                 .collect(Collectors.toList());
 	}
 

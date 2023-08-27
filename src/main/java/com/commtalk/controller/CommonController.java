@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.commtalk.controller.exception.ErrorMsg;
@@ -27,12 +28,12 @@ public class CommonController {
 	private CommonService commonSvc;
 	
 	/* 메뉴(카테고리별 게시판) 조회 */
-	@RequestMapping(value="/viewMenu.do", method= RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/getCategories.do", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
 	})
-	public ResponseEntity<?> viewMenu() throws Exception {
+	public ResponseEntity<?> getCategories() throws Exception {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";
@@ -47,7 +48,43 @@ public class CommonController {
 	}
 	
 	/* 인기 게시글 조회 */
+	@RequestMapping(value="/getPopularPosts.do", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공", response = String.class),
+		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
+	})
+	public ResponseEntity<?> getPopularPosts() throws Exception {
+		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+		ErrorMsg errors = new ErrorMsg();	
+		String response = "[]";
+
+		try {
+			response = commonSvc.getPopularPostsByViews();
+			
+			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
+		} catch (Exception e) {
+			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
+		}
+	}
 	
-	/* HOT 게시글 조회 */
+	/* 게시글 검색 */
+	@RequestMapping(value="/getSearchPosts.do", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공", response = String.class),
+		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
+	})
+	public ResponseEntity<?> getSearchPosts(@RequestParam String keyword) throws Exception {
+		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+		ErrorMsg errors = new ErrorMsg();	
+		String response = "[]";
+
+		try {
+			response = commonSvc.getPostsByKeyword(keyword);
+			
+			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
+		} catch (Exception e) {
+			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
+		}
+	}
 
 }

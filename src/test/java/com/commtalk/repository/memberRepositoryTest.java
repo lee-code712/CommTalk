@@ -28,13 +28,14 @@ public class memberRepositoryTest {
 		member.setNickname("talktalk");
 		memberRepository.save(member);
 		
-//		Member findMember = memberRepository.findByNickname("talktalk");
+		Member findMember = memberRepository.findByNickname("talktalk");
 		
-//		assertNotNull(findMember);
-//	    assertEquals("test", findMember.getUsername());
-//	    assertEquals("test@example.com", findMember.getEmail());
-//	    assertEquals("010-1111-1111", findMember.getPhone());
-//	    assertEquals("talktalk", findMember.getNickname());
+		assertNotNull(findMember);
+	    assertEquals("test", findMember.getUsername());
+	    assertEquals("test@example.com", findMember.getEmail());
+	    assertEquals("010-1111-1111", findMember.getPhone());
+	    assertEquals("talktalk", findMember.getNickname());
+
 	}
 	
 	@Test

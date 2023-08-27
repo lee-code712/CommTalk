@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.commtalk.CommtalkApplication;
 import com.commtalk.model.Board;
@@ -54,14 +56,15 @@ public class postRepositoryTest {
 	@Test
 //	@Transactional
 	public void testSelectTop4ByViewsWithCommentsAndBoard() {
-		List<Post> post = postRepository.findTop4ByViewsWithCommentsAndBoard();
+		Pageable pageable = (Pageable) PageRequest.of(0, 4);
+		List<Post> post = postRepository.findTop4ByViewsWithCommentsAndBoard(pageable);
 		assertNotNull(post);
 	}
 	
 	@Test
 //	@Transactional
 	public void testSelectByKeyword() {
-		List<Post> posts = postRepository.findByTitleOrContent("");
+		List<Post> posts = postRepository.findByTitleOrContent("게시물");
 		assertNotNull(posts);
 	}
 

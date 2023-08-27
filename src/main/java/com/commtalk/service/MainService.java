@@ -2,13 +2,13 @@ package com.commtalk.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.commtalk.dto.BoardSimpleDTO;
 import com.commtalk.dto.PinnedBoardDTO;
 import com.commtalk.model.Board;
 import com.commtalk.model.PinnedBoard;
@@ -35,11 +35,13 @@ public class MainService {
 	public String getPinnedBoardsWithPosts(Long memberId) throws JsonProcessingException {
 		
 		List<PinnedBoardDTO> pinnedBoardDTOs = new ArrayList<>();
+		Pageable pageable = (Pageable) PageRequest.of(0, 4);
+		
 		if (memberId != null) {
 			List<PinnedBoard> pinnedBoards = pinnedBoardRepo.findByMemberId(memberId);
 			for (PinnedBoard pinnedBoard : pinnedBoards) {
 				Long boardId = pinnedBoard.getBoard().getId();
-				List<Post> posts = postRepo.findTop4ByCreatedAtWithCommentsAndBoard(boardId);
+				List<Post> posts = postRepo.findTop4ByCreatedAtWithCommentsAndBoard(boardId, pageable);
 				PinnedBoardDTO pinnedBoardDTO = new PinnedBoardDTO(pinnedBoard.getBoard(), posts);
 				pinnedBoardDTOs.add(pinnedBoardDTO);
 			}
@@ -55,7 +57,7 @@ public class MainService {
 			List<Board> boards = boardRepo.findByIdIn(boardIds);
 			for (Board board : boards) {
 				Long boardId = board.getId();
-				List<Post> posts = postRepo.findTop4ByCreatedAtWithCommentsAndBoard(boardId);
+				List<Post> posts = postRepo.findTop4ByCreatedAtWithCommentsAndBoard(boardId, pageable);
 				PinnedBoardDTO pinnedBoardDTO = new PinnedBoardDTO(board, posts);
 				pinnedBoardDTOs.add(pinnedBoardDTO);
 			}

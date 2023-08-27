@@ -36,7 +36,7 @@ public class commonServiceTest {
 	@Test
 	public void testGetPostsByKeyword() {
 		try {
-			String jsonStr = commonService.getPostsByKeyword("");
+			String jsonStr = commonService.getPostsByKeyword("2");
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

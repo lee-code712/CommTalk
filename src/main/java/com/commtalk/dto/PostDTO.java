@@ -1,5 +1,7 @@
 package com.commtalk.dto;
 
+import java.text.SimpleDateFormat;
+
 import com.commtalk.model.Post;
 
 import lombok.Data;
@@ -8,7 +10,9 @@ import lombok.Data;
 public class PostDTO {
 
 	private Long postId;
+	private String createdAt;
 	private String title;
+	private String content;
 	private Long views;
 	private Long likes;
 	private MemberSimpleDTO author;
@@ -17,7 +21,10 @@ public class PostDTO {
 	
 	public PostDTO(Post post) {
 		this.postId = post.getId();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 날짜 포맷 지정
+		this.createdAt = sdf.format(post.getCreatedAt());
 		this.title = post.getTitle();
+		this.content = post.getContent();
 		this.views = post.getViews();
 		this.likes = post.getLikes();
 		this.author = new MemberSimpleDTO(post.getAuthor());

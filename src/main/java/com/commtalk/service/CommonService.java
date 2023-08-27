@@ -2,6 +2,8 @@ package com.commtalk.service;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +43,8 @@ public class CommonService {
 	// 조회수가 많은 순으로 게시글 4개 조회
 	public String getPopularPostsByViews() throws JsonProcessingException {
 		
-		List<Post> posts = postRepo.findTop4ByViewsWithCommentsAndBoard();
+		Pageable pageable = (Pageable) PageRequest.of(0, 4);
+		List<Post> posts = postRepo.findTop4ByViewsWithCommentsAndBoard(pageable);
 		List<PostPreviewDTO> postDTOs = posts.stream()
 				.map(post -> new PostPreviewDTO(post))
 				.collect(Collectors.toList());

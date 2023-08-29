@@ -7,7 +7,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         padding: 28px 28px 0px 28px;
 
         .label-title-wrap {
@@ -34,12 +34,18 @@
           }
       }
 
-      .writer-date-wrap {
+      .writer-profile-wrap {
         display: flex;
+        align-items: center;
         gap: 10px;
         padding: 0px 28px;
-        font-size: 12px;
-        color: #606060;
+        .writer-date-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          font-size: 12px;
+          color: #606060;
+        }
       }
 
       .board-content-body {

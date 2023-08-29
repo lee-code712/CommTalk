@@ -13,9 +13,12 @@
         </div>
       </div>
 
-      <div class="writer-date-wrap">
-        <span>{{ writer }}</span>
-        <span>{{ date }}</span>
+      <div class="writer-profile-wrap">
+        <img src="@/assets/images/basic-profile.png" style="width: 40px; height: 40px;" />
+        <div class="writer-date-wrap">
+         <span>{{ writer }}</span>
+          <span>{{ date }}</span>
+        </div>
       </div>
 
       <div class="board-content-body">

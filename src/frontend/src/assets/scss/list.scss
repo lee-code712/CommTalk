@@ -1,0 +1,126 @@
+.list-view {
+    .sub-top-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .board-name {
+            font-size: 20px;
+        }
+
+        .search-wrap {
+            display: flex;
+            justify-content:space-between;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            width: 240px;
+            border: 1px solid #f1f1f1;
+            border-radius: 8px;
+
+            input {
+                width: 100%;
+                border: none;
+            }
+
+            img {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+
+    .list-wrap {
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+        margin-top: 30px;
+        .list:last-child {
+            border-bottom: none;
+        }
+        .list {
+            padding: 20px;
+            border-bottom: 1px solid #f1f1f1;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            .list-inner {
+                display: flex;
+                justify-content: space-between;
+                .writer-date-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+                    font-size: 12px;
+                    color: #606060;
+                }
+
+                .title {
+                    margin-top: 4px;
+                    color: #4976EF;
+                    &:hover {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+                }
+
+                .content {
+                    margin-top: 10px;
+                    font-size: 12px;
+                    color: #606060;
+                }
+
+                .comment-like-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin-top: 10px;
+                    font-size: 12px;
+
+                    .comment-box,
+                    .like-box,
+                    .view-box {
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        color: #606060;
+                    }
+                }
+            }
+        }
+    }
+
+    .paging-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding: 16px 20px;
+        border: 1px solid #f1f1f1;
+        border-radius: 10px;
+        font-size: 14px;
+
+        .paging-num-wrap {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            .on {
+                color: #4976EF;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .btn-wrap {
+        margin-top: 20px;
+        .write-btn {
+            padding: 10px 20px;
+            background-color: #4976EF;
+            color: #FFF;
+            font-size: 14px;
+            border: transparent;
+            border-radius: 4px;
+        }
+    }
+}

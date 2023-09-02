@@ -21,6 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	       "JOIN FETCH p.board b " +
 	       "JOIN FETCH p.author a " +
 	       "LEFT JOIN FETCH p.comments c " +
+	       "LEFT JOIN FATCH p.attachments at" +
 	       "WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword%")
 	List<Post> findByTitleOrContent(@Param("keyword") String keyword);
 	

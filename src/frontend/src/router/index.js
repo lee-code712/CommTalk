@@ -35,6 +35,28 @@ const routes = [
     name: 'edit',
     component: () => import('../views/EditView.vue')
   },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    children: [
+      {
+        path: 'info',
+        component: () => import('../views/InfoMypage.vue')
+      }, 
+      {
+        path: 'comment',
+        component: () => import('../views/CommentMypage.vue')
+      },
+      {
+        path: 'like',
+        component: () => import('../views/LikeMypage.vue')
+      },
+      {
+        path: 'board',
+        component: () => import('../views/BoardMypage.vue')
+      },
+    ]
+  },
 ]
 
 const router = createRouter({

@@ -27,12 +27,12 @@ public class MainController {
 	private MainService mainSvc;
 	
 	/* 핀 고정 게시판의 게시글 조회 */
-	@RequestMapping(value="/getPinnedBoards.do", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/getPinnedBoards", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
 	})
-	public ResponseEntity<?> getPinnedBoards(HttpServletRequest request) throws Exception {
+	public ResponseEntity<?> getPinnedBoards(HttpServletRequest request) {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";

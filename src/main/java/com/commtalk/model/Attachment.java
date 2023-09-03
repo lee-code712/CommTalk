@@ -26,7 +26,7 @@ public class Attachment {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "fileName", nullable = false)
+	@Column(name = "file_name", nullable = false)
 	private String fileName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

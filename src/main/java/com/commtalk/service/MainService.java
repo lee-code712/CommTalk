@@ -16,7 +16,7 @@ import com.commtalk.model.Post;
 import com.commtalk.repository.BoardRepository;
 import com.commtalk.repository.PinnedBoardRepository;
 import com.commtalk.repository.PostRepository;
-import com.commtalk.utils.JSONFactory;
+import com.commtalk.util.JSONFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service

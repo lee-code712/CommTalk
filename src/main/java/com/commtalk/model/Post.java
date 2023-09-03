@@ -75,16 +75,14 @@ public class Post {
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Comment> comments;
 	
-	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<PostHashtag> hashtags;
-	
-	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Attachment> attachments;
-	
 	@PrePersist
     protected void onCreate() {
 		createdAt = new Date();
 		updatedAt = new Date();
+		isDeleted = false;
+		views = 0L;
+		likes = 0L;
+		scraps = 0L;
     }
 	
 	@PreUpdate
@@ -95,16 +93,6 @@ public class Post {
 	public void addComments(Comment comment) {
 		comments.add(comment);
 		comment.setPost(this);
-    }
-	
-	public void addHashtags(PostHashtag hashtag) {
-		hashtags.add(hashtag);
-		hashtag.setPost(this);
-    }
-	
-	public void addAttachments(Attachment attachment) {
-		attachments.add(attachment);
-		attachment.setPost(this);
     }
 	
 }

@@ -66,6 +66,8 @@ public class Comment {
     protected void onCreate() {
 		createdAt = new Date();
 		updatedAt = new Date();
+		isDeleted = false;
+		likes = 0L;
     }
 	
 	@PreUpdate

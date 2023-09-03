@@ -10,15 +10,16 @@ import com.commtalk.CommtalkApplication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @SpringBootTest(classes=CommtalkApplication.class)
-public class commonServiceTest {
-
+public class postServiceTest {
+	
 	@Autowired
-	private CommonService commonService;
+	PostService postService;
 	
 	@Test
-	public void testGetCategoriesWithBoards() {
+	public void getPostsByBoard() {
 		try {
-			String jsonStr = commonService.getCategoriesWithBoards();
+			Pageable pageable = (Pageable) PageRequest.of(0, 1);
+			String jsonStr = postService.getPostsByBoard(1L, pageable);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -26,24 +27,13 @@ public class commonServiceTest {
 	}
 	
 	@Test
-	public void testGetPopularPostsByViews() {
+	public void getPostById() {
 		try {
-			String jsonStr = commonService.getPopularPostsByViews();
+			String jsonStr = postService.getPostById(1L);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Test
-	public void testGetPostsByKeyword() {
-		try {
-			Pageable pageable = (Pageable) PageRequest.of(0, 10);
-			String jsonStr = commonService.getPostsByKeyword("2", pageable);
-			System.out.println(jsonStr);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-	}
-	
 }

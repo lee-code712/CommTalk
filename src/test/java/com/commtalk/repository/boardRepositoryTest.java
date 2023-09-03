@@ -24,7 +24,7 @@ public class boardRepositoryTest {
 	private BoardRepository boardRepository;
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSave() {
 		Member owner = memberRepository.findById(10L).orElse(null);
 		assertNotNull(owner);

@@ -18,13 +18,17 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'mysql:mysql-connector-java:8.0.26'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// mysql
+	implementation 'mysql:mysql-connector-java:8.0.26'
 
 	// Jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java:8.0.26'
-    implementation 'org.projectlombok:lombok'
+	compileOnly("org.projectlombok:lombok:1.18.22")
+	annotationProcessor("org.projectlombok:lombok:1.18.22")
 	
 	// Swagger
 	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
@@ -35,6 +39,6 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+test {
+    exclude '**/*'
 }

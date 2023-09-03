@@ -19,7 +19,7 @@ public class memberRepositoryTest {
 	private MemberRepository memberRepository;
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSaveAndSelectMember() {
 		Member member = new Member();
 		member.setUsername("test");
@@ -38,7 +38,7 @@ public class memberRepositoryTest {
 	}
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSelectMemberById() {
 		Member findMember = memberRepository.findById(10L).orElse(null);
 		assertNotNull(findMember);

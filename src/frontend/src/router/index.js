@@ -55,6 +55,10 @@ const routes = [
         path: 'board',
         component: () => import('../views/BoardMypage.vue')
       },
+      {
+        path: 'report',
+        component: () => import('../views/ReportMypage.vue')
+      },
     ]
   },
 ]

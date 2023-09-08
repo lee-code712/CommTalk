@@ -9,8 +9,8 @@
 
           <section>
             <div class="section-header">
-              <div class="main-title">갤러리</div>
-              <div class="sub-title">더 보기</div>
+              <strong class="main-title">갤러리</strong>
+              <div class="more">+ 더 보기</div>
             </div>
             <div class="section-body">
               <div class="gallery-container">
@@ -20,7 +20,7 @@
                       <div class="img-box">
                         <img :src="gallery.imgsrc" />
                       </div>
-                      <div class="img-txt">{{ gallery.txt.length > 21 ? gallery.txt.slice(0, 21) + '...' : gallery.txt }}</div>
+                      <div class="img-txt">{{ gallery.txt.length > 18 ? gallery.txt.slice(0, 18) + '...' : gallery.txt }}</div>
                     </div>
                   </li>
                 </ul>
@@ -30,7 +30,7 @@
 
           <section>
             <div class="section-header">
-              <div class="main-title">My 게시판</div>
+              <strong class="main-title">My 게시판</strong>
               <div>
                 <button @click="showModal = true" class="setting-pin">
                   <img src="@/assets/images/fi-rr-thumbtack.png" />
@@ -43,7 +43,7 @@
                 <div class="board-box" v-for="(board, boardIndex) in boards" :key="boardIndex">
                   <div class="board-box-header">
                     <div class="board-name">{{ board.boardName }}</div>
-                    <div class="more">더 보기</div>
+                    <div class="more">+ 더 보기</div>
                   </div>
 
                   <div class="board-box-body">
@@ -68,8 +68,8 @@
             <div class="multi-box-wrap">
               <div class="item-box">
                 <div class="section-header">
-                  <div>반려동물</div>
-                  <div class="more">더 보기</div>
+                  <strong class="main-title">반려동물</strong>
+                  <div class="more">+ 더 보기</div>
                 </div>
                 <div class="section-body">
                   <div class="pet-container">
@@ -79,7 +79,9 @@
                           <div class="img-box">
                             <img :src=pet.imgsrc />
                           </div>
-                          <div class="img-txt">{{ pet.txt }}</div>
+                          <div class="img-txt">
+                            {{ pet.txt.length > 12 ? pet.txt.slice(0, 12) + '...' : pet.txt }}
+                          </div>
                         </div>
                       </li>
                     </ul>
@@ -89,8 +91,8 @@
 
               <div class="item-box">
                 <div class="section-header">
-                  <div>패션</div>
-                  <div class="more">더 보기</div>
+                  <strong class="main-title">패션</strong>
+                  <div class="more">+ 더 보기</div>
                 </div>
                 <div class="section-body">
                   <div class="fasion-container">
@@ -100,7 +102,9 @@
                           <div class="img-box">
                             <img :src=fashion.imgsrc />
                           </div>
-                          <div class="img-txt">{{ fashion.txt }}</div>
+                          <div class="img-txt">
+                            {{ fashion.txt.length > 12 ? fashion.txt.slice(0, 12) + '...' : fashion.txt }}
+                          </div>
                         </div>
                       </li>
                     </ul>
@@ -256,8 +260,8 @@ import FooterLayout from "@/components/layout/FooterLayout.vue";
           color: var(--color_primary);
         }
 
-        .sub-title {
-          font-size: 14px;
+        .more {
+          font-size: 12px;
           color: var(--gray70);
         }
 

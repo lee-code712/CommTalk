@@ -3,9 +3,8 @@
     <HeaderLayout />
     <SubHeader/>
 
-    <div class="content-wrap">
-      <div class="left-content">
-        <div class="board-name">자유게시판</div>
+    <div class="full-container">
+        <strong class="board-name">자유게시판</strong>
         <div class="title-content-wrap">
           <div class="title">
             <input type="text" placeholder="제목" />
@@ -27,18 +26,21 @@
               <div class="hashtags">
                 <div class="hashtag" v-for="(hashtag, index) in hashtags" :key="index">
                   # {{ hashtag }}
-                  <button class="remove-hashtag-btn" @click="removeHashtag(index)">X</button>
-                </div>
+                  <button class="remove-hashtag-btn" @click="removeHashtag(index)">
+                    <img src="@/assets/images/fi-rr-cross-small.png" style="width: 12px; height: 12px;" />
+                  </button>
+                </div> 
                 # <input type="text" placeholder="태그 입력 (최대 20개)" v-model="newHashtag" @keyup.enter="addHashtag" />
               </div>
             </div>
           </div>
 
-          <div class="footer">
-            <div>
-              <div>
-                <input type="checkbox"/>익명
-              </div>
+          <div class="detail-btn-wrap">
+            <div class="anonymous-file-wrap">
+              <div class="custom-checkbox">
+                <input type="checkbox" id="customCheckbox">
+                <label for="customCheckbox">익명</label>
+            </div>
               <input type="file" ref="fileInput" multiple @change="handleFileChange" />
             </div>
 
@@ -49,18 +51,14 @@
           </div>
         </div>
       </div>
-
-      <div class="right-content">
-        <RightContent />
-      </div>
-    </div>
+      <FooterLayout/>
   </div>
 </template>
 
 <script>
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
-import RightContent from "@/components/layout/RightContent.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
+import FooterLayout from "@/components/layout/FooterLayout.vue";
 
 export default {
   name: 'EditView',
@@ -73,8 +71,8 @@ export default {
   },
   components: {
     HeaderLayout,
-    RightContent,
-    SubHeader
+    SubHeader,
+    FooterLayout
   },
   methods: {
     updateSelectedOption(option) {
@@ -120,4 +118,5 @@ export default {
   @import "@/assets/scss/layout1.scss";
   @import "@/assets/scss/pattern.scss";
   @import "@/assets/scss/edit.scss";
+  @import "@/assets/scss/common.scss";
 </style>

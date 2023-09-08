@@ -46,65 +46,68 @@
                     <img style="width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
                   </span>
                 </div>
-                <div class="like-btn">
-                  <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                <div class="like-btn" @click="changeLikeImg()">
+                  <img style="width: 14px; height: 14px;" :src="require(`@/assets/images/${likeImgName}.png`)"/>
                   공감 {{ likeCount }}
+                </div>
+                <div class="scrap-btn" @click="changeScrapImg()">
+                  <img style="width: 14px; height: 14px;" :src="require(`@/assets/images/${scrapImgName}.png`)"/>
+                  스크랩 {{ scrapCount }}
                 </div>
               </div>
 
               <div class="comment-wrap" v-if="showComment.open">
               <div class="comment-box" v-for="(comment, index) in comments" :key="index">
-                <div class="comment-header">
-                  <div class="writer-date-wrap">
-                    <span>{{ comment.writer }}</span>
-                    <span>{{ comment.commentDate }}</span>
-                  </div>
-
-                  <div class="msg-notice-wrap">
-                    <span>쪽지</span> 
-                    <span>신고</span>
-                  </div>
-                </div>
-
-                <div class="comment-body">
-                  <div class="comment">
-                    {{ comment.commentContent }}
-                  </div>
-
-                  <div class="activity-wrap">
-                    <div class="comment-btn">
-                      <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
-                      대댓글 달기 {{ comment.commentCount }}
+                <div class="comment-box-inner">
+                  <div class="comment-header">
+                    <div class="writer-date-wrap">
+                      <span>{{ comment.writer }}</span>
+                      <span>{{ comment.commentDate }}</span>
                     </div>
-                    <div class="like-btn">
-                      <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                      공감하기 {{ comment.likeCount }}
+
+                    <div class="msg-notice-wrap">
+                      <span>쪽지</span> 
+                      <span>신고</span>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="comment-box on reply">
-                  <div class="comment-box-inner">
-                    <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
-                    <div class="my-comment-wrap">
-                      <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
-                      <div class="my-comment-btn-wrap">
-                        <div class="file-anonymous-wrap">
-                          <div class="anonymous">
-                            <label>
-                              <input type="checkbox"/>
-                              <span>익명</span>
-                            </label>
-                          </div>
-                          <div class="file-wrap">
-                            <input type="file"/>
-                          </div>
-                        </div>
-                        <button class="submit-btn">등록</button>
+                  <div class="comment-body">
+                    <div class="comment">
+                      {{ comment.commentContent }}
+                    </div>
+
+                    <div class="activity-wrap">
+                       <div class="comment-btn" @click="toggleReply(index)">
+                        <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
+                        대댓글 달기 {{ comment.commentCount }}
+                      </div>
+                      <div class="like-btn">
+                        <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                        공감하기 {{ comment.likeCount }}
                       </div>
                     </div>
                   </div>
+                </div>
+                  
+                <div class="comment-box on reply" v-if="comment.showReply">
+                    <div class="comment-box-inner">
+                      <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
+                      <div class="my-comment-wrap">
+                        <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+                        <div class="my-comment-btn-wrap">
+                          <div class="file-anonymous-wrap">
+                            <div class="anonymous">
+                              <label>
+                                <input type="checkbox"/>
+                                <span>익명</span>
+                              </label>
+                            </div>
+                          </div>
+                          <button class="submit-btn">등록</button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
               </div>
 
               <div class="comment-box on" v-for="(reply, index) in replies" :key="index">
@@ -151,9 +154,6 @@
                     <span>익명</span>
                   </label>
                 </div>
-                <div class="file-wrap">
-                  <input type="file"/>
-                </div>
               </div>
               <button class="submit-btn">등록</button>
             </div>
@@ -190,6 +190,9 @@ export default {
       hashtags: ['# 가을', '# 스무살', '# 내년 반오십'],
       commentCount: 20,
       likeCount: 10,
+      scrapCount: 10,
+      scrapImgName: 'fi-rr-bookmark',
+      likeImgName: 'fi-rr-thumbs-up',
       comments: [
         {
           writer: '작성자',
@@ -227,6 +230,23 @@ export default {
       toggleComment() {
         this.showComment.open = !this.showComment.open;
       },
+       toggleReply(index) {
+        this.comments[index].showReply = !this.comments[index].showReply;
+      },
+      changeScrapImg() {
+        if (this.scrapImgName === 'fi-rr-bookmark') {
+            this.scrapImgName = 'fi-sr-bookmark';
+        } else {
+            this.scrapImgName = 'fi-rr-bookmark';
+        }
+      },
+      changeLikeImg() {
+        if (this.likeImgName === 'fi-rr-thumbs-up') {
+            this.likeImgName = 'fi-sr-thumbs-up';
+        } else {
+            this.likeImgName = 'fi-rr-thumbs-up';
+        }
+      }
     },
 };
 </script>

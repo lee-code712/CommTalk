@@ -91,6 +91,7 @@
     padding: 14px 0px;
     width: 100%;
         background-color: var(--gray10);
+box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     .sub-header-inner {
         margin: 0 auto;
         width: 1200px;

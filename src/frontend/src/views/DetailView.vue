@@ -3,58 +3,14 @@
     <HeaderLayout />
     <SubHeader />
 
-    <div class="content-wrap">
-      <div class="left-content">
-        <div class="board-content-wrap">
-          <div class="board-content-header">
-            <div class="label-title-wrap">
-              <div class="board-label">{{ boardLabel }}</div>
-              <div class="title">{{ title }}</div>
-            </div>
-
-            <div class="msg-notice-wrap">
-              <span>쪽지</span> 
-              <span>신고</span>
-            </div>
-          </div>
-
-          <div class="writer-profile-wrap">
-            <img src="@/assets/images/basic-profile.png" style="width: 40px; height: 40px;" />
-            <div class="writer-date-wrap">
-            <span>{{ writer }}</span>
-              <span>{{ date }}</span>
-            </div>
-          </div>
-
-          <div class="board-content-body">
-            <div class="board-content"><pre>{{ content }}</pre></div>
-
-            <div class="hashtags">
-              <div class="hashtag" v-for="(tag, index) in hashtags" :key="index">{{ tag }}</div>
-            </div>
-
-            <div class="activity-wrap" :class="{ 'no-margin' : showComment.open }">
-              <div class="comment-btn">
-                <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
-                댓글 {{ commentCount }}
-                <div class="hr">|</div> 
-                <span class="angle-icon" @click="toggleComment">
-                  <img style="width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
-                </span>
-              </div>
-              <div class="like-btn">
-                <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                공감 {{ likeCount }}
-              </div>
-            </div>
-          </div>
-
-          <div class="comment-wrap" v-if="showComment.open">
-            <div class="comment-box" v-for="(comment, index) in comments" :key="index">
-              <div class="comment-header">
-                <div class="writer-date-wrap">
-                  <span>{{ comment.writer }}</span>
-                  <span>{{ comment.commentDate }}</span>
+    <div class="full-container">
+        <div class="left-content">
+          <div class="board-content-wrap">
+            <div class="board-content-header">
+              <div class="board-title-wrap">
+                <div class="label-title-wrap">
+                  <div class="board-label">{{ boardLabel }}</div>
+                  <strong class="title">{{ title }}</strong>
                 </div>
 
                 <div class="msg-notice-wrap">
@@ -62,73 +18,121 @@
                   <span>신고</span>
                 </div>
               </div>
-
-              <div class="comment-body">
-                <div class="comment">
-                  {{ comment.commentContent }}
-                </div>
-
-                <div class="activity-wrap">
-                  <div class="comment-btn">
-                    <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
-                    대댓글 달기 {{ comment.commentCount }}
-                  </div>
-                  <div class="like-btn">
-                    <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                    공감하기 {{ comment.likeCount }}
-                  </div>
-                </div>
+              
+              <div class="writer-date-wrap">
+                <span>{{ writer }}</span>
+                <span>{{ date }}</span>
               </div>
             </div>
 
-            <div class="comment-box on reply">
+            <div class="board-content-body">
+              <div class="board-content"><pre>{{ content }}</pre></div>
+
+              <div class="hashtags">
+                <div class="hashtag" v-for="(tag, index) in hashtags" :key="index">{{ tag }}</div>
+              </div>
+
+              
+            </div>
+          </div>
+
+          <div class="other-comment-wrap">
+              <div class="activity-wrap" :class="{ 'no-margin' : showComment.open }">
+                <div class="comment-btn">
+                  <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
+                  댓글 {{ commentCount }}
+                  <div class="hr">|</div> 
+                  <span class="angle-icon" @click="toggleComment">
+                    <img style="width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
+                  </span>
+                </div>
+                <div class="like-btn">
+                  <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                  공감 {{ likeCount }}
+                </div>
+              </div>
+
+              <div class="comment-wrap" v-if="showComment.open">
+              <div class="comment-box" v-for="(comment, index) in comments" :key="index">
+                <div class="comment-header">
+                  <div class="writer-date-wrap">
+                    <span>{{ comment.writer }}</span>
+                    <span>{{ comment.commentDate }}</span>
+                  </div>
+
+                  <div class="msg-notice-wrap">
+                    <span>쪽지</span> 
+                    <span>신고</span>
+                  </div>
+                </div>
+
+                <div class="comment-body">
+                  <div class="comment">
+                    {{ comment.commentContent }}
+                  </div>
+
+                  <div class="activity-wrap">
+                    <div class="comment-btn">
+                      <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
+                      대댓글 달기 {{ comment.commentCount }}
+                    </div>
+                    <div class="like-btn">
+                      <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                      공감하기 {{ comment.likeCount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="comment-box on reply">
+                  <div class="comment-box-inner">
+                    <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
+                    <div class="my-comment-wrap">
+                      <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+                      <div class="my-comment-btn-wrap">
+                        <div class="file-anonymous-wrap">
+                          <div class="anonymous">
+                            <label>
+                              <input type="checkbox"/>
+                              <span>익명</span>
+                            </label>
+                          </div>
+                          <div class="file-wrap">
+                            <input type="file"/>
+                          </div>
+                        </div>
+                        <button class="submit-btn">등록</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="comment-box on" v-for="(reply, index) in replies" :key="index">
                 <div class="comment-box-inner">
                   <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
-                  <div class="my-comment-wrap">
-                    <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
-                    <div class="my-comment-btn-wrap">
-                      <div class="file-anonymous-wrap">
-                        <div class="anonymous">
-                          <label>
-                            <input type="checkbox"/>
-                            <span>익명</span>
-                          </label>
-                        </div>
-                        <div class="file-wrap">
-                          <input type="file"/>
-                        </div>
+                  <div class="detail-info">
+                    <div class="comment-header">
+                      <div class="writer-date-wrap">
+                        <span>{{ reply.writer }}</span>
+                        <span>{{ reply.replyDate }}</span>
                       </div>
-                      <button class="submit-btn">등록</button>
-                    </div>
-                  </div>
-                </div>
-            </div>
 
-            <div class="comment-box on" v-for="(reply, index) in replies" :key="index">
-              <div class="comment-box-inner">
-                <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
-                <div class="detail-info">
-                  <div class="comment-header">
-                    <div class="writer-date-wrap">
-                      <span>{{ reply.writer }}</span>
-                      <span>{{ reply.replyDate }}</span>
+                      <div class="msg-notice-wrap">
+                        <span>쪽지</span> 
+                        <span>신고</span>
+                      </div>
                     </div>
 
-                    <div class="msg-notice-wrap">
-                      <span>쪽지</span> 
-                      <span>신고</span>
-                    </div>
-                  </div>
+                    <div class="comment-body">
+                      <div class="comment">
+                        {{ reply.replyContent }}
+                      </div>
 
-                  <div class="comment-body">
-                    <div class="comment">
-                      {{ reply.replyContent }}
-                    </div>
-
-                    <div class="activity-wrap">
-                      <div class="like-btn">
-                        <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                        공감하기 {{ reply.likeCount }}
+                      <div class="activity-wrap">
+                        <div class="like-btn">
+                          <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                          공감하기 {{ reply.likeCount }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -136,45 +140,42 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="my-comment-wrap">
-          <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
-          <div class="my-comment-btn-wrap">
-            <div class="file-anonymous-wrap">
-              <div class="anonymous">
-                <label>
-                  <input type="checkbox"/>
-                  <span>익명</span>
-                </label>
+          <div class="my-comment-wrap">
+            <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+            <div class="my-comment-btn-wrap">
+              <div class="file-anonymous-wrap">
+                <div class="anonymous">
+                  <label>
+                    <input type="checkbox"/>
+                    <span>익명</span>
+                  </label>
+                </div>
+                <div class="file-wrap">
+                  <input type="file"/>
+                </div>
               </div>
-              <div class="file-wrap">
-                <input type="file"/>
-              </div>
+              <button class="submit-btn">등록</button>
             </div>
-            <button class="submit-btn">등록</button>
           </div>
-        </div>
 
-        <button type="button" class="list-btn">목록보기</button>
+          <button type="button" class="list-btn">목록보기</button>
+        </div>
       </div>
-      <div class="right-content">
-        <RightContent />
-      </div>
-    </div>
+      <FooterLayout/>
   </div>
 </template>
 
 <script>
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
-import RightContent from "@/components/layout/RightContent.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
+import FooterLayout from "@/components/layout/FooterLayout.vue";
 export default {
   name: 'AboutView',
   components: {
     HeaderLayout,
-    RightContent,
-    SubHeader
+    SubHeader,
+    FooterLayout
   },
   data() {
     return {
@@ -190,6 +191,13 @@ export default {
       commentCount: 20,
       likeCount: 10,
       comments: [
+        {
+          writer: '작성자',
+          commentDate: '2023-08-25',
+          commentContent: '시간이 정말 빨리 가는 것 같아여 속은 고딩인뎅',
+          commentCount: 10,
+          likeCount: 14
+        },
         {
           writer: '작성자',
           commentDate: '2023-08-25',

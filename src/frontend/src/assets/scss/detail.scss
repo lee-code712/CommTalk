@@ -1,14 +1,19 @@
   .about {
+    .full-container {
+      margin: 0 auto;
+      width: 1200px;
     .board-content-wrap {
-      border: 1px solid #f1f1f1;
+      border: 1px solid var(--gray30);
       border-radius: 10px;
 
       .board-content-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
         padding: 28px 28px 0px 28px;
+
+        .board-title-wrap {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
 
         .label-title-wrap {
           display: flex;
@@ -24,6 +29,7 @@
 
           .title {
             font-size: 20px;
+            color: var(--gray110);
           }
         }
         .msg-notice-wrap {
@@ -32,21 +38,18 @@
             font-size: 12px;
             color: #606060;
           }
-      }
-
-      .writer-profile-wrap {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 0px 28px;
+        
+        }
+        
         .writer-date-wrap {
           display: flex;
-          flex-direction: column;
-          gap: 2px;
+          gap: 10px;
+          margin-top: 10px;
           font-size: 12px;
           color: #606060;
         }
       }
+      
 
       .board-content-body {
         padding: 0px 28px;
@@ -79,6 +82,10 @@
           }
         }
       }
+    }
+
+    .other-comment-wrap {
+      margin-top: 20px;
       .activity-wrap {
         display: flex;
         align-items: center;
@@ -95,69 +102,66 @@
           gap: 4px;
           padding: 6px 10px;
           min-height: 20px;
-          border: 1px solid #f1f1f1;
+          border: 1px solid var(--gray30);
           color: #383F57;
           font-size: 12px;
           border-radius: 4px;
           background-color: #FFF;
 
           .hr {
-            color: #f1f1f1;
+            color: var(--gray30);
           }
         }
       }
+      .comment-box {
+        &.on {
+          background-color: #F8FAFC;
 
-      .comment-wrap {
-        .comment-box {
-          &.on {
-            background-color: #F8FAFC;
-
-            .comment-box-inner {
-              display: flex;
-              gap: 20px;
-
-              .detail-info {
-                width: 100%;
-              }
-            }
-          }
-          padding: 28px 28px;
-          border-bottom: 1px solid #f1f1f1;
-          .comment-header{
+          .comment-box-inner {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 12px;
-            color: #606060;
-            .msg-notice-wrap {
-              display: flex;
-              gap: 14px;
-            }
+            gap: 20px;
 
-            .writer-date-wrap {
-              padding: 0px;
-            }
-          }
-
-          .comment-body {
-            .comment {
-              margin-bottom: 10px;
-              color: #383F57;
-              font-size: 14px;
+            .detail-info {
+              width: 100%;
             }
           }
         }
-        .comment-box:last-child {
-          border-bottom: none;
-          border-radius: 0px 0px 10px 10px;
+        padding: 28px 28px;
+        border-bottom: 1px solid var(--gray30);
+        .comment-header{
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 8px;
+          font-size: 12px;
+          color: #606060;
+          .msg-notice-wrap {
+            display: flex;
+            gap: 14px;
+          }
+
+          .writer-date-wrap {
+            padding: 0px;
+          }
         }
+
+        .comment-body {
+          .comment {
+            margin-bottom: 10px;
+            color: #383F57;
+            font-size: 14px;
+          }
+        }
+      }
+      .comment-box:last-child {
+        border-bottom: none;
+        border-radius: 0px 0px 10px 10px;
       }
     }
 
     .my-comment-wrap {
       margin-top: 20px;
       width: 100%;
-      border: 1px solid #f1f1f1;
+      border: 1px solid var(--gray30);
       border-radius: 10px; 
       background-color: #FFF;
       .my-comment {
@@ -172,7 +176,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid #f1f1f1;
+        border-top: 1px solid var(--gray30);
         .file-anonymous-wrap {
           display: flex;
           align-items: center;
@@ -195,10 +199,10 @@
           border-radius: 0px 0px 10px 0px;
           background-color: #FFF;
           border: none;
-          border-left: 1px solid #f1f1f1;
+          border-left: 1px solid var(--gray30);
 
           &:hover{
-            background-color: #F1f1f1;
+            background-color: var(--gray10);
             cursor: pointer;
           }
         }
@@ -208,8 +212,9 @@
     .list-btn {
       margin-top :20px;
       padding: 10px 20px;
-      border: 1px solid #f1f1f1;
+      border: 1px solid var(--gray30);
       border-radius: 4px;
       background-color: #FFF;
     }
   }
+}

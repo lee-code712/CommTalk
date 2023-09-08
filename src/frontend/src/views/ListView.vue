@@ -5,7 +5,7 @@
 
     <div class="full-container">
             <div class="sub-top-wrap">
-                <div class="board-name">자유 게시판</div>
+                <strong class="board-name">자유 게시판</strong>
                 <div class="search-wrap">
                     <input type="search" placeholder="내용을 입력해주세요." />
                     <img src="@/assets/images/fi-rr-search.png"/>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
 
-                        <img src="" style="width: 132px; height: 90px; border-radius: 10px;"/>
+                        <img src="" class="thumbnail"/>
                     </div>
                 </div>
             </div>

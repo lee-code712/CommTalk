@@ -128,7 +128,8 @@
                 justify-content: center;
                 width: 400px;
                 .category-banner {
-                    width: 300px;
+                    padding: 10px;
+                    width: 340px;
                 }
             }
         }

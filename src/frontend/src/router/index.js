@@ -51,16 +51,22 @@ const routes = [
         path: 'like',
         component: () => import('../views/LikeMypage.vue')
       },
-      {
-        path: 'board',
-        component: () => import('../views/BoardMypage.vue')
-      },
-      {
-        path: 'report',
-        component: () => import('../views/ReportMypage.vue')
-      },
     ]
   },
+  {
+    path: '/admin',
+    name: 'admin',
+    children: [
+      {
+        path: 'board',
+        component: () => import('../views/BoardAdmin.vue')
+      }, 
+      {
+        path: 'report',
+        component: () => import('../views/ReportAdmin.vue')
+      }, 
+    ]
+  }
 ]
 
 const router = createRouter({

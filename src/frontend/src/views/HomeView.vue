@@ -223,7 +223,6 @@ import FooterLayout from "@/components/layout/FooterLayout.vue";
 @import "@/assets/scss/pattern.scss";
 @import "@/assets/scss/layout1.scss";
   .home {
-    .left-content {}
     .banner-wrap {
       width: 100%;
       height: 170px;

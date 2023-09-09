@@ -1,0 +1,50 @@
+.admin-sidebar {
+    width: 270px;
+    height: 100vh;
+    border-right: 1px solid #f1f1f1;
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      margin: 0 auto;
+      padding: 0px 25px;
+      height: 80px;
+      border-bottom: 1px solid #f1f1f1;
+      img {
+        width: 70px;
+      }
+    }
+    ul {
+      margin: 0 auto;
+      width: 240px;
+      list-style: none;
+
+      li {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        padding: 0px 10px;
+        height: 44px;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #5C667B;
+        &:hover {
+          background-color: #F4F6FA;
+          cursor: pointer;
+        }
+        &.active {
+          background-color: #F4F6FA;
+        }
+        .router-link-active {
+          color: var(--blue90);
+          font-weight: bold;
+        }
+
+        a {
+            width: 100%;
+            text-decoration: none;
+            color: #5C667B;
+        }
+      }
+    }
+  }

@@ -51,6 +51,10 @@ const routes = [
         path: 'like',
         component: () => import('../views/LikeMypage.vue')
       },
+      {
+        path: 'scrap',
+        component: () => import('../views/ScrapMypage.vue')
+      },
     ]
   },
   {
@@ -65,6 +69,7 @@ const routes = [
         path: 'report',
         component: () => import('../views/ReportAdmin.vue')
       }, 
+      
     ]
   }
 ]

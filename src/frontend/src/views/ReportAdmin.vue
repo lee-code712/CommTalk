@@ -114,9 +114,9 @@
                     <div class="report-title">상태</div>
                     <div class="report-content">
                         <select v-model="selectedReport.status">
-                        <option value="대기중" :selected="selectedReport.status === '대기중'">대기중</option>
-                        <option value="차단됨" :selected="selectedReport.status === '차단됨'">차단됨</option>
-                        <option value="거부됨" :selected="selectedReport.status === '거부됨'">거부됨</option>
+                            <option value="대기중" :selected="selectedReport.status === '대기중'">대기중</option>
+                            <option value="차단됨" :selected="selectedReport.status === '차단됨'">차단됨</option>
+                            <option value="거부됨" :selected="selectedReport.status === '거부됨'">거부됨</option>
                         </select>
                     </div>
                 </div>
@@ -363,6 +363,12 @@ console.log(realData);
             .report-content {
                 font-size: 14px;
                 color: var(--color_secondary);
+
+                select {
+                    padding: 2px 4px;
+                    border: 1px solid var(--gray40);
+                    border-radius: 4px;
+                }
             }
         }
     }

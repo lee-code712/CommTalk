@@ -1,5 +1,5 @@
 <template>
-    <div class="like-mypage">
+    <div class="scrap-mypage">
         <MypageSidebar/>
 
         <div class="admin-content-wrap">
@@ -7,7 +7,7 @@
 
             <div class="admin-content">
                 <div class="admin-content-inner">
-                    <strong class="page-title">공감</strong>
+                    <strong class="page-title">내 스크랩</strong>
   <div class="tab-content">
           <div>
             <div class="top-btns-wrap">
@@ -122,7 +122,7 @@ import MypageHeader from '@/components/layout/MypageHeader.vue';
 </script>
 
 <style lang="scss">
-.like-mypage {
+.scrap-mypage {
     display: flex;
     .admin-content-wrap {
         width: calc(100% - 270px);

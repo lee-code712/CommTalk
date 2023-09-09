@@ -1,12 +1,15 @@
 <template>
-  <div class="comment-mypage">
-    <MypageSidebar />
-    <div class="mypage-content-wrap">
-      <MypageHeader />
-      <div class="mypage-content">
-        <div class="mypage-content-inner">
-        <h2>{{ activeTab }}</h2>
-        <div class="tabs">
+    <div class="comment-mypage">
+        <MypageSidebar/>
+
+        <div class="admin-content-wrap">
+            <MypageHeader/>
+
+            <div class="admin-content">
+                <div class="admin-content-inner">
+                    <strong class="page-title">내가 쓴 글 / 댓글 단 글</strong>
+
+                    <div class="tabs">
           <div
             v-for="(tab, index) in tabs"
             :key="index"
@@ -92,31 +95,30 @@
               </li>
             </ul>
           </div>
+      </div>
+                </div>
+            </div>
         </div>
-      </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-import MypageHeader from '@/components/layout/MypageHeader.vue'
-import MypageSidebar from '@/components/layout/MypageSidebar.vue'
-
-export default {
-  name: 'CommentMypage',
-  components: {
-    MypageSidebar,
-    MypageHeader,
-  },
+import MypageSidebar from '@/components/layout/MypageSidebar.vue';
+import MypageHeader from '@/components/layout/MypageHeader.vue';
+    export default {
+        name: 'ReportAdmin',
+        components: {
+            MypageSidebar,
+            MypageHeader,
+        },
   data() {
     return {
       tabs: ['내가 쓴 글', '댓글 단 글'],
       activeTab: '내가 쓴 글',
       mycomments: [
         { 
-          title: '기깔나는 제목이 없을까 생각 중', 
-          content: '불안한 마음을 컨트롤하기 위해선 게임이 최고', 
+          title: '내가 쓴 글 제목', 
+          content: '내가 쓴 글 내용', 
           date: '2023-09-01', 
           commentCnt: '10',
           likeCnt: '20',
@@ -124,8 +126,8 @@ export default {
           selected: false 
         },
          { 
-          title: '기깔나는 제목이 없을까 생각 중', 
-          content: '불안한 마음을 컨트롤하기 위해선 게임이 최고', 
+          title: '내가 쓴 글 제목', 
+          content: '내가 쓴 글 내용', 
           date: '2023-09-01', 
           commentCnt: '10',
           likeCnt: '20',
@@ -148,7 +150,7 @@ export default {
       isAllSelected: false,
     };
   },
-  methods: {
+    methods: {
     toggleSelectAll(dataArray) {
       const isChecked = this.isAllSelected;
       dataArray.forEach((item) => (item.selected = isChecked));
@@ -168,11 +170,159 @@ export default {
       this.deselectAll(dataArray);
     },
   },
-};
+       
+    }
 </script>
 
 <style lang="scss">
-  @import "@/assets/scss/common.scss";
-  @import "@/assets/scss/pattern.scss";
-  @import "@/assets/scss/commentmypage.scss";
+.comment-mypage {
+    display: flex;
+    .admin-content-wrap {
+        width: calc(100% - 270px);
+        .admin-content {
+            padding: 38px 0px;
+            height: 100vh;
+            background-color: #FCFCFE;
+            .admin-content-inner {
+            margin: 0 auto;
+            width: 1480px;
+
+            .page-title {    
+                color: #373f57;
+                font-size: 36px;
+                font-weight: bold;
+                letter-spacing: -3px;
+                line-height: 56px;
+            }
+
+            .tabs {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 40px;
+        padding: 4px;
+        border-radius: 10px;
+        background-color: #F7F7FA;
+        font-size: 14px;
+          .tab-container {
+            cursor: pointer;
+            padding: 10px 10px;
+            width: 100%;
+            text-align: center;
+            border-radius: 5px;
+
+            &.active {
+            background-color: #fff;
+            font-weight: bold;
+            }
+
+           
+          }
+        }
+    }
+      }
+      .tab-content {
+        .top-btns-wrap {
+          display: flex;
+          justify-content: space-between;
+          padding: 30px 0px 14px 0px;
+          height: 38px;
+          .btn-wrap {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          
+          button {
+                padding: 8px 10px;
+                border: none;
+                background-color: #FFF;
+                border-radius: 4px;
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+                &:hover {
+                  background-color: var(--gray10);
+                  cursor: pointer;
+                }
+              }
+          } 
+
+          .search-wrap {
+            display: flex;
+            align-items: center;
+            padding: 0px 10px;
+            border-radius: 4px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+
+            input {
+              width: 180px;
+              border: none;
+            }
+            img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+        .list-wrap {
+          background-color:#FFF;
+          border: 1px solid #F5F5F5;
+          border-radius: 10px;
+          li {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            width: calc(100% - 40px);
+            border-bottom: 1px solid var(--gray30);
+
+            
+            &:hover {
+              .title {
+              text-decoration: underline;
+              }
+              cursor: pointer;
+            }
+
+            &:last-child {
+              
+            border-bottom: none;
+            }
+            .writer-date-wrap {
+              margin-bottom: 4px;
+              font-size: 12px;
+              color: #8694A9;
+            }
+            .list-content {
+              width: 100%;
+                        .title {
+            color: #383F57;
+            font-size: 20px;
+          }
+
+          .content {
+            margin-top: 10px;
+            color: #8694A9;
+            font-size: 14px;
+          }
+
+          .detail-info-wrap {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            width: 100%;
+          .active-wrap {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+            color: #8694A9;
+          }
+          }
+            }
+          }
+        
+      
+
+          
+            }
+        }
+    }
+}
 </style>

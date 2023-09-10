@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <HeaderLayout />
+    <SubHeader />
 
     <div class="content-wrap">
       <div class="left-content">
@@ -167,11 +168,13 @@
 <script>
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import RightContent from "@/components/layout/RightContent.vue";
+import SubHeader from "@/components/layout/SubHeader.vue";
 export default {
   name: 'AboutView',
   components: {
     HeaderLayout,
     RightContent,
+    SubHeader
   },
   data() {
     return {

@@ -1,9 +1,9 @@
 <template>
   <div class="list-view">
     <HeaderLayout/>
+    <SubHeader/>
 
-    <div class="content-wrap">
-        <div class="left-content">
+    <div class="full-container">
             <div class="sub-top-wrap">
                 <div class="board-name">자유 게시판</div>
                 <div class="search-wrap">
@@ -47,36 +47,36 @@
             </div>
 
             <div class="paging-wrap">
-                <div>이전</div>
-                <div class="paging-num-wrap">
-                    <div class="on">1</div>
-                    <div>2</div>
-                    <div>3</div>
+                <div class="paging-inner">
+                    <div class="prev-btn">이전</div>
+                    <div class="paging-num-wrap">
+                        <div class="on">1</div>
+                        <div>2</div>
+                        <div>3</div>
+                    </div>
+                    <div class="next-btn">다음</div>
                 </div>
-                <div>다음</div>
             </div>
 
             <div class="btn-wrap">
             <button class="write-btn">글쓰기</button>
             </div>
         </div>
-
-        <div class="right-content">
-          <RightContent />
-        </div>
+        <FooterLayout/>
       </div>
-    </div>
 </template>
 
 <script>
   import HeaderLayout from '@/components/layout/HeaderLayout.vue'
-  import RightContent from '@/components/layout/RightContent.vue'
+  import SubHeader from '@/components/layout/SubHeader.vue'
+  import FooterLayout from '@/components/layout/FooterLayout.vue'
 
   export default {
     name: 'ListView',
     components: {
       HeaderLayout,
-      RightContent,
+      SubHeader,
+      FooterLayout
     },
     data() {
       return {
@@ -91,5 +91,6 @@
 
 <style scoped lang="scss">
   @import "@/assets/scss/list.scss";
-  @import '@/assets/scss/layout1.scss';
+  @import "@/assets/scss/pattern.scss";
+  @import "@/assets/scss/layout.scss";
 </style>

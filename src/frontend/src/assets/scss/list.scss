@@ -1,4 +1,8 @@
 .list-view {
+
+    .full-container {
+        margin: 0 auto;
+        width: 1200px;
     .sub-top-wrap {
         display: flex;
         justify-content: space-between;
@@ -9,12 +13,12 @@
 
         .search-wrap {
             display: flex;
-            justify-content:space-between;
+            justify-content: space-between;
             align-items: center;
             gap: 8px;
             padding: 8px 10px;
             width: 240px;
-            border: 1px solid #f1f1f1;
+            border: 1px solid var(--gray30);
             border-radius: 8px;
 
             input {
@@ -30,15 +34,16 @@
     }
 
     .list-wrap {
-        border: 1px solid #f1f1f1;
         border-radius: 10px;
         margin-top: 30px;
-        .list:last-child {
-            border-bottom: none;
-        }
+        
         .list {
             padding: 20px;
-            border-bottom: 1px solid #f1f1f1;
+            border-top: 1px solid var(--gray30);
+
+            &:last-child {
+                border-bottom: 1px solid var(--gray30);
+            }
 
             &:hover {
                 cursor: pointer;
@@ -92,22 +97,30 @@
 
     .paging-wrap {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-        padding: 16px 20px;
-        border: 1px solid #f1f1f1;
-        border-radius: 10px;
-        font-size: 14px;
-
-        .paging-num-wrap {
+        justify-content: center;
+        margin-top: 40px;
+        width: 100%;
+        font-size: 13px;
+        .paging-inner {
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
+            .paging-num-wrap {
+                display: flex;
+                gap: 10px;
 
-            .on {
-                color: #4976EF;
-                font-weight: bold;
+                div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 5px;
+                    &.on {
+
+                        border: 1px solid var(--gray60);
+                    }
+                }
             }
         }
     }
@@ -116,11 +129,17 @@
         margin-top: 20px;
         .write-btn {
             padding: 10px 20px;
-            background-color: #4976EF;
-            color: #FFF;
+            background-color: #FFF;
+            color: var(--color_primary);
             font-size: 14px;
-            border: transparent;
+            border: 1px solid var(--gray40);
             border-radius: 4px;
+
+            &:hover {
+                background-color: var(--gray10);
+                cursor: pointer;
+            }
         }
     }
+}
 }

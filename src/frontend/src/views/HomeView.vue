@@ -308,7 +308,7 @@ import FooterLayout from "@/components/layout/FooterLayout.vue";
                 }
 
                 .img-txt {
-                  margin-top: px;
+                  margin-top: 10px;
                   width: 194px;
                   font-size: 14px;
                   color: var(--color_primary);

@@ -32,7 +32,6 @@ $main_color: #4976EF;
 $search-bkg: #f1f1f1;
 
   .header {
-    margin-bottom: 30px;
     width: 100%;
     height: 90px;
     border-bottom: 1px solid #f1f1f1;

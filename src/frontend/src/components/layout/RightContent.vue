@@ -5,7 +5,7 @@
       <button type="button" class="login-button">커톡커톡 로그인</button>
     </div>
 
-    <div class="category-wrap">
+    <div class="category-wrap" style="display: none;">
       <div class="title-angle-wrap">
         <h3>카테고리</h3>
         <span class="angle-icon" @click="toggleAccordion">
@@ -29,7 +29,7 @@
               <div class="comment">[{{ item.comment }}]</div>
             </div>
             <div class="view-like-wrap">
-              조회수 {{ item.view }} | 공감수 {{ item.like }}
+              자유게시판 | <img src="@/assets/images/fi-rr-eye.png"/> {{ item.view }} | <img src="@/assets/images/fi-rr-thumbs-up.png"/> {{ item.like }}
             </div>
           </div>
         </li>
@@ -90,6 +90,8 @@ import AccordionMenu from '@/components/AccordionMenu.vue';
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/scss/pattern.scss";
+
   .right-content {
     .login-wrap {
       display: flex;
@@ -98,7 +100,7 @@ import AccordionMenu from '@/components/AccordionMenu.vue';
       flex-direction: column;
       margin-bottom: 16px;
       padding: 20px;
-      border: 1px solid #f1f1f1;
+      border: 1px solid var(--gray30);
       border-radius: 10px;
 
       .login-desc {
@@ -144,7 +146,7 @@ import AccordionMenu from '@/components/AccordionMenu.vue';
     }
 
     .popular-posts {
-      border: 1px solid #f1f1f1;
+      border: 1px solid var(--gray30);
       border-radius: 10px;
 
       h3 {
@@ -164,6 +166,11 @@ import AccordionMenu from '@/components/AccordionMenu.vue';
           margin-bottom: 14px;
 
           .num {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            heigth: 18px;
             font-size: 24px;
             font-weight: bold;
 
@@ -188,8 +195,16 @@ import AccordionMenu from '@/components/AccordionMenu.vue';
             }
 
             .view-like-wrap {
+              display: flex;
+              align-items: center;
+              gap: 4px;
               font-size: 12px;
               color: #606060;
+
+              img {
+                width: 12px;
+                height: 12px;
+              }
             }
           }
         }

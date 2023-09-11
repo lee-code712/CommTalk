@@ -3,6 +3,7 @@ package com.commtalk.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.commtalk.controller.exception.ErrorMsg;
 import com.commtalk.controller.exception.ExceptionUtils;
+import com.commtalk.security.JwtTokenProvider;
 import com.commtalk.service.MainService;
 
 import io.swagger.annotations.ApiResponse;
@@ -26,6 +28,9 @@ public class MainController {
 	@Resource
 	private MainService mainSvc;
 	
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+	
 	/* 핀 고정 게시판의 게시글 조회 */
 	@RequestMapping(value="/getPinnedBoards", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
@@ -37,8 +42,10 @@ public class MainController {
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";
 
+		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
-			response = mainSvc.getPinnedBoardsWithPosts(null); // 로그인 기능 구현 후 수정
+			response = mainSvc.getPinnedBoardsWithPosts(memberId);
+			System.out.println(memberId);
 			
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
 		} catch (Exception e) {

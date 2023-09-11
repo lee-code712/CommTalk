@@ -41,6 +41,8 @@
 
 <script>
 import ModalComponent from "@/components/ModalComponent.vue";
+import axios from 'axios';
+
 export default {
   name: 'HomeComponent',
   props: {
@@ -106,6 +108,24 @@ export default {
       }
       return divided;
     }
+  },
+  created () {
+    const token = localStorage.getItem('token');
+
+    // Axios를 사용하여 HTTP 요청을 보냅니다.
+    var link = 'http://' + window.location.host;
+    var headers = {
+      'Authorization': `Bearer ${token}`, // "Authorization" 헤더에 토큰 추가
+      'Content-Type': 'application/json',
+    };
+    axios.get(link + '/api/main/getPinnedBoards', { headers: headers })
+      .then(response => {
+        console.log(response.data)
+        // 응답 처리
+      })
+      .catch(error => {
+        // 오류 처리
+      });
   }
 }
 </script>

@@ -2,6 +2,8 @@
   <div class="side-bar">
     <div class="logo-wrap">
       <h3>커톡커톡</h3>
+      <button v-if="isExistToken" @click="logout">로그아웃</button>
+      <button v-else @click="login">로그인</button>
     </div>
     <AccordionMenu :categories="categories" :expanded="expanded" :updateCategory="updateCategory" />
   </div>
@@ -30,7 +32,8 @@ export default {
         //   items: ['졸업생게시판', '취준생게시판', '연애게시판'],
         // },
       ],
-      expanded: []
+      expanded: [],
+      isExistToken: false
     };
   },
   methods: {
@@ -39,12 +42,14 @@ export default {
       this.categories = [...this.categories];
     },
     getCategories() {
+      const token = localStorage.getItem('token');
+
       var link = 'http://' + window.location.host;
       var headers = {
-        'Content-type': 'application/json; charset=UTF-8',
-        'Accept': '*/*'
+        'Authorization': `Bearer ${token}`, // "Authorization" 헤더에 토큰 추가
+        'Content-Type': 'application/json',
       };
-      axios.get(link + '/api/common/viewMenu.do', { headers: headers })
+      axios.get(link + '/api/common/getCategories', { headers: headers })
         .then(response => {
           this.categories = response.data;
           this.categories.forEach((category, index) => {
@@ -59,9 +64,27 @@ export default {
           console.log(err);
         })
     },
+    login () {
+      this.$router.push('/login')
+    },
+    logout () {
+      var link = 'http://' + window.location.host;
+      axios.get(link + '/api/auth/logout', null)
+        .then(response => {
+          localStorage.clear();
+          this.isExistToken = false
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
   },
   created () {
     this.getCategories();
+    const token = localStorage.getItem('token');
+    if (token != undefined) {
+      this.isExistToken = true
+    }
   },
 };
 </script>

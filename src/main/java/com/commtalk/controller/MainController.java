@@ -45,7 +45,6 @@ public class MainController {
 		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
 			response = mainSvc.getPinnedBoardsWithPosts(memberId);
-			System.out.println(memberId);
 			
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
 		} catch (Exception e) {

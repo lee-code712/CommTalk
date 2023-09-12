@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import javax.annotation.Resource;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,19 +26,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public CustomUserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
 
     	Account account = accountRepo.findById(nickname).orElse(null);
-    	
+
     	if (account != null && account.getNickname().equals(nickname)) {
     		Member member = memberRepo.findByNickname(nickname);
 			CustomUserDetails userDetails = new CustomUserDetails(
 					account.getNickname(), 
 					account.getPassword(), 
-					member.getId(), // memberId																		// 설정
-					Arrays.asList("USER")
+					member.getId(), // memberId
+					Arrays.asList("USER") // roles
 			);
 			return userDetails;
         } 
     	else {
-            throw new UsernameNotFoundException("User not found with username: " + nickname);
+            throw new UsernameNotFoundException("User not found with nickname: " + nickname);
         }
     }
 }

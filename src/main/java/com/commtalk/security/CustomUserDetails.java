@@ -14,7 +14,7 @@ public class CustomUserDetails implements UserDetails {
 
     private String username;
     private String password;
-    private Long memberId;
+    private Long memberId; // DB 조회를 위한 memberId 추가
     private Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(String username, String password, Long memberId, List<String> roles) {

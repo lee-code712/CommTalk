@@ -40,8 +40,11 @@ public class SecurityConfig {
 	    //
 	    http
 	        .authorizeRequests()
-	        .antMatchers("/api/auth/**").permitAll() // /api/auth/** 패턴은 인증 불필요
-	        .antMatchers("/api/**").authenticated()   // /api/** 패턴은 인증 필요
+	        .antMatchers("/api/auth/**", 
+	        		"/api/common/**",
+	        		"/api/post/getPostsByBoard/**",
+	        		"/api/post/getPostDetail/**").permitAll() // 인증 불필요 URI
+	        .antMatchers("/api/**").authenticated()   // 인증 필요 URI
 	        .anyRequest().permitAll();
 
 	    // No session will be created or used by spring security

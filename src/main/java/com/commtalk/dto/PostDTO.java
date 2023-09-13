@@ -21,9 +21,9 @@ public class PostDTO {
 	private MemberSimpleDTO author;
 	private BoardSimpleDTO board;
 	private int commentCnt;
-	private AttachmentSimpleDTO thumbnail;
+//	private AttachmentSimpleDTO thumbnail;
 	
-	public PostDTO(Post post, Attachment thumbnail) {
+	public PostDTO(Post post) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 날짜 포맷 지정
 		
 		this.postId = post.getId();
@@ -40,9 +40,9 @@ public class PostDTO {
 		}
 		this.board = new BoardSimpleDTO(post.getBoard());
 		this.commentCnt = post.getComments().size();
-		if (thumbnail != null) {
-			this.thumbnail = new AttachmentSimpleDTO(thumbnail);
-		}
+//		if (thumbnail != null) {
+//			this.thumbnail = new AttachmentSimpleDTO(thumbnail);
+//		}
 	}
 	
 }

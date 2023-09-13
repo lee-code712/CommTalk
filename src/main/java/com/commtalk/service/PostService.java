@@ -47,8 +47,8 @@ public class PostService {
         List<PostDTO> postDTOs = new ArrayList<>();
 		for (Post post : postPages) {
 			if (!post.getIsDeleted()) {
-				Attachment tumbnail = attachmentRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
-				postDTOs.add(new PostDTO(post, tumbnail));
+//				Attachment tumbnail = attachmentRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
+				postDTOs.add(new PostDTO(post));
 			}		    
 		}
 		response.put("posts", postDTOs);

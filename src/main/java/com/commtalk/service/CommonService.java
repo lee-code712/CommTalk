@@ -63,7 +63,7 @@ public class CommonService {
 	
 	// 제목 또는 내용으로 게시글 검색
 	public String getPostsByKeyword(String keyword, Pageable pageable) throws JsonProcessingException {
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		
 		Page<Post> postPages = postRepo.findByTitleOrContent(keyword, pageable);
 		response.put("totalPages", postPages.getTotalPages());
@@ -74,8 +74,8 @@ public class CommonService {
         List<PostDTO> postDTOs = new ArrayList<>();
 		for (Post post : postPages) {
 			if (!post.getIsDeleted()) {
-				Attachment tumbnail = attachmentRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
-				postDTOs.add(new PostDTO(post, tumbnail));
+//				Attachment tumbnail = attachmentRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
+				postDTOs.add(new PostDTO(post));
 			}		    
 		}
 		response.put("posts", postDTOs);

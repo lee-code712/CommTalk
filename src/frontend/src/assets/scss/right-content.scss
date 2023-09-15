@@ -1,0 +1,119 @@
+.right-content {
+    .login-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-bottom: 16px;
+      padding: 20px;
+      border: 1px solid var(--gray30);
+      border-radius: 10px;
+
+      .login-desc {
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .login-button {
+        padding: 12px 0px;
+        width: 100%;
+        background-color: #4976EF;
+        color: #FFF;
+        border: transparent;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: #496EEF;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .category-wrap {
+      margin-bottom: 16px;
+      border: 1px solid #f1f1f1;
+      border-radius: 10px;
+
+      .title-angle-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+
+        h3 {
+          font-size: 16px;
+        }
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .popular-posts {
+      border: 1px solid var(--gray30);
+      border-radius: 10px;
+
+      h3 {
+        padding: 20px;
+        font-size: 16px;
+      }
+
+      ul {
+        padding: 10px 20px;
+        list-style: none;
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+
+          margin-bottom: 14px;
+
+          .num {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            heigth: 18px;
+            font-size: 24px;
+            font-weight: bold;
+
+            &.on {
+              color: #4976EF;
+            }
+          }
+
+          .popular-posts-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 14px;
+
+            .title-comment-wrap {
+              display: flex;
+              gap: 8px;
+              .comment {
+                font-size: 12px;
+                color: #4976EF;
+              }
+            }
+
+            .view-like-wrap {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              font-size: 12px;
+              color: #606060;
+
+              img {
+                width: 12px;
+                height: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }

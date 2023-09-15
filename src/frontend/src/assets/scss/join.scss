@@ -1,0 +1,35 @@
+.join {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    .join-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 320px;
+        input {
+            padding: 14px 20px;
+            border: 1px solid #CFD3DD;
+            border-radius: 4px;
+        }
+
+        img {
+            margin-bottom: 10px;
+            width: 100px;
+        }
+
+        button {
+            padding: 14px 0px;
+            background-color: #4976EF;
+            color: #FFF;
+            border: transparent;
+            border-radius: 4px;
+
+            &:hover {
+                background-color: #496EEF;
+                cursor: pointer;
+            }
+        }
+    }
+}

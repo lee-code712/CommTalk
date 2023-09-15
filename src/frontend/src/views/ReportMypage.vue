@@ -1,9 +1,9 @@
 <template>
-    <div class="report-admin">
-        <AdminSidebar/>
+    <div class="report-mypage">
+        <MypageSidebar/>
 
         <div class="admin-content-wrap">
-            <AdminHeader/>
+            <MypageHeader/>
 
             <div class="admin-content">
                 <div class="admin-content-inner">
@@ -113,11 +113,7 @@
                 <div class="report-box">
                     <div class="report-title">상태</div>
                     <div class="report-content">
-                        <select v-model="selectedReport.status">
-                            <option value="대기중" :selected="selectedReport.status === '대기중'">대기중</option>
-                            <option value="차단됨" :selected="selectedReport.status === '차단됨'">차단됨</option>
-                            <option value="거부됨" :selected="selectedReport.status === '거부됨'">거부됨</option>
-                        </select>
+                        {{ selectedReport.status }}
                     </div>
                 </div>
             </div>
@@ -128,13 +124,13 @@
 
 <script>
 import ModalComponent from "@/components/ModalComponent.vue";
-import AdminSidebar from '@/components/layout/AdminSidebar.vue';
-import AdminHeader from '@/components/layout/AdminHeader.vue';
+import MypageSidebar from '@/components/layout/MypageSidebar.vue';
+import MypageHeader from '@/components/layout/MypageHeader.vue';
     export default {
-        name: 'ReportAdmin',
+        name: 'ReportMypage',
         components: {
-            AdminSidebar,
-            AdminHeader,
+            MypageSidebar,
+            MypageHeader,
             ModalComponent
         },
          data() {
@@ -217,5 +213,5 @@ console.log(realData);
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/report-admin.scss";
+@import "@/assets/scss/report-mypage.scss";
 </style>

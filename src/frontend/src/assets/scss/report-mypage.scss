@@ -1,0 +1,156 @@
+.report-mypage {
+    display: flex;
+    .admin-content-wrap {
+        width: calc(100% - 270px);
+        .admin-content {
+            padding: 38px 0px;
+            height: 100vh;
+            background-color: #FCFCFE;
+            .admin-content-inner {
+            margin: 0 auto;
+            width: 1480px;
+
+            .page-title {    
+                color: #373f57;
+                font-size: 36px;
+                font-weight: bold;
+                letter-spacing: -3px;
+                line-height: 56px;
+            }
+
+            .report-options-container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 40px;
+                border-radius: 10px;
+
+                    select {
+                        padding: 8px 10px;
+                        border: none;
+                        border-radius: 8px;
+                        background-color: #FFF;
+                        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+                    }
+            }
+
+            .grid-table {
+                margin-top: 30px;
+                padding-top: 16px;
+                width: 100%;
+                background-color: #FFF;
+                border-radius: 10px;
+                border: 1px solid #F5F5F5;
+                .grid-head {
+                    display: grid;
+                    grid-template-columns: 10% 20% 20% 20% 20% 10%;
+                    padding: 0px 0px 16px 20px;
+                    color: #313A45;
+                    font-size: 12px;
+                    font-weight: bold;
+                }
+
+                .grid-body {
+                    display: grid;
+                    grid-template-columns: 10% 20% 20% 20% 20% 10%;
+                    align-items: center;
+                    padding: 20px 20px;
+                    border-top: 1px solid #F5F5F5;
+                    font-size: 14px;
+                    color: var(--gray80);
+
+                    &:hover {
+                        background-color: var(--gray10);
+                        cursor: pointer;
+                    }
+
+                    .board-box,
+                    .pending-box,
+                    .blocked-box,
+                    .denied-box {
+                          display: inline-block;
+                            text-align: center;
+                            vertical-align: middle; 
+                            width: 80px;
+                            height: 30px;
+                            border: 1px solid;
+                            border-radius: 8px;
+                            font-size: 14px;
+                            line-height: 30px;
+                            
+                        border: 1px solid var(--gray40);
+                    }
+
+                    
+                    .board-box {
+                        width: 90px;
+                        background-color: var(--blue10);
+                        border: none;
+                        color: var(--blue80);
+                    }
+
+                    .pending-box {
+                        color: #51894A;
+                        &:hover{
+                            background-color: var(--gray10);
+                            cursor: pointer;
+                        }
+                    }
+
+                    .blocked-box {
+                        color: #C3821A;
+                        &:hover{
+                            background-color: var(--coral10);
+                            cursor: pointer;
+                        }
+                    }
+
+                    .denied-box {
+                        color: #C31A8A;
+                        &:hover{
+                            background-color: var(--blue10);
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+            }
+        }
+    }
+
+    .selected-report-wrap {
+         .board-name {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: var(--blue10);
+            border: none;
+            border-radius: 4px;
+            color: var(--blue80);
+        }
+
+        .report-box {
+            margin-top: 4px;
+            
+                padding: 10px;
+                border: 1px solid var(--gray30);
+                border-radius: 10px;
+            .report-title {
+                margin-bottom: 4px;
+                padding-bottom: 10px;
+                font-size: 12px;
+                color: var(--color_primary);
+                border-bottom: 1px dashed var(--gray30);
+            }
+            .report-content {
+                font-size: 14px;
+                color: var(--color_secondary);
+
+                select {
+                    padding: 2px 4px;
+                    border: 1px solid var(--gray40);
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+}

@@ -55,6 +55,10 @@ const routes = [
         path: 'scrap',
         component: () => import('../views/ScrapMypage.vue')
       },
+      {
+        path: 'report',
+        component: () => import('../views/ReportMypage.vue')
+      }, 
     ]
   },
   {

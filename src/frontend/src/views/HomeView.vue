@@ -157,9 +157,9 @@ import FooterLayout from "@/components/layout/FooterLayout.vue";
     data() {
       return {
         galleries: [
-          {imgsrc: require("@/assets/images/sampleimg.png"), txt: '토끼ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㄴㅇㅇㅇㅇㅇㅇㅇㅇ'},
-          {imgsrc: require("@/assets/images/sampleimg2.png"), txt: '고양이'},
-          {imgsrc: require("@/assets/images/sampleimg3.png"), txt: '강아지'},
+          {imgsrc: require("@/assets/images/sampleimg.png"), txt: '장원영'},
+          {imgsrc: require("@/assets/images/sampleimg2.png"), txt: 'nct'},
+          {imgsrc: require("@/assets/images/sampleimg3.png"), txt: '엔믹스'},
         ],
         pets: [
           {imgsrc: require("@/assets/images/sampleimg.png"), txt: '토끼ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㄴㅇㅇㅇㅇㅇㅇㅇㅇ'},

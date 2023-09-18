@@ -2,7 +2,7 @@
   <div class="side-bar">
     <div class="login-wrap">
       <div class="login-desc">로그인 후 이용해주세요.</div>
-      <button type="button" class="login-button">커톡커톡 로그인</button>
+        <button type="button" class="login-button">커톡커톡 로그인</button>
     </div>
 
     <div class="category-wrap" style="display: none;">

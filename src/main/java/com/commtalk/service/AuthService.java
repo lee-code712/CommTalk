@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,7 +43,11 @@ public class AuthService {
 		Map<String, Object> response = new HashMap<>();
 		
 		Account account = new Account(map);
-		if (accountRepo.findById(account.getNickname()) != null) {
+		if (accountRepo.findById(account.getNickname()).orElse(null) != null) {
+			response.put("status", "error");
+			response.put("message", "닉네임이 중복됩니다.");
+		}
+		else {
 			account.setPassword(passwordEncoder.encode(account.getPassword()));
 			accountRepo.save(account);
 			
@@ -51,10 +56,6 @@ public class AuthService {
 			
 			response.put("status", "success");
 		}
-		else {
-			response.put("status", "error");
-			response.put("message", "닉네임이 중복됩니다.");
-		}
 		
 		return JSONFactory.getJSONStringFromMap(response);
 	}
@@ -62,14 +63,21 @@ public class AuthService {
 	public String login(Map<String, Object> map) throws JsonProcessingException {
 		Map<String, Object> response = new HashMap<>();
 		
-		// 사용자 인증 시도
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(map.get("nickname"), map.get("password"))
-        );
-        
-		// JWT 토큰 생성
-        String jwtToken = jwtTokenProvider.generateToken(authentication);
-        response.put("token", jwtToken);
+		try {
+			// 사용자 인증 시도
+	        Authentication authentication = authenticationManager.authenticate(
+	            new UsernamePasswordAuthenticationToken(map.get("nickname"), map.get("password"))
+	        );
+	        
+	        // JWT 토큰 생성
+	        String jwtToken = jwtTokenProvider.generateToken(authentication);
+	        response.put("status", "success");
+	        response.put("token", jwtToken);
+	        
+		} catch (BadCredentialsException e) { // 자격 증명 실패
+			response.put("status", "error");
+			response.put("message", "닉네임 또는 패스워드가 일치하지 않습니다.");
+		}
         
         return JSONFactory.getJSONStringFromMap(response);
 	}

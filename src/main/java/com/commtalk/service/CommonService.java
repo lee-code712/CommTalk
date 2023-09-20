@@ -3,7 +3,6 @@ package com.commtalk.service;
 import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.commtalk.dto.CategoryDTO;
-import com.commtalk.dto.PostPreviewDTO;
 import com.commtalk.dto.PostDTO;
-import com.commtalk.model.Attachment;
 import com.commtalk.model.Category;
 import com.commtalk.model.Post;
 import com.commtalk.repository.AttachmentRepository;
@@ -49,18 +46,6 @@ public class CommonService {
 		
 	}
 	
-	// 조회수가 많은 순으로 게시글 4개 조회
-	public String getPopularPostsByViews() throws JsonProcessingException {
-		
-		Pageable pageable = (Pageable) PageRequest.of(0, 4);
-		List<Post> posts = postRepo.findTop4ByViewsWithCommentsAndBoard(pageable);
-		List<PostPreviewDTO> postDTOs = posts.stream()
-				.map(post -> new PostPreviewDTO(post))
-				.collect(Collectors.toList());
-		
-		return JSONFactory.getJSONStringFromList(postDTOs);
-	}
-	
 	// 제목 또는 내용으로 게시글 검색
 	public String getPostsByKeyword(String keyword, Pageable pageable) throws JsonProcessingException {
 		Map<String, Object> response = new HashMap<>();
@@ -74,7 +59,6 @@ public class CommonService {
         List<PostDTO> postDTOs = new ArrayList<>();
 		for (Post post : postPages) {
 			if (!post.getIsDeleted()) {
-//				Attachment tumbnail = attachmentRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
 				postDTOs.add(new PostDTO(post));
 			}		    
 		}

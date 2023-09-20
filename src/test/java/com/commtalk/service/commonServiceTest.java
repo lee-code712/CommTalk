@@ -24,16 +24,6 @@ public class commonServiceTest {
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
-	public void testGetPopularPostsByViews() {
-		try {
-			String jsonStr = commonService.getPopularPostsByViews();
-			System.out.println(jsonStr);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Test
 	public void testGetPostsByKeyword() {

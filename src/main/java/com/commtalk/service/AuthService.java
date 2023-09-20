@@ -1,6 +1,8 @@
 package com.commtalk.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,9 +16,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.commtalk.model.Account;
+import com.commtalk.model.Board;
 import com.commtalk.model.Member;
+import com.commtalk.model.PinnedBoard;
 import com.commtalk.repository.AccountRepository;
+import com.commtalk.repository.BoardRepository;
 import com.commtalk.repository.MemberRepository;
+import com.commtalk.repository.PinnedBoardRepository;
 import com.commtalk.security.JwtTokenProvider;
 import com.commtalk.util.JSONFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,6 +35,12 @@ public class AuthService {
 	
 	@Resource
 	private MemberRepository memberRepo;
+	
+	@Resource
+	private BoardRepository boardRepo;
+	
+	@Resource
+	private PinnedBoardRepository pinnedBoardRepo;
 	
 	@Autowired
     private AuthenticationManager authenticationManager;
@@ -53,6 +65,23 @@ public class AuthService {
 			
 			Member member = new Member(map);
 			memberRepo.save(member);
+			
+			// 기본 게시판 핀 고정
+			List<Long> boardIds = new ArrayList<>();
+			boardIds.add(1L);
+			boardIds.add(2L);
+			boardIds.add(3L);
+			boardIds.add(4L);
+			
+			if (member.getId() != null) {
+				for (Long boardId : boardIds) {
+					Board board = boardRepo.findById(boardId).orElse(null);
+					if (board != null) {
+						PinnedBoard pinnedBoard = new PinnedBoard(member, board);
+						pinnedBoardRepo.save(pinnedBoard);
+					}
+				}
+			}
 			
 			response.put("status", "success");
 		}

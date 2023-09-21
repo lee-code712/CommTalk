@@ -21,6 +21,11 @@
         </div>
       </div>
     </div>
+    <div>
+      <div v-for="(image, index) in images" :key="index">
+        <img :src="'data:image/png;base64,' + image" alt="Image">
+      </div>
+    </div>
     <ModalComponent v-if="showModal" @close="showModal = false">
       <template #header>
         <div class="modal-title">나의 핀 설정하기</div>
@@ -97,7 +102,8 @@ export default {
             { title: '게시물 제목', date: '2023-08-15' }
           ]
         },
-      ]
+      ],
+      images: []
     };
   },
   computed: {
@@ -108,6 +114,8 @@ export default {
       }
       return divided;
     }
+  },
+  methods: {
   },
   created () {
     const token = localStorage.getItem('token');
@@ -126,6 +134,16 @@ export default {
       .catch(error => {
         // 오류 처리
       });
+
+      axios.get(link + '/api/attach/loadImages/1', { headers: headers })
+        .then(response => {
+          console.log(response.data)
+          // 응답 처리
+          this.images = response.data;
+        })
+        .catch(error => {
+          // 오류 처리
+        });
   }
 }
 </script>

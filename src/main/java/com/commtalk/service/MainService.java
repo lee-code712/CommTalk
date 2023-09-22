@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.commtalk.dto.PinnedBoardDTO;
 import com.commtalk.dto.PostPreviewDTO;
+import com.commtalk.dto.PostPreviewDTO3;
+import com.commtalk.model.Attachment;
 import com.commtalk.model.Board;
 import com.commtalk.model.Member;
 import com.commtalk.model.PinnedBoard;
 import com.commtalk.model.Post;
+import com.commtalk.repository.AttachmentRepository;
 import com.commtalk.repository.BoardRepository;
 import com.commtalk.repository.MemberRepository;
 import com.commtalk.repository.PinnedBoardRepository;
@@ -37,6 +40,9 @@ public class MainService {
 	
 	@Resource
 	private PostRepository postRepo;
+	
+	@Resource
+	private AttachmentRepository attachRepo;
 	
 	// 게시판 핀 고정
 	public void pinnedBoards(Long memberId, List<Long> boardIds) {
@@ -74,7 +80,7 @@ public class MainService {
 			List<PinnedBoard> pinnedBoards = pinnedBoardRepo.findByMemberId(memberId);
 			for (PinnedBoard pinnedBoard : pinnedBoards) {
 				Long boardId = pinnedBoard.getBoard().getId();
-				List<Post> posts = postRepo.findTop4ByBoardAndViewsWithCommentsAndBoard(boardId, pageable);
+				List<Post> posts = postRepo.findByBoardAndViewsWithCommentsAndBoard(boardId, pageable);
 				PinnedBoardDTO pinnedBoardDTO = new PinnedBoardDTO(pinnedBoard.getBoard(), posts);
 				pinnedBoardDTOs.add(pinnedBoardDTO);
 			}
@@ -90,7 +96,7 @@ public class MainService {
 			List<Board> boards = boardRepo.findByIdIn(boardIds);
 			for (Board board : boards) {
 				Long boardId = board.getId();
-				List<Post> posts = postRepo.findTop4ByBoardAndViewsWithCommentsAndBoard(boardId, pageable);
+				List<Post> posts = postRepo.findByBoardAndViewsWithCommentsAndBoard(boardId, pageable);
 				PinnedBoardDTO pinnedBoardDTO = new PinnedBoardDTO(board, posts);
 				pinnedBoardDTOs.add(pinnedBoardDTO);
 			}
@@ -99,11 +105,32 @@ public class MainService {
 		return JSONFactory.getJSONStringFromList(pinnedBoardDTOs);
 	}
 	
+	// 특정 게시판 조회
+	public String getPostsByBoardName(String boardName) throws JsonProcessingException {
+		
+		List<PostPreviewDTO3> postDTOs = new ArrayList<>();
+		Pageable pageable = (Pageable) PageRequest.of(0, 3);
+		
+		Board board = boardRepo.findByName(boardName);
+		if (board != null) {
+			Long boardId = board.getId();
+			List<Post> posts = postRepo.findByBoardAndViewsWithCommentsAndBoard(boardId, pageable);
+			for (Post post : posts) {
+				if (!post.getIsDeleted()) {
+					Attachment tumbnail = attachRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
+					postDTOs.add(new PostPreviewDTO3(post, tumbnail));
+				}
+			}
+		}
+		
+		return JSONFactory.getJSONStringFromList(postDTOs);
+	}
+	
 	// 전체 게시판에서 조회수가 높은 게시글 4개 조회
 	public String getPopularPostsByViews() throws JsonProcessingException {
 
 		Pageable pageable = (Pageable) PageRequest.of(0, 4);
-		List<Post> posts = postRepo.findTop4ByViewsWithCommentsAndBoard(pageable);
+		List<Post> posts = postRepo.findByViewsWithCommentsAndBoard(pageable);
 		List<PostPreviewDTO> postDTOs = posts.stream()
 				.map(post -> new PostPreviewDTO(post))
 				.collect(Collectors.toList());

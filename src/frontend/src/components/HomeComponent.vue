@@ -22,8 +22,9 @@
       </div>
     </div>
     <div>
-      <div v-for="(image, index) in images" :key="index">
-        <img :src="'data:image/png;base64,' + image" alt="Image">
+      <div v-for="post in photoPosts">
+        <span>{{ post.title }}</span>
+        <img :src="getImageUrl(post.tumbnail.fileName)" alt="Image">
       </div>
     </div>
     <ModalComponent v-if="showModal" @close="showModal = false">
@@ -103,7 +104,7 @@ export default {
           ]
         },
       ],
-      images: []
+      photoPosts: []
     };
   },
   computed: {
@@ -116,6 +117,12 @@ export default {
     }
   },
   methods: {
+    getImageUrl(fileName) {
+      const baseUrl = 'http://' + window.location.host;
+      const apiUrl = '/api/file/load/' + fileName;
+      const url = new URL(apiUrl, baseUrl);
+      return url.href;
+    }
   },
   created () {
     const token = localStorage.getItem('token');
@@ -135,11 +142,11 @@ export default {
         // 오류 처리
       });
 
-      axios.get(link + '/api/attach/loadImages/1', { headers: headers })
+      axios.get(link + '/api/main/getPosts/사진')
         .then(response => {
           console.log(response.data)
           // 응답 처리
-          this.images = response.data;
+          this.photoPosts = response.data
         })
         .catch(error => {
           // 오류 처리

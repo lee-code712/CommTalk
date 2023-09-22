@@ -54,5 +54,15 @@ public class mainServiceTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testGetPostsByBoardName() {
+		try {
+			String jsonStr = mainService.getPostsByBoardName("사진");
+			System.out.println(jsonStr);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

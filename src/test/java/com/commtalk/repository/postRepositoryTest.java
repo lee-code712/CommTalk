@@ -58,7 +58,7 @@ public class postRepositoryTest {
 	@Transactional
 	public void testSelectTop4ByViewsWithCommentsAndBoard() {
 		Pageable pageable = (Pageable) PageRequest.of(0, 4);
-		List<Post> post = postRepository.findTop4ByViewsWithCommentsAndBoard(pageable);
+		List<Post> post = postRepository.findByViewsWithCommentsAndBoard(pageable);
 		assertNotNull(post);
 	}
 	

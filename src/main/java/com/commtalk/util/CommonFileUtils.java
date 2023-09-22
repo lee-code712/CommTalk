@@ -4,15 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.io.FileInputStream;
 import java.util.List;
 import java.util.ArrayList;
 import org.apache.commons.codec.binary.Base64;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.commtalk.dto.AttachmentSimpleDTO;
@@ -21,7 +18,7 @@ import com.commtalk.model.Attachment;
 @Component
 public class CommonFileUtils {
 
-	@Value("${file.dir}")
+	@Value("${servlet.multipart.location}")
 	private String fileDirPath;
 
 	public List<Attachment> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
@@ -94,7 +91,7 @@ public class CommonFileUtils {
 		return fileDirPath + fileName + ext;
 	}
 	
-	private String createPath(String fileName) {
+	public String createPath(String fileName) {
 		return fileDirPath + fileName;
 	}
 

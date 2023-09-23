@@ -31,16 +31,12 @@ public class MainService {
 
 	@Resource
 	private PinnedBoardRepository pinnedBoardRepo;
-	
 	@Resource
 	private MemberRepository memberRepo;
-	
 	@Resource
 	private BoardRepository boardRepo;
-	
 	@Resource
 	private PostRepository postRepo;
-	
 	@Resource
 	private AttachmentRepository attachRepo;
 	

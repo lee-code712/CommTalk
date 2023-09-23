@@ -50,7 +50,7 @@ public class CommonController {
 	}
 	
 	/* 게시글 검색 */
-	@RequestMapping(value="/getSearchPosts/{keyword}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/getPosts/{keyword}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)

@@ -29,27 +29,22 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public class AuthService {
-	
-	@Resource
-	private AccountRepository accountRepo;
-	
-	@Resource
-	private MemberRepository memberRepo;
-	
-	@Resource
-	private BoardRepository boardRepo;
-	
-	@Resource
-	private PinnedBoardRepository pinnedBoardRepo;
-	
+
 	@Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-    
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    
+    @Resource
+	private AccountRepository accountRepo;
+	@Resource
+	private MemberRepository memberRepo;
+	@Resource
+	private BoardRepository boardRepo;
+	@Resource
+	private PinnedBoardRepository pinnedBoardRepo;
 	
 	public String join(Map<String, Object> map) throws JsonProcessingException {
 		Map<String, Object> response = new HashMap<>();

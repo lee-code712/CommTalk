@@ -18,6 +18,7 @@ import com.commtalk.model.Category;
 import com.commtalk.model.Post;
 import com.commtalk.repository.AttachmentRepository;
 import com.commtalk.repository.CategoryRepository;
+import com.commtalk.repository.EngagementActionRepository;
 import com.commtalk.repository.PostRepository;
 import com.commtalk.util.JSONFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,12 +28,12 @@ public class CommonService {
 	
 	@Resource
 	private CategoryRepository categoryRepo;
-	
 	@Resource
 	private PostRepository postRepo;
-	
 	@Resource
 	private AttachmentRepository attachmentRepo;
+	@Resource
+	private EngagementActionRepository engagementActionRepo;
 	
 	// 카테고리별 게시판 조회
 	public String getCategoriesWithBoards() throws JsonProcessingException {

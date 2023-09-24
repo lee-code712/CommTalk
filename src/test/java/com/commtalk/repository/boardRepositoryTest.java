@@ -44,5 +44,11 @@ public class boardRepositoryTest {
 			assertNotNull(findBoard);
 		}
 	}
+	
+	@Test
+	public void getBoardByPostName() {
+		Board board = boardRepository.findByName("사진");
+		assertNotNull(board);
+	}
 
 }

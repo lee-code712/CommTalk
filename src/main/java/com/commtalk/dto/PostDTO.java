@@ -2,7 +2,6 @@ package com.commtalk.dto;
 
 import java.text.SimpleDateFormat;
 
-import com.commtalk.model.Attachment;
 import com.commtalk.model.Post;
 
 import lombok.Data;

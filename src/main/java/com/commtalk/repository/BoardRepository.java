@@ -12,4 +12,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	List<Board> findByIdIn(List<Long> boardIds);
 	
+	
+	Board findByName(String name);
+	
 }

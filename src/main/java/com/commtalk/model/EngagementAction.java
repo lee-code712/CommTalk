@@ -36,7 +36,7 @@ public class EngagementAction {
 	private Member member;
 	
 	public enum ActionType {
-	    LIKE, SCRAP
+	    like, scrap
 	}
 	
 }

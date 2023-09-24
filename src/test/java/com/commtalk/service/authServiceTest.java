@@ -20,10 +20,10 @@ public class authServiceTest {
 	public void testJoin() {
 		try {
 			Map<String, Object> map = new HashMap<>();
-			map.put("nickname", "test1");
+			map.put("nickname", "wang");
 			map.put("password", "1234");
-			map.put("username", "김땡땡");
-			map.put("email", "test1@example.com");
+			map.put("username", "이땡땡");
+			map.put("email", "lee@example.com");
 			
 			String jsonStr = authService.join(map);
 			System.out.println(jsonStr);
@@ -36,7 +36,7 @@ public class authServiceTest {
 	public void testLogin() {
 		try {
 			Map<String, Object> map = new HashMap<>();
-			map.put("nickname", "test1");
+			map.put("nickname", "talktalk");
 			map.put("password", "1234");
 			
 			String jsonStr = authService.login(map);

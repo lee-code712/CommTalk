@@ -1,49 +1,66 @@
 .login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+.logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  width: 100%;
+  .logo {
+    width: 120px;
+    text-align: center;
+  }
+}
+
+.user-input {
+  display: flex;
+  flex-direction: column;
+  color: var(--gray70);
+
+  label {
+    margin-top: 8px;
+      font-size: 12px;
+  }
+
+  #nickname,
+  #password {
+    width: 300px;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid var(--gray40);
+    font-size: 14px;
+    outline: none;
+  }
+}
+
+  #loginBtn {
+    margin-top: 20px;
+    width: 300px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #4976EF;
+    color: #FFF;
+    border: transparent;
+
+    &:hover {
+        background-color: #496EEF;
+        cursor: pointer;
+    }
+  }
+
+  .ask-join-wrap {
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-    .login-inner {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 320px;
-        img {
-            margin-bottom: 10px;
-            width: 100px;
-        }
+    gap: 10px;
+    margin-top: 30px;
+    font-size: 12px;
 
-        input {
-            padding: 14px 20px;
-            border: 1px solid #CFD3DD;
-            border-radius: 4px;
-        }
-
-        button {
-            padding: 14px 0px;
-            background-color: #4976EF;
-            color: #FFF;
-            border: transparent;
-            border-radius: 4px;
-
-            &:hover {
-                background-color: #496EEF;
-                cursor: pointer;
-            }
-        }
-
-        .ask-join-wrap {
-            display: flex;
-            align-items: center;
-            height:34px;
-            font-size: 12px;
-            color: #c0c0c0;
-
-            &:hover {
-                color: #555;
-                cursor: pointer;
-            }
-        }
+    .join-wrap {
+      color: var(--blue100);
     }
+  }
 }

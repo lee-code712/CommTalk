@@ -13,11 +13,14 @@ import com.commtalk.model.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
-	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board ORDER BY p.views DESC")
-	List<Post> findTop4ByViewsWithCommentsAndBoard(Pageable pageable);
+	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board b ORDER BY p.views DESC")
+	List<Post> findByViewsWithCommentsAndBoard(Pageable pageable);
+	
+	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board b WHERE b.id = :boardId ORDER BY p.views DESC")
+	List<Post> findByBoardAndViewsWithCommentsAndBoard(@Param("boardId") Long boardId, Pageable pageable);
 	
 	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board b WHERE b.id = :boardId ORDER BY p.createdAt DESC")
-	List<Post> findTop4ByCreatedAtWithCommentsAndBoard(@Param("boardId") Long boardId, Pageable pageable);
+	List<Post> findByCreatedAtWithCommentsAndBoard(@Param("boardId") Long boardId, Pageable pageable);
 
 	@Query(value = "SELECT DISTINCT p FROM Post p " +
 				   "JOIN FETCH p.board b " +

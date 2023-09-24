@@ -37,6 +37,13 @@ public class Attachment {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date uploadedAt;
 	
+	public Attachment() {
+	}
+	
+	public Attachment(String fileName) {
+		this.fileName = fileName;
+	}
+	
 	@PrePersist
     protected void onCreate() {
 		uploadedAt = new Date();

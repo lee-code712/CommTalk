@@ -11,7 +11,7 @@ public class PostPreviewDTO {
 	private String title;
 	private Long views;
 	private Long likes;
-	private Long scraps;
+//	private Long scraps;
 	private BoardSimpleDTO board;
 	private int commentCnt;
 	
@@ -20,7 +20,7 @@ public class PostPreviewDTO {
 		this.title = post.getTitle();
 		this.views = post.getViews();
 		this.likes = post.getLikes();
-		this.scraps = post.getScraps();
+//		this.scraps = post.getScraps();
 		this.board = new BoardSimpleDTO(post.getBoard());
 		this.commentCnt = post.getComments().size();
 	}

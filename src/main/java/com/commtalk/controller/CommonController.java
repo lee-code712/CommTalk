@@ -49,28 +49,8 @@ public class CommonController {
 		}
 	}
 	
-	/* 인기 게시글 조회 */
-	@RequestMapping(value="/getPopularPosts", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공", response = String.class),
-		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
-	})
-	public ResponseEntity<?> getPopularPosts() {
-		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
-		ErrorMsg errors = new ErrorMsg();	
-		String response = "[]";
-
-		try {
-			response = commonSvc.getPopularPostsByViews();
-			
-			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
-		} catch (Exception e) {
-			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
-		}
-	}
-	
 	/* 게시글 검색 */
-	@RequestMapping(value="/getSearchPosts/{keyword}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/getPosts/{keyword}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)

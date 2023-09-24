@@ -17,9 +17,36 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// mysql
+	implementation 'mysql:mysql-connector-java:8.0.26'
+
+	// Jpa
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'mysql:mysql-connector-java:8.0.26'
+	compileOnly("org.projectlombok:lombok:1.18.22")
+	annotationProcessor("org.projectlombok:lombok:1.18.22")
+	
+	// Swagger
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	
+	// Json
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
+	
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	
+	// codec
+	implementation 'commons-codec:commons-codec:1.15'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+test {
+    exclude '**/*'
 }

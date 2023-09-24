@@ -43,7 +43,10 @@ public class SecurityConfig {
 	        .antMatchers("/api/auth/**", 
 	        		"/api/common/**",
 	        		"/api/post/getPostsByBoard/**",
-	        		"/api/post/getPostDetail/**").permitAll() // 인증 불필요 URI
+	        		"/api/post/getPostDetail/**",
+	        		"/api/main/getPopularPosts/**",
+	        		"/api/main/getPosts/**",
+	        		"/api/file/**").permitAll() // 인증 불필요 URI
 	        .antMatchers("/api/**").authenticated()   // 인증 필요 URI
 	        .anyRequest().permitAll();
 

@@ -24,22 +24,12 @@ public class commonServiceTest {
 			e.printStackTrace();
 		}
 	}
-	
-	@Test
-	public void testGetPopularPostsByViews() {
-		try {
-			String jsonStr = commonService.getPopularPostsByViews();
-			System.out.println(jsonStr);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Test
 	public void testGetPostsByKeyword() {
 		try {
-			Pageable pageable = (Pageable) PageRequest.of(0, 10);
-			String jsonStr = commonService.getPostsByKeyword("2", pageable);
+			Pageable pageable = (Pageable) PageRequest.of(1, 1);
+			String jsonStr = commonService.getPostsByKeyword("글", pageable);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

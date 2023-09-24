@@ -27,10 +27,8 @@ public class PostService {
 	
 	@Resource
 	private PostRepository postRepo;
-	
 	@Resource
 	private AttachmentRepository attachmentRepo;
-	
 	@Resource
 	private PostHashtagRepository postHashtagRepo;
 	

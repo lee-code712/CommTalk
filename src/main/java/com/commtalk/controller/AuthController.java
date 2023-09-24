@@ -1,5 +1,7 @@
 package com.commtalk.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.commtalk.controller.exception.ErrorMsg;
 import com.commtalk.controller.exception.ExceptionUtils;
 import com.commtalk.service.AuthService;
+import com.commtalk.service.MainService;
 
 @RestController
 @RequestMapping(value="/api/auth")
@@ -23,7 +26,7 @@ public class AuthController {
 	
 	@Resource
 	private AuthService authSvc;
-    
+	
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody Map<String, Object> command) {
     	MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();

@@ -28,5 +28,13 @@ public class PinnedBoard {
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
 	private Board board;
+	
+	public PinnedBoard() {
+	}
+	
+	public PinnedBoard(Member member, Board board) {
+		this.member = member;
+		this.board = board;
+	}
 
 }

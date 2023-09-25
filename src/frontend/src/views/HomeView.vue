@@ -10,7 +10,9 @@
           <section>
             <div class="section-header">
               <strong class="main-title">갤러리</strong>
-              <div class="more">+ 더 보기</div>
+              <router-link :to="'/list?boardId=' + '17'">
+                <div class="more">더 보기<img src="@/assets/images/fi-rr-angle-small-right.png"/></div>
+              </router-link>
             </div>
             <div class="section-body">
               <div class="gallery-container">
@@ -40,22 +42,26 @@
             </div>
             <div class="section-body">
               <div class="board-box-wrap">
-                <div class="board-box" v-for="(board, boardIndex) in boards" :key="boardIndex">
+                <div class="board-box" v-for="(pinnedBoard, pinnedBoardIndex) in pinnedBoards" :key="pinnedBoardIndex">
                   <div class="board-box-header">
-                    <div class="board-name">{{ board.boardName }}</div>
-                    <div class="more">+ 더 보기</div>
+                    <div class="board-name">{{ pinnedBoard.board.boardName }}</div>
+                    <router-link :to="'/list?boardId=' + pinnedBoard.board.boardId">
+                    <div class="more">더 보기<img src="@/assets/images/fi-rr-angle-small-right.png"/></div>
+                    </router-link>
                   </div>
 
                   <div class="board-box-body">
                     <ul>
-                      <li v-for="(item, itemIndex) in board.items" :key="itemIndex">
-                        <div class="board-list-box">
-                          <div class="title">{{ item.title }}</div>
-                          <div class="comment-wrap">
-                            <img src="@/assets/images/fi-rr-comment.png"/>
-                            <div>{{ item.comment }}</div>
-                          </div>
-                        </div>
+                      <li v-for="(post, postIndex) in pinnedBoard.posts" :key="postIndex">
+                         <router-link :to="'/detail?postId=' + post.postId">
+                            <div class="board-list-box">
+                              <div class="title">{{ post.title }}</div>
+                              <div class="comment-wrap">
+                                <img src="@/assets/images/fi-rr-comment.png"/>
+                                <div>{{ post.commentCnt }}</div>
+                              </div>
+                            </div>
+                          </router-link>
                       </li>
                     </ul>
                   </div>
@@ -68,8 +74,10 @@
             <div class="multi-box-wrap">
               <div class="item-box">
                 <div class="section-header">
-                  <strong class="main-title">반려동물</strong>
-                  <div class="more">+ 더 보기</div>
+                  <strong class="main-title">여행</strong>
+                  <router-link :to="'/list?boardId=' + '6'">
+                  <div class="more">더 보기<img src="@/assets/images/fi-rr-angle-small-right.png"/></div>
+                  </router-link>
                 </div>
                 <div class="section-body">
                   <div class="pet-container">
@@ -92,7 +100,9 @@
               <div class="item-box">
                 <div class="section-header">
                   <strong class="main-title">패션</strong>
-                  <div class="more">+ 더 보기</div>
+                  <router-link :to="'/list?boardId=' + '11'">
+                  <div class="more">더 보기<img src="@/assets/images/fi-rr-angle-small-right.png"/></div>
+                  </router-link>
                 </div>
                 <div class="section-body">
                   <div class="fasion-container">
@@ -139,6 +149,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import ModalComponent from "@/components/ModalComponent.vue";
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import RightContent from "@/components/layout/RightContent.vue";
@@ -156,6 +168,7 @@ import FooterLayout from "@/components/layout/FooterLayout.vue";
     },
     data() {
       return {
+        pinnedBoards: [],
         galleries: [
           {imgsrc: require("@/assets/images/sampleimg.png"), txt: '장원영'},
           {imgsrc: require("@/assets/images/sampleimg2.png"), txt: 'nct'},
@@ -215,6 +228,29 @@ import FooterLayout from "@/components/layout/FooterLayout.vue";
           },
         ],
       };
+    },
+    created() {
+        this.getPinnedBoards();
+    },
+    methods: {
+        getPinnedBoards() {
+            const token = localStorage.getItem('token');
+      var link = 'http://' + window.location.host;
+      var headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+      
+        axios
+        .get(link + '/api/main/getPinnedBoards', { headers: headers })
+        .then(response => {
+          this.pinnedBoards = response.data;
+          console.log(this.pinnedBoards);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+        }
     }
   }
 </script>

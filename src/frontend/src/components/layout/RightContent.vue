@@ -22,7 +22,9 @@
               <div class="comment">[{{ popularPost.commentCnt }}]</div>
             </div>
             <div class="view-like-wrap">
-              {{ popularPost.board.boardName }} | <img src="@/assets/images/fi-rr-eye.png"/> {{ popularPost.views }} | <img src="@/assets/images/fi-rr-thumbs-up.png"/> {{ popularPost.likes }}
+              {{ popularPost.board.boardName }} 
+              <div class="view-wrap"><img src="@/assets/images/fi-rr-eye.png"/> {{ popularPost.views }}</div>
+              <div class="like-wrap"><img src="@/assets/images/fi-rr-thumbs-up.png"/> {{ popularPost.likes }}</div>
             </div>
           </div>
          </router-link>
@@ -57,7 +59,6 @@ import axios from 'axios';
         .get(link + '/api/main/getPopularPosts', { headers: headers })
         .then(response => {
           this.popularPosts = response.data;
-          console.log(this.popularPosts);
         })
         .catch(err => {
           console.log(err);

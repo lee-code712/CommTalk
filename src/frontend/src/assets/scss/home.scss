@@ -21,6 +21,7 @@
         .more {
           font-size: 12px;
           color: var(--gray60);
+        
         }
       }
     }
@@ -36,8 +37,15 @@
       }
 
       .more {
+          display: flex;
+          align-items: center;
         font-size: 12px;
         color: var(--gray70);
+          
+          img {
+              width: 16px;
+              height: 16px;
+          }
       }
 
       .setting-pin {
@@ -164,8 +172,15 @@
           }
 
           .more {
+              display: flex;
+              align-items: center;
             font-size: 12px;
             color: var(--gray70);
+            
+            img {
+              width: 16px;
+              height: 16px;
+          }
           }
         }
         

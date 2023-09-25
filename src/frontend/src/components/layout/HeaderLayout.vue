@@ -12,7 +12,9 @@
       </div>
 
       <div class="gnb">
+<router-link :to="'/login'" class="router-link-class">
         <button type="button" class="login-btn">로그인</button>
+</router-link>
       </div>
     </div>
   </div>

@@ -13,7 +13,10 @@
         margin-bottom: 10px;
         font-size: 14px;
       }
-
+      
+		.router-link-class {
+        width: 100%;
+        
       .login-button {
         padding: 12px 0px;
         width: 100%;
@@ -27,6 +30,7 @@
           cursor: pointer;
         }
       }
+    }
     }
 
     .category-wrap {
@@ -65,18 +69,19 @@
         list-style: none;
 
         li {
+			
+          margin-bottom: 14px;
+          .router-link-class{
           display: flex;
           align-items: center;
           gap: 18px;
-
-          margin-bottom: 14px;
-
+          color: var(--color_primary);
           .num {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 18px;
-            heigth: 18px;
+            height: 18px;
             font-size: 24px;
             font-weight: bold;
 
@@ -93,6 +98,7 @@
 
             .title-comment-wrap {
               display: flex;
+              align-items: center;
               gap: 8px;
               .comment {
                 font-size: 12px;
@@ -114,6 +120,7 @@
             }
           }
         }
+      }
       }
     }
   }

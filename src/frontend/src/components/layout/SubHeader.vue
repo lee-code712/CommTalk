@@ -12,7 +12,7 @@
           </span>
           <ul class="depth2">
             <li v-for="(board, boardIndex) in category.boards" :key="boardIndex">
-              <router-link :to="'/list?idx=' + board.boardId" class="router-link-class">
+              <router-link :to="'/list?boardId=' + board.boardId" class="router-link-class">
                 {{ board.boardName }}
               </router-link>
             </li>

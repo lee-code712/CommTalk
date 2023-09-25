@@ -2,8 +2,9 @@
   <div class="header">
     <div class="header-inner">
       <div class="logo-search-wrap">
+<router-link to="/">
         <img style="width: 80px;" src="@/assets/images/logo.png" />
-
+</router-link>
         <div className="search-wrap">
           <input type="search" placeholder="검색어를 입력하세요."/>
           <img style="width: 20px; height: 20px;" src="@/assets/images/fi-rr-search.png"/>

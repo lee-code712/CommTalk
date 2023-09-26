@@ -105,7 +105,10 @@ public class MainService {
 	public String getPostsByBoardName(String boardName) throws JsonProcessingException {
 		
 		List<PostPreviewDTO3> postDTOs = new ArrayList<>();
-		Pageable pageable = (Pageable) PageRequest.of(0, 3);
+		Pageable pageable = (Pageable) PageRequest.of(0, 2);
+		if (boardName.equals("사진")) {
+			pageable = (Pageable) PageRequest.of(0, 3);
+		}
 		
 		Board board = boardRepo.findByName(boardName);
 		if (board != null) {
@@ -113,8 +116,11 @@ public class MainService {
 			List<Post> posts = postRepo.findByBoardAndViewsWithCommentsAndBoard(boardId, pageable);
 			for (Post post : posts) {
 				if (!post.getIsDeleted()) {
-					Attachment tumbnail = attachRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
-					postDTOs.add(new PostPreviewDTO3(post, tumbnail));
+					Attachment thumbnail = attachRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
+					if (thumbnail == null) {
+						thumbnail = attachRepo.findByFileName("default.jpg");
+					}
+					postDTOs.add(new PostPreviewDTO3(post, thumbnail));
 				}
 			}
 		}

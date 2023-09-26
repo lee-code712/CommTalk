@@ -24,7 +24,7 @@
     <div>
       <div v-for="post in photoPosts">
         <span>{{ post.title }}</span>
-        <img :src="getImageUrl(post.tumbnail.fileName)" alt="Image">
+        <img :src="getImageUrl(post.thumbnail.fileName)" alt="Image">
       </div>
     </div>
     <ModalComponent v-if="showModal" @close="showModal = false">
@@ -142,7 +142,7 @@ export default {
         // 오류 처리
       });
 
-      axios.get(link + '/api/main/getPosts/사진')
+      axios.get(link + '/api/main/getPosts/패션')
         .then(response => {
           console.log(response.data)
           // 응답 처리

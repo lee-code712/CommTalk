@@ -18,8 +18,8 @@ public class postServiceTest {
 	@Test
 	public void getPostsByBoard() {
 		try {
-			Pageable pageable = (Pageable) PageRequest.of(0, 1);
-			String jsonStr = postService.getPostsByBoard(1L, pageable);
+			Pageable pageable = (Pageable) PageRequest.of(0, 2);
+			String jsonStr = postService.getPostsByBoard(1L, 10L, pageable);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

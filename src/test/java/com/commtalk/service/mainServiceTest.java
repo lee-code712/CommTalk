@@ -19,7 +19,7 @@ public class mainServiceTest {
 	MainService mainService;
 	
 	@Test
-	public void testpinnedBoards() {
+	public void testPinnedBoards() {
 		try {
 			List<Long> boardIds = new ArrayList<>();
 			boardIds.add(3L);
@@ -58,7 +58,7 @@ public class mainServiceTest {
 	@Test
 	public void testGetPostsByBoardName() {
 		try {
-			String jsonStr = mainService.getPostsByBoardName("사진");
+			String jsonStr = mainService.getPostsByBoardName("패션");
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

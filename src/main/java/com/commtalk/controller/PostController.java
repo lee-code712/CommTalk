@@ -1,7 +1,10 @@
 package com.commtalk.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import com.commtalk.security.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -27,20 +30,24 @@ public class PostController {
 
 	@Resource
 	private PostService postSvc;
-	
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+
 	/* 선택한 게시판의 게시글 리스트 조회 */
 	@RequestMapping(value="/getPostsByBoard/{boardId}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
 	})
-	public ResponseEntity<?> getPostsByBoard(@PathVariable Long boardId, @PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<?> getPostsByBoard(HttpServletRequest request, @PathVariable Long boardId,
+											 @PageableDefault(size = 10) Pageable pageable) {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";
 
+		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
-			response = postSvc.getPostsByBoard(boardId, pageable);
+			response = postSvc.getPostsByBoard(boardId, memberId, pageable);
 			
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
 		} catch (Exception e) {

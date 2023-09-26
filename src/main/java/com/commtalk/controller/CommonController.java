@@ -2,7 +2,10 @@
 package com.commtalk.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import com.commtalk.security.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,8 @@ public class CommonController {
 	
 	@Resource
 	private CommonService commonSvc;
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	/* 메뉴(카테고리별 게시판) 조회 */
 	@RequestMapping(value="/getCategories", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -55,14 +60,15 @@ public class CommonController {
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
 	})
-	public ResponseEntity<?> getSearchPosts(@PathVariable String keyword, 
-			@PageableDefault(size = 10) Pageable pageable) {
+	public ResponseEntity<?> getSearchPosts(HttpServletRequest request, @PathVariable String keyword,
+											@PageableDefault(size = 10) Pageable pageable) {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";
 
+		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
-			response = commonSvc.getPostsByKeyword(keyword, pageable);
+			response = commonSvc.getPostsByKeyword(keyword, memberId, pageable);
 			
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
 		} catch (Exception e) {

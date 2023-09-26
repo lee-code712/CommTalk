@@ -2,6 +2,7 @@ package com.commtalk.service;
 
 import javax.annotation.Resource;
 
+import com.commtalk.model.EngagementAction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class CommonService {
 	}
 	
 	// 제목 또는 내용으로 게시글 검색
-	public String getPostsByKeyword(String keyword, Pageable pageable) throws JsonProcessingException {
+	public String getPostsByKeyword(String keyword, Long memberId, Pageable pageable) throws JsonProcessingException {
 		Map<String, Object> response = new HashMap<>();
 		
 		Page<Post> postPages = postRepo.findByTitleOrContent(keyword, pageable);
@@ -58,10 +59,31 @@ public class CommonService {
 		response.put("next", postPages.nextPageable());
         
         List<PostDTO> postDTOs = new ArrayList<>();
-		for (Post post : postPages) {
-			if (!post.getIsDeleted()) {
-				postDTOs.add(new PostDTO(post));
-			}		    
+		if (memberId != null) {
+			boolean isLiked = false;
+			boolean isScraped = false;
+
+			for (Post post : postPages) {
+				if (!post.getIsDeleted()) {
+					List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndPostId(memberId, post.getId());
+					for (EngagementAction engagementAction : engagementActions) {
+						if (engagementAction.getAction() == EngagementAction.ActionType.like) {
+							isLiked = true;
+						}
+						else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
+							isScraped = true;
+						}
+					}
+					postDTOs.add(new PostDTO(post, isLiked, isScraped));
+				}
+			}
+		}
+		else {
+			for (Post post : postPages) {
+				if (!post.getIsDeleted()) {
+					postDTOs.add(new PostDTO(post, false, false));
+				}
+			}
 		}
 		response.put("posts", postDTOs);
 		

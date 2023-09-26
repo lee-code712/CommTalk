@@ -20,9 +20,9 @@
                   <li v-for="(gallery, index) in galleries" :key="index">
                     <div class="img-box-wrap">
                       <div class="img-box">
-                        <img :src="gallery.imgsrc" />
+                        <img src="getImageUrl(gallery.tumbnail.fileName)"/>
                       </div>
-                      <div class="img-txt">{{ gallery.txt.length > 18 ? gallery.txt.slice(0, 18) + '...' : gallery.txt }}</div>
+                      <div class="img-txt">{{ gallery.title.length > 18 ? gallery.title.slice(0, 18) + '...' : gallery.title }}</div>
                     </div>
                   </li>
                 </ul>
@@ -82,13 +82,13 @@
                 <div class="section-body">
                   <div class="pet-container">
                     <ul>
-                      <li v-for="(pet, index) in pets" :key="index">
+                      <li v-for="(trip, index) in trips" :key="index">
                         <div class="img-box-wrap">
                           <div class="img-box">
-                            <img :src=pet.imgsrc />
+                              <img src="getImageUrl(trip.tumbnail.fileName)"/>
                           </div>
                           <div class="img-txt">
-                            {{ pet.txt.length > 12 ? pet.txt.slice(0, 12) + '...' : pet.txt }}
+                            {{ trip.title.length > 12 ? trip.title.slice(0, 12) + '...' : trip.title }}
                           </div>
                         </div>
                       </li>
@@ -110,10 +110,10 @@
                       <li v-for="(fashion, index) in fashions" :key="index">
                         <div class="img-box-wrap">
                           <div class="img-box">
-                            <img :src=fashion.imgsrc />
+                              <img src="getImageUrl(fashion.tumbnail.fileName)"/>
                           </div>
                           <div class="img-txt">
-                            {{ fashion.txt.length > 12 ? fashion.txt.slice(0, 12) + '...' : fashion.txt }}
+                            {{ fashion.title.length > 12 ? fashion.title.slice(0, 12) + '...' : fashion.title }}
                           </div>
                         </div>
                       </li>
@@ -138,10 +138,10 @@
         </template>
         <div>
           <div class="desc">아래에서 선택한 최대 8개의 게시판을 메인화면에 고정할 수 있습니다.</div>
-
+    
           <div v-for="(checkbox, index) in checkboxes" :key="index">
             <input type="checkbox" :id="'checkbox-'+ index" v-model="checkbox.checked" />
-            <label :for="'checkbox-' + index">{{ checkbox.label }}</label>
+            <label :for="'checkbox-' + index"> {{ checkbox.label }}</label>
           </div>
         </div>
       </ModalComponent>
@@ -150,109 +150,97 @@
 
 <script>
 import axios from 'axios';
-
 import ModalComponent from "@/components/ModalComponent.vue";
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import RightContent from "@/components/layout/RightContent.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
 import FooterLayout from "@/components/layout/FooterLayout.vue";
 
-  export default {
-    name: 'TestView',
-    components: {
-      HeaderLayout,
-      RightContent,
-      SubHeader,
-      FooterLayout,
-      ModalComponent,
-    },
-    data() {
+export default {
+  name: 'TestView',
+  components: {
+    HeaderLayout,
+    RightContent,
+    SubHeader,
+    FooterLayout,
+    ModalComponent,
+  },
+  data() {
       return {
         pinnedBoards: [],
-        galleries: [
-          {imgsrc: require("@/assets/images/sampleimg.png"), txt: '장원영'},
-          {imgsrc: require("@/assets/images/sampleimg2.png"), txt: 'nct'},
-          {imgsrc: require("@/assets/images/sampleimg3.png"), txt: '엔믹스'},
-        ],
-        pets: [
-          {imgsrc: require("@/assets/images/sampleimg.png"), txt: '토끼ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㄴㅇㅇㅇㅇㅇㅇㅇㅇ'},
-          {imgsrc: require("@/assets/images/sampleimg2.png"), txt: '고양이'}
-        ],
-        fashions: [
-          {imgsrc: require("@/assets/images/sampleimg3.png"), txt: '토끼ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㄴㅇㅇㅇㅇㅇㅇㅇㅇ'},
-          {imgsrc: require("@/assets/images/sampleimg2.png"), txt: '고양이'}
-        ],
+        galleries: [],   // Initialize as an empty array
+        trips: [],       // Initialize as an empty array
+        fashions: [],    // Initialize as an empty array
         showModal: false,
-        checkboxes: [
-          { label: "게시판 1", checked: false },
-          { label: "게시판 2", checked: false },
-          { label: "게시판 3", checked: false },
-          { label: "게시판 4", checked: false },
-        ],
-        boards: [
-          {
-            boardName: "자유게시판",
-            items: [
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-            ],
-          },
-          {
-            boardName: "자유게시판",
-            items: [
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-            ],
-          },
-           {
-            boardName: "자유게시판",
-            items: [
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-            ],
-          },
-           {
-            boardName: "자유게시판",
-            items: [
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-              { title: "게시판 제목", comment: "10"},
-              { title: "게시판 제목", comment: "20"},
-            ],
-          },
-        ],
+        checkboxes: [],
+        link: '',
+        boards: []
       };
     },
-    created() {
-        this.getPinnedBoards();
-    },
-    methods: {
-        getPinnedBoards() {
-            const token = localStorage.getItem('token');
-      var link = 'http://' + window.location.host;
-      var headers = {
+  created() {
+    this.setupHeaders();
+    this.getPinnedBoards();
+    this.getPosts('여행', 'trips');
+    this.getPosts('사진', 'galleries');
+    this.getPosts('패션', 'fashions');
+    this.getBoards();
+  },
+  methods: {
+    setupHeaders() {
+      const token = localStorage.getItem('token');
+      this.link = 'http://' + window.location.host;
+      this.headers = {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
-      
-        axios
-        .get(link + '/api/main/getPinnedBoards', { headers: headers })
+    },
+    getImageUrl(fileName) {
+      const baseUrl = 'http://' + window.location.host;
+      const apiUrl = '/api/file/load/' + fileName;
+      const url = new URL(apiUrl, baseUrl);
+      return url.href;
+    },
+    getPinnedBoards() {
+      axios
+        .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
         .then(response => {
           this.pinnedBoards = response.data;
-          console.log(this.pinnedBoards);
         })
         .catch(err => {
           console.log(err);
         });
-        }
-    }
+    },
+    getPosts(category, targetArray) {
+      axios.get(this.link + `/api/main/getPosts/${category}`, { headers: this.headers })
+        .then(response => {
+          this[targetArray] = response.data;
+          console.log(`${category}###`);
+          console.log(this[targetArray]);
+        })
+        .catch(err => {
+          console.error(`Error fetching posts for category ${category}:`, err);
+        });
+    },
+    getBoards() {
+      axios
+        .get(this.link + '/api/common/getCategories', { headers: this.headers })
+        .then((response) => {
+          // response.data에서 boards 배열 추출
+          const boardsArray = response.data.map((category) => category.boards).flat();
+          
+          // boards 배열의 각 요소를 순회하면서 checkboxes에 항목을 추가
+          boardsArray.forEach((board) => {
+            console.log("@@@@");
+            console.log(board);
+            this.checkboxes.push({ label: board.boardName, checked: false });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   }
+}
 </script>
 
 <style lang="scss">

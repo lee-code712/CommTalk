@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.commtalk.model.EngagementAction;
+import com.commtalk.repository.EngagementActionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,9 +33,11 @@ public class PostService {
 	private AttachmentRepository attachmentRepo;
 	@Resource
 	private PostHashtagRepository postHashtagRepo;
+	@Resource
+	private EngagementActionRepository engagementActionRepo;
 	
 	// 특정 게시판의 게시글 조회
-	public String getPostsByBoard(Long boardId, Pageable pageable) throws JsonProcessingException {
+	public String getPostsByBoard(Long boardId, Long memberId, Pageable pageable) throws JsonProcessingException {
 		Map<String, Object> response = new HashMap<String, Object>();
 		
 		Page<Post> postPages = postRepo.findByBoardOrderByCreatedAt(boardId, pageable);
@@ -43,11 +47,31 @@ public class PostService {
 		response.put("next", postPages.nextPageable());
         
         List<PostDTO> postDTOs = new ArrayList<>();
-		for (Post post : postPages) {
-			if (!post.getIsDeleted()) {
-//				Attachment tumbnail = attachmentRepo.findTop1ByPostIdOrderByUploadedAtAsc(post.getId());
-				postDTOs.add(new PostDTO(post));
-			}		    
+		if (memberId != null) {
+			boolean isLiked = false;
+			boolean isScraped = false;
+
+			for (Post post : postPages) {
+				if (!post.getIsDeleted()) {
+					List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndPostId(memberId, post.getId());
+					for (EngagementAction engagementAction : engagementActions) {
+						if (engagementAction.getAction() == EngagementAction.ActionType.like) {
+							isLiked = true;
+						}
+						else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
+							isScraped = true;
+						}
+					}
+					postDTOs.add(new PostDTO(post, isLiked, isScraped));
+				}
+			}
+		}
+		else {
+			for (Post post : postPages) {
+				if (!post.getIsDeleted()) {
+					postDTOs.add(new PostDTO(post, false, false));
+				}
+			}
 		}
 		response.put("posts", postDTOs);
 

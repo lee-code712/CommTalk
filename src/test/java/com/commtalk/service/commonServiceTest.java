@@ -29,7 +29,7 @@ public class commonServiceTest {
 	public void testGetPostsByKeyword() {
 		try {
 			Pageable pageable = (Pageable) PageRequest.of(1, 1);
-			String jsonStr = commonService.getPostsByKeyword("글", pageable);
+			String jsonStr = commonService.getPostsByKeyword("글", null, pageable);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

@@ -1,0 +1,152 @@
+.list-view {
+
+    .full-container {
+        margin: 0 auto;
+        width: 1200px;
+    .sub-top-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .board-name {
+            font-size: 22px;
+            color: var(--color_primary);
+        }
+
+        .search-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 10px;
+            width: 240px;
+            border: 1px solid var(--gray30);
+            border-radius: 4px;
+
+            input {
+                width: 100%;
+                border: none;
+            }
+
+            img {
+                width: 14px;
+                height: 14px;
+            }
+        }
+    }
+
+    .list-wrap {
+        margin-top: 40px;
+        .list {
+            padding: 32px 30px;
+            border-top: 1px solid var(--gray30);
+
+            &:last-child {
+                border-bottom: 1px solid var(--gray30);
+            }
+
+            &:hover {
+                .title {
+                    text-decoration: underline;
+                }
+                cursor: pointer;
+            }
+            .list-title-wrap {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .title {
+                    font-size: 20px;
+                    color: var(--color_primary);
+                }
+
+                img {
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+
+            .list-content {
+                margin: 12px 0px 20px 0px;
+                font-size: 14px;
+                color: var(--color_secondary);
+            }
+
+            .list-detail-info {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--gray70);
+
+                .comment-like-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    font-size: 12px;
+
+                    .comment-box,
+                    .like-box,
+                    .view-box {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+                }
+
+                .writer-date-wrap {
+                    display: flex;
+                    gap: 10px;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+
+    .paging-wrap {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        width: 100%;
+        font-size: 13px;
+        .paging-inner {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            .paging-num-wrap {
+                display: flex;
+                gap: 10px;
+
+                div {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 5px;
+                    &.on {
+
+                        border: 1px solid var(--gray60);
+                    }
+                }
+            }
+        }
+    }
+
+    .btn-wrap {
+        margin-top: 20px;
+        .write-btn {
+            padding: 10px 20px;
+            background-color: #FFF;
+            color: var(--color_primary);
+            font-size: 14px;
+            border: 1px solid var(--gray30);
+            border-radius: 4px;
+
+            &:hover {
+                background-color: var(--gray10);
+                cursor: pointer;
+            }
+        }
+    }
+}
+}

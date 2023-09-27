@@ -1,0 +1,31 @@
+<template>
+  <div class="header">
+    <div class="header-inner">
+      <div class="logo-search-wrap">
+<router-link to="/">
+        <img style="width: 80px;" src="@/assets/images/logo.png" />
+</router-link>
+        <div className="search-wrap">
+          <input type="search" placeholder="검색어를 입력하세요."/>
+          <img style="width: 20px; height: 20px;" src="@/assets/images/fi-rr-search.png"/>
+        </div>
+      </div>
+
+      <div class="gnb">
+<router-link :to="'/login'" class="router-link-class">
+        <button type="button" class="login-btn">로그인</button>
+</router-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+    name: 'HeaderLayout',
+}
+</script>
+
+<style lang="scss">
+@import "@/assets/scss/header.scss";
+</style>

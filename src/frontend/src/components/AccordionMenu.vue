@@ -2,21 +2,21 @@
   <div class="accordion-menu">
     <div v-for="(category, index) in categories" :key="index" class="accordion-item">
       <div class="accordion-header" @click="toggleAccordion(index)">
-        {{ category.categoryName }}
-        <span :class="['accordion-icon', { 'expanded': expanded[index] }]">
-          {{ expanded[index] ? '-' : '+' }}
+        {{ category.name }}
+        <span :class="['accordion-icon', { 'expanded': category.expanded }]">
+          {{ category.expanded ? '-' : '+' }}
         </span>
       </div>
-      <div v-if="expanded[index]" class="accordion-content">
+      <div v-if="category.expanded" class="accordion-content">
         <div class="sub-items">
           <div class="column">
             <ul>
-              <li v-for="(board, itemIndex) in category.boards.slice(0, Math.ceil(category.boards.length / 2))" :key="itemIndex">{{ board.boardName }}</li>
+              <li v-for="(item, itemIndex) in category.items.slice(0, Math.ceil(category.items.length / 2))" :key="itemIndex">{{ item }}</li>
             </ul>
           </div>
           <div class="column">
             <ul>
-              <li v-for="(board, itemIndex) in category.boards.slice(Math.ceil(category.boards.length / 2))" :key="itemIndex">{{ board.boardName }}</li>
+              <li v-for="(item, itemIndex) in category.items.slice(Math.ceil(category.items.length / 2))" :key="itemIndex">{{ item }}</li>
             </ul>
           </div>
         </div>
@@ -31,7 +31,6 @@ export default {
   props: {
     categories: Array,
     updateCategory: Function,
-    expanded: Array
   },
   methods: {
     toggleAccordion(index) {

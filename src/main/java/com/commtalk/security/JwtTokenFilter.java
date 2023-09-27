@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 //Request 이전에 1회 작동할 필터
 public class JwtTokenFilter extends OncePerRequestFilter {
 	
-	private JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
 		this.jwtTokenProvider = jwtTokenProvider;

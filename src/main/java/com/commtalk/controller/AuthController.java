@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +58,5 @@ public class AuthController {
 			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
 		}
     }
-    
+
 }

@@ -142,6 +142,20 @@ export default {
         // 오류 처리
       });
 
+      const paging = {
+        params: {
+          page: 0
+        }
+      }
+      axios.get(link + '/api/post/getPostsByBoard/1', paging, { headers: headers })
+            .then(response => {
+              console.log(response.data)
+              // 응답 처리
+            })
+            .catch(error => {
+              // 오류 처리
+            });
+
       axios.get(link + '/api/main/getPosts/패션')
         .then(response => {
           console.log(response.data)

@@ -60,9 +60,11 @@
                 </div>
             </div>
 
-            <div class="btn-wrap">
-            <button class="write-btn">글쓰기</button>
-            </div>
+<div class="btn-wrap">
+    <router-link :to="'/edit?boardId=' + boardId" class="router-link-class">
+      <button class="write-btn">글쓰기</button>
+    </router-link>
+  </div>
         </div>
         <FooterLayout/>
       </div>
@@ -71,27 +73,29 @@
 <script>
 import axios from 'axios';
 
-  import HeaderLayout from '@/components/layout/HeaderLayout.vue'
-  import SubHeader from '@/components/layout/SubHeader.vue'
-  import FooterLayout from '@/components/layout/FooterLayout.vue'
+import HeaderLayout from '@/components/layout/HeaderLayout.vue';
+import SubHeader from '@/components/layout/SubHeader.vue';
+import FooterLayout from '@/components/layout/FooterLayout.vue';
 
-  export default {
-    name: 'ListView',
-    components: {
-      HeaderLayout,
-      SubHeader,
-      FooterLayout
-    },
-    data() {
-      return {
-          boards: [],
-      };
-    },
-    created() {
-        this.setupHeaders();
-        this.getPostsByBoard();
-    },
-    methods: {
+export default {
+  name: 'ListView',
+  components: {
+    HeaderLayout,
+    SubHeader,
+    FooterLayout,
+  },
+  data() {
+    return {
+      boards: [],
+      boardId: null, // Initialize boardId to null
+    };
+  },
+  created() {
+    this.setupHeaders();
+    this.getPostsByBoard();
+    this.boardId = this.$route.query.boardId; // Get boardId from the URL query parameter
+  },
+  methods: {
     setupHeaders() {
       const token = localStorage.getItem('token');
       this.link = 'http://' + window.location.host;
@@ -100,32 +104,31 @@ import axios from 'axios';
         'Content-Type': 'application/json',
       };
     },
-        changeImg(index) {
-        if (this.boards[index].imgName === 'fi-rr-bookmark') {
-            this.boards[index].imgName = 'fi-sr-bookmark';
-        } else {
-            this.boards[index].imgName = 'fi-rr-bookmark';
-        }
-        },
+    changeImg(index) {
+      if (this.boards[index].imgName === 'fi-rr-bookmark') {
+        this.boards[index].imgName = 'fi-sr-bookmark';
+      } else {
+        this.boards[index].imgName = 'fi-rr-bookmark';
+      }
+    },
     getPostsByBoard() {
-        const data = {
-            params: {
-                page: 0
-            }
-        }
-        axios
+      const data = {
+        params: {
+          page: 0,
+        },
+      };
+      axios
         .get(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
         .then(response => {
-            
           this.boards = response.data;
-            console.log(response.data);
+          console.log(response.data);
         })
         .catch(err => {
           console.log(err);
         });
     },
-    }
-  }
+  },
+};
 </script>
 
 <style scoped lang="scss">

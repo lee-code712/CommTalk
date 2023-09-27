@@ -10,15 +10,7 @@
             <input type="text" placeholder="제목" />
           </div>
           <div class="content">
-            <textarea placeholder="내용"></textarea>
-
-            <div class="image-preview">
-              <div class="image-preview-inner" v-for="(image, index) in imagePreviews" :key="index">
-                <img :src="image.previewURL" alt="Preview" />
-                <div class="img-name">{{ image.name }}</div>
-                <button @click="removeImage(index)">삭제</button>
-              </div>
-            </div>
+        <div id="editor"></div>
           </div>
 
           <div class="hashtag-wrap">
@@ -41,7 +33,6 @@
                 <input type="checkbox" id="customCheckbox">
                 <label for="customCheckbox">익명</label>
             </div>
-              <input type="file" ref="fileInput" multiple @change="handleFileChange" />
             </div>
 
             <div class="btn-wrap">
@@ -56,6 +47,8 @@
 </template>
 
 <script>
+import Editor from '@toast-ui/editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
 import FooterLayout from "@/components/layout/FooterLayout.vue";
@@ -64,10 +57,18 @@ export default {
   name: 'EditView',
   data() {
     return {
-      imagePreviews: [],
       newHashtag: '',
-      hashtags: []
+      hashtags: [],
+      editor: null
     };
+  },
+  mounted() {
+      this.editor = new Editor({
+        el: document.querySelector("#editor"),
+        height: '500px',
+        initialEditType: 'markdown',
+        previewStyle: 'vertical' 
+      });
   },
   components: {
     HeaderLayout,
@@ -87,29 +88,6 @@ export default {
     removeHashtag(index) {
       this.hashtags.splice(index, 1);
     },
-    handleFileChange(event) {
-      const files = event.target.files;
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          this.imagePreviews.push({
-            previewURL: reader.result,
-            name: file.name,
-            file: file // Store the actual File object
-          });
-        };
-
-        reader.readAsDataURL(file);
-      }
-    },
-    removeImage(index) {
-      const removedImage = this.imagePreviews.splice(index, 1)[0];
-      if (removedImage && removedImage.file) {
-        URL.revokeObjectURL(removedImage.previewURL); // Release the object URL
-      }
-    }
   }
 };
 </script>

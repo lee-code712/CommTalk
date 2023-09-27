@@ -1,6 +1,7 @@
 package com.commtalk.model;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,5 +43,18 @@ public class Member {
     protected void onCreate() {
         registeredAt = new Date();
     }
+	
+	public Member() {
+	}
+	
+	public Member(Map<String, Object> map) {
+		this.username = map.get("username").toString();
+		this.email = map.get("email").toString();
+		this.nickname = map.get("nickname").toString();
+		
+		if (map.get("phone") != null) {
+			this.phone = map.get("phone").toString();
+		}
+	}
 	
 }

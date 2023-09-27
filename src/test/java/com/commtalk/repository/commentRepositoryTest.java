@@ -2,6 +2,8 @@ package com.commtalk.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +24,7 @@ public class commentRepositoryTest {
 	private CommentRepository commentRepository;
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSave() {
 		
 		Member writer = memberRepository.findById(10L).orElse(null);

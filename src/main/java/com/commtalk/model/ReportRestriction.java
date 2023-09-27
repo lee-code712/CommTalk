@@ -48,7 +48,7 @@ public class ReportRestriction {
 	private Date actionedAt;
 	
 	public enum ActionType {
-	    DELETE, WARN, LIMIT
+	    delete, warn, limit
 	}
 	
 	@PrePersist

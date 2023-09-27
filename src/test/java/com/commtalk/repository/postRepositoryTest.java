@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -28,7 +29,7 @@ public class postRepositoryTest {
 	private PostRepository postRepository;
 
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSave() {
 		Member author = memberRepository.findById(10L).orElse(null);
 		assertNotNull(author);
@@ -54,18 +55,34 @@ public class postRepositoryTest {
 	}
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSelectTop4ByViewsWithCommentsAndBoard() {
 		Pageable pageable = (Pageable) PageRequest.of(0, 4);
-		List<Post> post = postRepository.findTop4ByViewsWithCommentsAndBoard(pageable);
+		List<Post> post = postRepository.findByViewsWithCommentsAndBoard(pageable);
 		assertNotNull(post);
 	}
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSelectByKeyword() {
-		List<Post> posts = postRepository.findByTitleOrContent("게시물");
+		Pageable pageable = (Pageable) PageRequest.of(0, 10);
+		Page<Post> posts = postRepository.findByTitleOrContent(null, pageable);
 		assertNotNull(posts);
+	}
+	
+	@Test
+	@Transactional
+	public void testSelectByBoard() {
+		Pageable pageable = (Pageable) PageRequest.of(0, 10);
+		Page<Post> posts = postRepository.findByBoardOrderByCreatedAt(1L, pageable);
+		assertNotNull(posts);
+	}
+	
+	@Test
+	@Transactional
+	public void testSelectById() {
+		Post post = postRepository.findById(1L).orElse(null);
+		assertNotNull(post);
 	}
 
 }

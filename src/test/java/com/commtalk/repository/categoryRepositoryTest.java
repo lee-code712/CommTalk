@@ -20,7 +20,7 @@ public class categoryRepositoryTest {
 	private CategoryRepository categoryRepository;
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSave() {
 		Category category = new Category();
 		category.setName("카테고리2");

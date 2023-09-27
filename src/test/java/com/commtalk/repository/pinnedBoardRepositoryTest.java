@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +26,7 @@ public class pinnedBoardRepositoryTest {
 	private PinnedBoardRepository pinnedBoardRepository;
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSave() {
 		Member member = memberRepository.findById(10L).orElse(null);
 		assertNotNull(member);
@@ -45,7 +47,7 @@ public class pinnedBoardRepositoryTest {
 	}
 
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSelectByMemberId() {
 		List<PinnedBoard> pinnedBoards = pinnedBoardRepository.findByMemberId(10L);
 		assertNotNull(pinnedBoards);

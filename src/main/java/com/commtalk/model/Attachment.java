@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,16 +26,23 @@ public class Attachment {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "fileName", nullable = false)
+	@Column(name = "file_name", nullable = false)
 	private String fileName;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
 	private Post post;
 	
 	@Column(name = "uploaded_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date uploadedAt;
+	
+	public Attachment() {
+	}
+	
+	public Attachment(String fileName) {
+		this.fileName = fileName;
+	}
 	
 	@PrePersist
     protected void onCreate() {

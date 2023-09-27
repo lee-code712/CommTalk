@@ -24,7 +24,7 @@ public class boardRepositoryTest {
 	private BoardRepository boardRepository;
 	
 	@Test
-//	@Transactional
+	@Transactional
 	public void testSave() {
 		Member owner = memberRepository.findById(10L).orElse(null);
 		assertNotNull(owner);
@@ -43,6 +43,12 @@ public class boardRepositoryTest {
 			Board findBoard = boardRepository.findById(board.getId()).orElse(null);
 			assertNotNull(findBoard);
 		}
+	}
+	
+	@Test
+	public void getBoardByPostName() {
+		Board board = boardRepository.findByName("사진");
+		assertNotNull(board);
 	}
 
 }

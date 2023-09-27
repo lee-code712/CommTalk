@@ -46,7 +46,7 @@ public class Report {
 	private Date reportedAt;
 
 	public enum StatusType {
-	    PENDING, PROCESSED, REJECTED
+	    pending, processed, rejected
 	}
 	
 	@PrePersist

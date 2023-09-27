@@ -256,6 +256,9 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          if (err.response && err.response.status === 403) {
+              // logout 처리 함수 호출
+          }
         });
 	},
 	updateCheckedBoards(boardId, checked) {

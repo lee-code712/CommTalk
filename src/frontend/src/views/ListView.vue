@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   import HeaderLayout from '@/components/layout/HeaderLayout.vue'
   import SubHeader from '@/components/layout/SubHeader.vue'
   import FooterLayout from '@/components/layout/FooterLayout.vue'
@@ -82,20 +84,46 @@
     },
     data() {
       return {
-          boards: [
-              { writer: '김혜란', date: '2023-08-26', title: '이제 벌써 9월이 다가온다', content: 'ui 변경 중', commentCount: '10', likeCount: '20', viewCount: '150', imgName: 'fi-rr-bookmark' },
-              { writer: '이유리', date: '2023-08-28', title: '8월의 마지막', content: '유리언니 백엔드 코드 작성 중', commentCount: '10', likeCount: '20', viewCount: '150', imgName: 'fi-rr-bookmark' }
-          ],
+          boards: [],
       };
     },
+    created() {
+        this.setupHeaders();
+        this.getPostsByBoard();
+    },
     methods: {
+    setupHeaders() {
+      const token = localStorage.getItem('token');
+      this.link = 'http://' + window.location.host;
+      this.headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+    },
         changeImg(index) {
         if (this.boards[index].imgName === 'fi-rr-bookmark') {
             this.boards[index].imgName = 'fi-sr-bookmark';
         } else {
             this.boards[index].imgName = 'fi-rr-bookmark';
         }
+        },
+    getPostsByBoard() {
+        const data = {
+            params: {
+                page: 0
+            }
         }
+        axios
+        .get(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
+        .then(response => {
+            
+          this.boards = response.data;
+            console.log(response.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     }
   }
 </script>

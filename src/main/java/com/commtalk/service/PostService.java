@@ -7,26 +7,23 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.commtalk.model.EngagementAction;
-import com.commtalk.repository.EngagementActionRepository;
+import com.commtalk.dto.BoardSimpleDTO;
+import com.commtalk.model.*;
+import com.commtalk.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.commtalk.dto.PostDTO;
 import com.commtalk.dto.PostDetailDTO;
-import com.commtalk.model.Attachment;
-import com.commtalk.model.Post;
-import com.commtalk.model.PostHashtag;
-import com.commtalk.repository.AttachmentRepository;
-import com.commtalk.repository.PostHashtagRepository;
-import com.commtalk.repository.PostRepository;
 import com.commtalk.util.JSONFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public class PostService {
-	
+
+	@Resource
+	private BoardRepository boardRepo;
 	@Resource
 	private PostRepository postRepo;
 	@Resource
@@ -93,6 +90,20 @@ public class PostService {
 	        return JSONFactory.getJSONStringFromObject(postDTO);
 		}
 		
+		return null;
+	}
+
+	// 특정 게시판의 게시판 정보 조회
+	public String getBoard(Long boardId) throws JsonProcessingException {
+
+		Board board = boardRepo.findById(boardId).orElse(null);
+
+		if (board != null) {
+			BoardSimpleDTO boardDTO = new BoardSimpleDTO(board);
+
+			return JSONFactory.getJSONStringFromObject(boardDTO);
+		}
+
 		return null;
 	}
 	

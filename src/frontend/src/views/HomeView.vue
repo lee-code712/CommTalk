@@ -20,7 +20,7 @@
                 <li v-for="(gallery, index) in galleries" :key="index">
                   <div class="img-box-wrap">
                     <div class="img-box">
-                      <img src="getImageUrl(gallery.tumbnail.fileName)"/>
+                      <img :src="getImageUrl(gallery.thumbnail.fileName)"/>
                     </div>
                     <div class="img-txt">{{ gallery.title.length > 18 ? gallery.title.slice(0, 18) + '...' : gallery.title }}</div>
                   </div>
@@ -85,7 +85,7 @@
                     <li v-for="(trip, index) in trips" :key="index">
                       <div class="img-box-wrap">
                         <div class="img-box">
-                            <img src="getImageUrl(trip.tumbnail.fileName)"/>
+                            <img :src="getImageUrl(trip.thumbnail.fileName)"/>
                         </div>
                         <div class="img-txt">
                           {{ trip.title.length > 12 ? trip.title.slice(0, 12) + '...' : trip.title }}
@@ -110,7 +110,7 @@
                     <li v-for="(fashion, index) in fashions" :key="index">
                       <div class="img-box-wrap">
                         <div class="img-box">
-                            <img src="getImageUrl(fashion.tumbnail.fileName)"/>
+                            <img :src="getImageUrl(fashion.thumbnail.fileName)"/>
                         </div>
                         <div class="img-txt">
                           {{ fashion.title.length > 12 ? fashion.title.slice(0, 12) + '...' : fashion.title }}

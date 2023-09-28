@@ -108,7 +108,8 @@
       .gallery-container {
         ul {
           display: flex;
-          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 10px;
 
           li {
             .img-box-wrap {
@@ -116,7 +117,8 @@
               .img-box {
                 overflow: hidden;
                 display: block;
-                width: 268px;
+                // width: 268px;
+                flex: 0 0 calc(33.33% - 10px);
                 height: 166px;
                 border-radius: 10px;
 

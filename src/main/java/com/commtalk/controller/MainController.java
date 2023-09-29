@@ -2,6 +2,7 @@ package com.commtalk.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -42,14 +43,17 @@ public class MainController {
 		@ApiResponse(code = 200, message = "성공", response = String.class),
 		@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
 	})
-	public ResponseEntity<?> getPinnedBoards(@RequestBody Map<String, Object> command, HttpServletRequest request) {
+	public ResponseEntity<?> updatePinnedBoards(@RequestBody Map<String, Object> command, HttpServletRequest request) {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();	
 		String response = "[]";
 
 		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
-			mainSvc.pinnedBoards(memberId, (List<Long>) command.get("boards"));
+			List<Long> boardIds = ((List<Integer>) command.get("boards")).stream()
+					.mapToLong(Integer::longValue)
+					.boxed().collect(Collectors.toList());
+			mainSvc.pinnedBoards(memberId, boardIds);
 			response = mainSvc.getPinnedBoardsWithPosts(memberId);
 			
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));

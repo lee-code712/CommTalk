@@ -36,4 +36,14 @@ public class postServiceTest {
 		}
 	}
 
+	@Test
+	public void getBoard() {
+		try {
+			String jsonStr = postService.getBoard(1L);
+			System.out.println(jsonStr);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

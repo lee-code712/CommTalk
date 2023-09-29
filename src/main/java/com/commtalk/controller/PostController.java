@@ -76,5 +76,25 @@ public class PostController {
 			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
 		}
 	}
-	
+
+	/* 선택한 게시판의 게시판 정보 조회 */
+	@RequestMapping(value="/getBoard/{boardId}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = String.class),
+			@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
+	})
+	public ResponseEntity<?> getBoard(@PathVariable Long boardId) {
+		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+		ErrorMsg errors = new ErrorMsg();
+		String response = "[]";
+
+		try {
+			response = postSvc.getBoard(boardId);
+
+			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
+		} catch (Exception e) {
+			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
+		}
+	}
+
 }

@@ -102,6 +102,9 @@ public class JwtTokenProvider {
    */
   public Long getMemberId(HttpServletRequest req) {
 	  String token = resolveToken(req);
+      if (token == null || token.equals("null")) {
+        return null;
+      }
 	  Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 	  return ((Integer)claims.get("memberId")).longValue();
   }

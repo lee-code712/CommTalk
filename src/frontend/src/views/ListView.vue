@@ -18,7 +18,7 @@
                         <div class="list-title-wrap">
                             <strong class="title">{{ board.title }}</strong>
 
-                         <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(index)" />
+                         <img v-if="board.imgName" :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(index)" />
                         </div>
 
                         <div class="list-content">{{ board.content }}</div>
@@ -118,9 +118,9 @@ export default {
         },
       };
       axios
-        .get(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
+        .post(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
         .then(response => {
-          this.boards = response.data;
+          this.boards = response.data.posts;
           console.log(response.data);
         })
         .catch(err => {

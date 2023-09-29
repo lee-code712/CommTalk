@@ -210,6 +210,7 @@ export default {
       axios
         .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
         .then(response => {
+            console.log("debug..");
           this.pinnedBoards = response.data;
           console.log("pin");
           console.log(this.pinnedBoards);

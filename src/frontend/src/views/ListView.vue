@@ -118,10 +118,11 @@ export default {
         },
       };
       axios
-        .post(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
+        .get(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
         .then(response => {
           this.boards = response.data.posts;
-          console.log(response.data);
+          console.log("posts@@@@");
+          console.log(response.data.posts);
         })
         .catch(err => {
           console.log(err);

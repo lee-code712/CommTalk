@@ -159,7 +159,9 @@
             </div>
           </div>
 
+            <a :href="'/list?boardId=' + boardId">
           <button type="button" class="list-btn">목록보기</button>
+          </a>
         </div>
       </div>
       <FooterLayout/>
@@ -184,6 +186,7 @@ export default {
         open: 'true'
       },
       boardLabel: '',
+      boardId: '',
       title: '',
       writer: '',
       date: '',
@@ -239,6 +242,7 @@ export default {
             console.log(response.data);
             const post = response.data;
             this.boardLabel = post.board.boardName;
+            this.boardId = post.board.boardId;
             this.title = post.title;
             this.writer = post.author.nickname;
             this.date = post.createdAt;

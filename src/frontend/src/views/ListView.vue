@@ -5,10 +5,10 @@
 
     <div class="full-container">
             <div class="sub-top-wrap">
-                <strong class="board-name">{{ boardName }}</strong>
+                <div class="board-name">{{ boardName }}</div>
                 <div class="search-wrap">
-                    <input type="search" placeholder="내용을 입력해주세요." />
-                    <img src="@/assets/images/fi-rr-search.png"/>
+                    <input type="search" v-model="keyword" placeholder="내용을 입력해주세요." />
+                    <img src="@/assets/images/fi-rr-search.png" @click="fetchPosts" />
                 </div>
             </div>
 
@@ -18,7 +18,7 @@
                         <div class="list-title-wrap">
                             <strong class="title">{{ board.title }}</strong>
 
-                         <img v-if="board.imgName" :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(index)" />
+                              <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(index)" />
                         </div>
 
                         <div class="list-content">{{ board.content }}</div>
@@ -87,6 +87,7 @@ export default {
     return {
       boards: [],
       boardName: '',
+      boardId: this.$route.query.boardId,
     };
   },
   created() {
@@ -103,30 +104,42 @@ export default {
       };
     },
     changeImg(index) {
-      if (this.boards[index].imgName === 'fi-rr-bookmark') {
+      if (this.boards[index].scraped === false) {
         this.boards[index].imgName = 'fi-sr-bookmark';
+        this.boards[index].scraped = true;
+        console.log("@@@@@1");
+        console.log(this.boards[index].scraped);
+        console.log(this.boards[index].imgName);
       } else {
         this.boards[index].imgName = 'fi-rr-bookmark';
+        this.boards[index].scraped = false;
       }
     },
     fetchData() {
       const boardId = this.$route.query.boardId;
       
       const data = {
-        page: 0
+        page: 0,
+        size: 5
       };
 
       // axios를 사용하여 데이터를 가져오는 요청 보내기
       axios
         .get(`/api/post/getPostsByBoard/${boardId}`, data, { headers: this.headers })
         .then(response => {
-          // 서버로부터 받은 데이터를 Vue 데이터에 할당
-          this.boards = response.data.posts;
-          console.log("posts@@@@");
-          console.log(response.data.posts);
 
           // 데이터를 가져온 후에 게시판 이름을 가져오는 함수 호출
           this.getBoardName();
+          this.boards = response.data.posts.map(post => {
+              console.log("#####");
+              console.log(post.scraped);
+              if (post.scraped === false) {
+                post.imgName = 'fi-rr-bookmark';
+              } else {
+                post.imgName = 'fi-sr-bookmark';
+              }
+              return post;
+        });
         })
         .catch(err => {
           console.log(err);
@@ -144,7 +157,36 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    fetchPosts() {
+        if(!this.keyword) return;
+        
+        const data = {
+            page: 0,
+            size: 5
+          };
+        
+        axios
+        .get(`/api/common/getPosts/${this.keyword}`, data, { headers: this.headers })
+        .then(response => {
+            console.log("????");
+            
+            this.boards = response.data.posts.map(post => {
+              if (post.scraped === false) {
+                post.imgName = 'fi-rr-bookmark';
+              } else {
+                post.imgName = 'fi-sr-bookmark';
+              }
+              return post;
+        });
+          
+       
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
+    
   }
 };
 </script>

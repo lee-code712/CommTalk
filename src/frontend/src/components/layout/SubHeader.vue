@@ -12,9 +12,9 @@
           </span>
           <ul class="depth2">
             <li v-for="(board, boardIndex) in category.boards" :key="boardIndex">
-              <router-link :to="'/list?boardId=' + board.boardId" class="router-link-class">
+              <a :href="'/list?boardId=' + board.boardId" @click="refreshPage(board.boardId)" class="router-link-class">
                 {{ board.boardName }}
-              </router-link>
+              </a>
             </li>
           </ul>
         </div>
@@ -43,6 +43,10 @@ export default {
     this.getCategories();
   },
   methods: {
+    refreshPage(boardId) {
+      // 원하는 경로로 이동하도록 $router.push()를 사용
+      this.$router.push(`/list?boardId=${boardId}`);
+    },
     getCategories() {
       const token = localStorage.getItem('token');
       var link = 'http://' + window.location.host;

@@ -5,7 +5,7 @@
 
     <div class="full-container">
             <div class="sub-top-wrap">
-                <strong class="board-name">자유 게시판</strong>
+                <strong class="board-name">{{ boardName }}</strong>
                 <div class="search-wrap">
                     <input type="search" placeholder="내용을 입력해주세요." />
                     <img src="@/assets/images/fi-rr-search.png"/>
@@ -27,21 +27,21 @@
                             <div class="comment-like-wrap">
                                 <div class="comment-box">
                                     <img src="@/assets/images/fi-rr-comment.png" style="width: 12px; height: 12px;"/>
-                                    댓글 {{ board.commentCount }}
+                                    댓글 {{ board.commentCnt }}
                                 </div>
                                 <div class="like-box">
                                     <img src="@/assets/images/fi-rr-thumbs-up.png" style="width: 14px; height: 14px;"/>
-                                    공감 {{ board.likeCount}}
+                                    공감 {{ board.likes}}
                                 </div>
                                 <div class="view-box">
                                     <img src="@/assets/images/fi-rr-eye.png" style="width: 14px; height: 14px;"/>
-                                    조회수 {{ board.viewCount}}
+                                    조회수 {{ board.views }}
                                 </div>
                             </div>
 
                             <div class="writer-date-wrap">
-                                <div class="writer">{{ board.writer }}</div>
-                                <div class="date">{{ board.date }}</div>
+                                <div class="writer">{{ board.author.nickname }}</div>
+                                <div class="date">{{ board.createdAt }}</div>
                             </div>
                         </div>
                     </li>
@@ -72,7 +72,6 @@
 
 <script>
 import axios from 'axios';
-
 import HeaderLayout from '@/components/layout/HeaderLayout.vue';
 import SubHeader from '@/components/layout/SubHeader.vue';
 import FooterLayout from '@/components/layout/FooterLayout.vue';
@@ -87,13 +86,12 @@ export default {
   data() {
     return {
       boards: [],
-      boardId: null, // Initialize boardId to null
+      boardName: '',
     };
   },
   created() {
     this.setupHeaders();
-    this.getPostsByBoard();
-    this.boardId = this.$route.query.boardId; // Get boardId from the URL query parameter
+    this.fetchData();
   },
   methods: {
     setupHeaders() {
@@ -111,26 +109,48 @@ export default {
         this.boards[index].imgName = 'fi-rr-bookmark';
       }
     },
-    getPostsByBoard() {
+    fetchData() {
+      const boardId = this.$route.query.boardId;
+      
       const data = {
-        params: {
-          page: 0,
-        },
+        page: 0
       };
+
+      // axios를 사용하여 데이터를 가져오는 요청 보내기
       axios
-        .get(this.link + '/api/post/getPostsByBoard/1', data, { headers: this.headers })
+        .get(`/api/post/getPostsByBoard/${boardId}`, data, { headers: this.headers })
         .then(response => {
+          // 서버로부터 받은 데이터를 Vue 데이터에 할당
           this.boards = response.data.posts;
           console.log("posts@@@@");
           console.log(response.data.posts);
+
+          // 데이터를 가져온 후에 게시판 이름을 가져오는 함수 호출
+          this.getBoardName();
         })
         .catch(err => {
           console.log(err);
         });
     },
-  },
+    getBoardName() {
+      const boardId = this.$route.query.boardId;
+      axios
+        .get(`/api/post/getBoard/${boardId}`, { headers: this.headers })
+        .then(response => {
+          console.log("!@@@");
+          console.log(response.data);
+          this.boardName = response.data.boardName;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>
+
+
+
 
 <style scoped lang="scss">
   @import "@/assets/scss/list.scss";

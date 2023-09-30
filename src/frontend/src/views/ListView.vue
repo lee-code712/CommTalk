@@ -15,6 +15,7 @@
       <div class="list-wrap">
         <ul>
           <li class="list" v-for="board in boards" :key="board.postId">
+            <a :href="'/detail?postId=' + board.postId">
             <div class="list-title-wrap">
               <div class="title">{{ board.title }}</div>
               <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(board)" />
@@ -43,6 +44,7 @@
                 <div class="date">{{ board.createdAt }}</div>
               </div>
             </div>
+            </a>
           </li>
         </ul>
       </div>
@@ -106,6 +108,7 @@ export default {
       };
     },
     changeImg(board) {
+        event.preventDefault();
       if (board.scraped === false) {
         board.imgName = 'fi-sr-bookmark';
         board.scraped = true;

@@ -61,8 +61,8 @@
                 <div class="comment-box-inner">
                   <div class="comment-header">
                     <div class="writer-date-wrap">
-                      <span>{{ comment.writer }}</span>
-                      <span>{{ comment.commentDate }}</span>
+                      <span>{{ comment.writer.nickname }}</span>
+                      <span>{{ comment.createdAt}}</span>
                     </div>
 
                     <div class="msg-notice-wrap">
@@ -73,7 +73,7 @@
 
                   <div class="comment-body">
                     <div class="comment">
-                      {{ comment.commentContent }}
+                      {{ comment.content }}
                     </div>
 
                     <div class="activity-wrap">
@@ -83,7 +83,7 @@
                       </div>
                       <div class="like-btn">
                         <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                        공감하기 {{ comment.likeCount }}
+                        공감하기 {{ comment.likes }}
                       </div>
                     </div>
                   </div>
@@ -116,8 +116,8 @@
                   <div class="detail-info">
                     <div class="comment-header">
                       <div class="writer-date-wrap">
-                        <span>{{ reply.writer }}</span>
-                        <span>{{ reply.replyDate }}</span>
+                        <span>{{ reply.writer.nickname }}</span>
+                        <span>{{ reply.createdAt }}</span>
                       </div>
 
                       <div class="msg-notice-wrap">
@@ -128,13 +128,13 @@
 
                     <div class="comment-body">
                       <div class="comment">
-                        {{ reply.replyContent }}
+                        {{ reply.content }}
                       </div>
 
                       <div class="activity-wrap">
                         <div class="like-btn">
                           <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                          공감하기 {{ reply.likeCount }}
+                          공감하기 {{ reply.likes }}
                         </div>
                       </div>
                     </div>
@@ -167,6 +167,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
 import FooterLayout from "@/components/layout/FooterLayout.vue";
@@ -182,42 +183,23 @@ export default {
       showComment: {
         open: 'true'
       },
-      boardLabel: '자유 게시판',
-      title: '게시판 제목',
-      writer: '작성자',
-      date: '2023-08-25',
-      content: `게시판 내용`,
-      hashtags: ['# 해시태그1', '# 해시태그2', '# 해시태그3'],
-      commentCount: 20,
-      likeCount: 10,
-      scrapCount: 10,
+      boardLabel: '',
+      title: '',
+      writer: '',
+      date: '',
+      content: ``,
+      hashtags: [],
+      commentCount: '',
+      likeCount: '',
+      scrapCount: '',
       scrapImgName: 'fi-rr-bookmark',
       likeImgName: 'fi-rr-thumbs-up',
-      comments: [
-        {
-          writer: '작성자',
-          commentDate: '2023-08-25',
-          commentContent: '댓글 내용1',
-          commentCount: 10,
-          likeCount: 14
-        },
-        {
-          writer: '작성자',
-          commentDate: '2023-08-25',
-          commentContent: '댓글 내용2',
-          commentCount: 10,
-          likeCount: 14
-        },
-      ],
-      replies: [
-        {
-          writer: '작성자',
-          replyDate: '2023-08-26',
-          replyContent: '대댓글 내용',
-          likeCount: 3
-        }
-      ]
+      comments: [],
+      replies: []
     };
+  },
+ created() {
+    this.getPostDetail();
   },
    computed: {
       angleIconSrc() {
@@ -246,6 +228,36 @@ export default {
         } else {
             this.likeImgName = 'fi-rr-thumbs-up';
         }
+      },
+      getPostDetail() {
+          const postId = this.$route.query.postId;
+          console.log(postId);
+          
+           axios
+        .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
+        .then(response => {
+            console.log(response.data);
+            const post = response.data;
+            this.boardLabel = post.board.boardName;
+            this.title = post.title;
+            this.writer = post.author.nickname;
+            this.date = post.createdAt;
+            this.content = post.content;
+            this.hashtags = post.hashtags;
+            this.commentCount = post.commentCnt;
+            this.likeCount = post.likes;
+            this.scrapCount = post.scraps;
+            post.comments.map(comment => {
+                if (!comment.parentId) {
+                    this.comments.push(comment);
+                } else {
+                    this.replies.push(comment);
+                }
+            });
+        })
+        .catch(err => {
+          console.error(err);
+        });
       }
     },
 };

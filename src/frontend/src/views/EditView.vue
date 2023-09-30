@@ -4,7 +4,7 @@
     <SubHeader/>
 
     <div class="full-container">
-        <strong class="board-name">자유게시판</strong>
+        <strong class="board-name">{{ boardName }}</strong>
         <div class="title-content-wrap">
           <div class="title">
             <input type="text" placeholder="제목" />
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
@@ -59,8 +61,12 @@ export default {
     return {
       newHashtag: '',
       hashtags: [],
-      editor: null
+      editor: null,
+      boardName: ''
     };
+  },
+  created() {
+      this.getBoardName()
   },
   mounted() {
       this.editor = new Editor({
@@ -87,6 +93,17 @@ export default {
     },
     removeHashtag(index) {
       this.hashtags.splice(index, 1);
+    },
+     getBoardName() {
+      const boardId = this.$route.query.boardId;
+      axios
+        .get(`/api/post/getBoard/${boardId}`, { headers: this.headers })
+        .then(response => {
+          this.boardName = response.data.boardName;
+        })
+        .catch(err => {
+          console.error(err);
+        });
     },
   }
 };

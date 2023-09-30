@@ -54,10 +54,23 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
-                .title {
+                
+                .boardname-title-wrap {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    
+                    .board-name {
+                        padding: 4px 8px;
+                        border-radius: 4px;color: #4876ef;
+                        background-color: #eff5ff;
+                        font-size: 13px;
+                    }
+                    
+                    .title {
                     font-size: 20px;
                     color: var(--color_primary);
+                }
                 }
 
                 img {

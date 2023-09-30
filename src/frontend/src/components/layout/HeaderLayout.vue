@@ -6,8 +6,10 @@
           <img style="width: 80px;" src="@/assets/images/logo.png" />
         </router-link>
         <div class="search-wrap">
-          <input type="search" placeholder="검색어를 입력하세요."/>
-          <img style="width: 20px; height: 20px;" src="@/assets/images/fi-rr-search.png"/>
+          <input type="search" placeholder="검색어를 입력하세요." v-model="commonKeyword" />
+            <a :href="'/list?commonKeyword=' + commonKeyword">
+              <img style="width: 20px; height: 20px;" src="@/assets/images/fi-rr-search.png" />
+            </a>
         </div>
       </div>
 
@@ -31,7 +33,8 @@ export default {
   name: 'HeaderLayout',
   data() {
     return {
-      isExistToken: false
+      isExistToken: false,
+      commonKeyword: ''
     }
   },
   methods: {

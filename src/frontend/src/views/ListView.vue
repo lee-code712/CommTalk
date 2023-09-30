@@ -17,7 +17,11 @@
           <li class="list" v-for="board in boards" :key="board.postId">
             <a :href="'/detail?postId=' + board.postId">
             <div class="list-title-wrap">
-              <div class="title">{{ board.title }}</div>
+                <div class="boardname-title-wrap">
+                    <div v-if="isAllList" class="board-name">{{ board.board.boardName }}</div>
+                <div class="title">{{ board.title }}</div>
+              
+              </div>
               <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(board)" />
             </div>
 
@@ -86,11 +90,10 @@ export default {
     return {
       boards: [],
       boardName: '',
-      boardId: this.$route.query.boardId,
       pageNumber: 1,
       pageSize: 10, // 페이지당 게시글 수
       totalPages: '', // 전체 페이지 수
-      keyword: '',
+      isAllList: false
     };
   },
   created() {
@@ -133,14 +136,30 @@ export default {
     },
     fetchData() {
       const boardId = this.$route.query.boardId;
+      const commonKeyword = this.$route.query.commonKeyword;
+      
       const data = {
         page: this.pageNumber,
         size: this.pageSize,
       };
+      
+      var url = "";
+      if (commonKeyword) {
+          console.log(commonKeyword);
+          url = "/api/common/getPosts/" + commonKeyword;
+          this.boardName = "전체";
+          this.isAllList = true;
+      } 
+      
+      if (boardId) {
+          url = "/api/post/getPostsByBoard/" + boardId;
+      }
 
       axios
-        .get(`/api/post/getPostsByBoard/${boardId}`, data, { headers: this.headers })
+        .get(url, data, { headers: this.headers })
         .then(response => {
+            console.log("@@@@");
+            console.log(response.data.posts);
           this.boards = response.data.posts.map(post => {
             if (post.scraped === false) {
               post.imgName = 'fi-rr-bookmark';
@@ -169,13 +188,14 @@ export default {
     },
     fetchPosts() {
       if (!this.keyword) return;
-
+//         const boardId = this.$route.query.boardId;
        const data = {
         page: this.pageNumber,
         size: this.pageSize,
       };
 
       axios
+//        .get(`/api/common/getPosts/${boardId}/${this.keyword}`, data, { headers: this.headers })
         .get(`/api/common/getPosts/${this.keyword}`, data, { headers: this.headers })
         .then(response => {
           this.boards = response.data.posts.map(post => {

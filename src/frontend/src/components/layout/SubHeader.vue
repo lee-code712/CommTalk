@@ -58,7 +58,6 @@ export default {
         .get(link + '/api/common/getCategories', { headers: headers })
         .then(response => {
           this.categories = response.data;
-          console.log(this.categories);
         })
         .catch(err => {
           console.log(err);

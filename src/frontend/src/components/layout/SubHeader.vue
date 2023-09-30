@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     refreshPage(boardId) {
-      // 원하는 경로로 이동하도록 $router.push()를 사용
       this.$router.push(`/list?boardId=${boardId}`);
     },
     getCategories() {

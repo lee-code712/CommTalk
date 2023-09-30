@@ -18,12 +18,14 @@
             <div class="gallery-container">
               <ul>
                 <li v-for="(gallery, index) in galleries" :key="index">
+                <router-link :to="'/detail?postId=' + gallery.postId">
                   <div class="img-box-wrap">
                     <div class="img-box">
                       <img :src="getImageUrl(gallery.thumbnail.fileName)"/>
                     </div>
                     <div class="img-txt">{{ gallery.title.length > 18 ? gallery.title.slice(0, 18) + '...' : gallery.title }}</div>
                   </div>
+                    </router-link>
                 </li>
               </ul>
             </div>
@@ -83,6 +85,7 @@
                 <div class="pet-container">
                   <ul>
                     <li v-for="(trip, index) in trips" :key="index">
+                        <router-link :to="'/detail?postId=' + trip.postId">
                       <div class="img-box-wrap">
                         <div class="img-box">
                             <img :src="getImageUrl(trip.thumbnail.fileName)"/>
@@ -91,6 +94,7 @@
                           {{ trip.title.length > 12 ? trip.title.slice(0, 12) + '...' : trip.title }}
                         </div>
                       </div>
+                        </router-link>
                     </li>
                   </ul>
                 </div>
@@ -108,6 +112,7 @@
                 <div class="fasion-container">
                   <ul>
                     <li v-for="(fashion, index) in fashions" :key="index">
+                        <router-link :to="'/detail?postId=' + fashion.postId">
                       <div class="img-box-wrap">
                         <div class="img-box">
                             <img :src="getImageUrl(fashion.thumbnail.fileName)"/>
@@ -116,6 +121,7 @@
                           {{ fashion.title.length > 12 ? fashion.title.slice(0, 12) + '...' : fashion.title }}
                         </div>
                       </div>
+                        </router-link>
                     </li>
                   </ul>
                 </div>
@@ -210,7 +216,6 @@ export default {
       axios
         .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
         .then(response => {
-            console.log("debug..");
           this.pinnedBoards = response.data;
           console.log("pin");
           console.log(this.pinnedBoards);
@@ -223,8 +228,8 @@ export default {
       axios.get(this.link + `/api/main/getPosts/${category}`, { headers: this.headers })
         .then(response => {
           this[targetArray] = response.data;
-          console.log(`${category}###`);
-          console.log(this[targetArray]);
+//          console.log(`${category}###`);
+//          console.log(this[targetArray]);
         })
         .catch(err => {
           console.error(`Error fetching posts for category ${category}:`, err);
@@ -264,9 +269,6 @@ export default {
 	},
 	updateCheckedBoards(boardId, checked) {
       if (checked) {
-        // checkbox가 체크되면 boardId를 배열에 추가
-        console.log("push");
-        console.log(boardId);
         this.checkedBoardIds.push(boardId);
       } else {
         // checkbox가 체크 해제되면 boardId를 배열에서 제거

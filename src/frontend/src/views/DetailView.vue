@@ -29,7 +29,7 @@
               <div class="board-content">{{ content }}</div>
 
               <div class="hashtags">
-                <div class="hashtag" v-for="(tag, index) in hashtags" :key="index">{{ tag }}</div>
+                <div class="hashtag" v-for="(tag, index) in hashtags" :key="index">#{{ tag.hashtag }}</div>
               </div>
 
               

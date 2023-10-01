@@ -44,7 +44,7 @@ public class postServiceTest {
 	@Test
 	public void getPostById() {
 		try {
-			String jsonStr = postService.getPostById(1L, 10L);
+			String jsonStr = postService.getPostById(1L, null);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -70,6 +70,29 @@ public class postServiceTest {
 			Long refId = new Long((Integer) command.get("refId"));
 			EngagementAction.ActionType action = EngagementAction.ActionType.valueOf(command.get("actionType").toString());
 			String jsonStr = postService.changeEngagementAction(10L, refId, action);
+			System.out.println(jsonStr);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void updateViews() {
+		try {
+			postService.updateViews(1L, 11L);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void createContent() {
+		try {
+			Map<String, Object> command = new HashMap<>();
+			command.put("postId", 2);
+			command.put("content", "댓글");
+			command.put("isAnonymous", false);
+			String jsonStr = postService.createComment(11L, command);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

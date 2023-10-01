@@ -264,6 +264,29 @@ public class PostService {
 		return JSONFactory.getJSONStringFromMap(response);
 	}
 
+	// 댓글 생성
+	public String createComment(Long memberId, Map<String, Object> command) throws JsonProcessingException {
+		Member member = memberRepo.findById(memberId).orElse(null);
+		Post post = postRepo.findById(new Long(command.get("postId").toString())).orElse(null);
+		Comment parentComment = null;
+		if (command.get("parentId") != null) {
+			parentComment = commentRepo.findById(new Long(command.get("parentId").toString())).orElse(null);
+		}
+		if (member != null && post != null) {
+			Comment comment = new Comment();
+			comment.setContent(command.get("content").toString());
+			comment.setPost(post);
+			comment.setWriter(member);
+			comment.setIsAnonymous(Boolean.parseBoolean(command.get("isAnonymous").toString()));
+			if (parentComment != null) {
+				comment.setParent(parentComment);
+			}
+			commentRepo.save(comment);
+		}
+
+		return getCommentsByPost(new Long(command.get("postId").toString()), memberId);
+	}
+
 	// 특정 게시판의 게시판 정보 조회
 	public String getBoard(Long boardId) throws JsonProcessingException {
 

@@ -2,6 +2,7 @@ package com.commtalk.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.commtalk.model.Comment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,19 +24,23 @@ public class engagementActionRepositoryTest {
 	private MemberRepository memberRepo;
 	@Autowired
 	private PostRepository postRepo;
+	@Autowired
+	private CommentRepository commentRepo;
 	
 	@Test
 	public void testSave() {
 		Member member = memberRepo.findById(10L).orElse(null);
 		assertNotNull(member);
-		Post post = postRepo.findById(1L).orElse(null);
-		assertNotNull(post);
-		
-		if (member != null && post != null) {
+//		Post post = postRepo.findById(1L).orElse(null);
+//		assertNotNull(post);
+		Comment comment = commentRepo.findById(1L).orElse(null);
+		assertNotNull(comment);
+
+		if (member != null && comment != null) {
 			EngagementAction engagementAction = new EngagementAction();
-			engagementAction.setAction(ActionType.like);
+			engagementAction.setAction(ActionType.clike);
 			engagementAction.setMember(member);
-			engagementAction.setPost(post);
+			engagementAction.setRefId(comment.getId());
 			
 			engagementActionRepo.save(engagementAction);
 			
@@ -46,8 +51,8 @@ public class engagementActionRepositoryTest {
 	}
 
 	@Test
-	public void findByMemberIdAndPostId() {
-		List<EngagementAction> engagementAction = engagementActionRepo.findByMemberIdAndPostId(10L, 1L);
+	public void findByMemberIdAndRefId() {
+		List<EngagementAction> engagementAction = engagementActionRepo.findByMemberIdAndRefId(10L, 1L);
 		assertNotNull(engagementAction);
 	}
 

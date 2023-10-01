@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface EngagementActionRepository extends JpaRepository<EngagementAction, Long> {
 
-    @Query("SELECT ea FROM EngagementAction ea JOIN FETCH ea.member m JOIN FETCH ea.post p WHERE m.id = :memberId AND p.id = :postId")
-    List<EngagementAction> findByMemberIdAndPostId(@Param("memberId") Long memberId, @Param("postId") Long postId);
+    @Query("SELECT ea FROM EngagementAction ea JOIN FETCH ea.member m WHERE m.id = :memberId AND ea.refId = :refId")
+    List<EngagementAction> findByMemberIdAndRefId(@Param("memberId") Long memberId, @Param("refId") Long refId);
+
+    @Query("SELECT ea FROM EngagementAction ea JOIN FETCH ea.member m WHERE m.id = :memberId AND ea.refId = :refId AND ea.action = :action")
+    EngagementAction findByMemberIdAndRefIdAndAction(@Param("memberId") Long memberId, @Param("refId") Long refId,
+                                                         @Param("action")EngagementAction.ActionType action);
 }

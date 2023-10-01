@@ -39,7 +39,8 @@ public class SecurityConfig {
 	        .authorizeRequests()
 	        .antMatchers("/api/**").permitAll() // 인증 불필요 URI
 	        .antMatchers("/api/main/updatePinnedBoards/**",
-					"/api/post/changeEngagementAction/**").authenticated()   // 인증 필요 URI
+					"/api/post/changeEngagementAction/**",
+					"/api/main/getMember/**").authenticated()   // 인증 필요 URI
 	        .anyRequest().permitAll();
 	    http
 	        .sessionManagement()

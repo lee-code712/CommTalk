@@ -142,6 +142,28 @@ public class PostController {
 		}
 	}
 
+	/* 조회수 변경 */
+	@RequestMapping(value="/updateViews", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = String.class),
+			@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
+	})
+	public ResponseEntity<?> updateViews(@RequestBody Map<String, Object> command, HttpServletRequest request) {
+		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+		ErrorMsg errors = new ErrorMsg();
+		String response = "[]";
+
+		Long memberId = jwtTokenProvider.getMemberId(request);
+		try {
+			Long postId = new Long((Integer) command.get("postId"));
+			response = postSvc.updateViews(postId, memberId);
+
+			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
+		} catch (Exception e) {
+			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
+		}
+	}
+
 	/* 선택한 게시판의 게시판 정보 조회 */
 	@RequestMapping(value="/getBoard/{boardId}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses({

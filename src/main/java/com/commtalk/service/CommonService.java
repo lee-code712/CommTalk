@@ -55,8 +55,18 @@ public class CommonService {
 		Page<Post> postPages = postRepo.findByTitleOrContent(keyword, pageable);
 		response.put("totalPages", postPages.getTotalPages());
 		response.put("pageNumber", postPages.getNumber());
-		response.put("previous", postPages.previousPageable());
-		response.put("next", postPages.nextPageable());
+		if (postPages.hasPrevious()) {
+			response.put("previous", postPages.previousPageable().getPageNumber());
+		}
+		else {
+			response.put("previous", -1);
+		}
+		if (postPages.hasNext()) {
+			response.put("next", postPages.nextPageable().getPageNumber());
+		}
+		else {
+			response.put("next", -1);
+		}
         
         List<PostDTO> postDTOs = new ArrayList<>();
 		if (memberId != null) {

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import com.commtalk.dto.BoardSimpleDTO;
 import com.commtalk.dto.CommentDTO;
 import com.commtalk.dto.CommentChildDTO;
+import com.commtalk.model.EngagementAction.ActionType;
 import com.commtalk.model.*;
 import com.commtalk.repository.*;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @Service
 public class PostService {
 
+	@Resource
+	private CommentRepository commentRepo;
 	@Resource
 	private MemberRepository memberRepo;
 	@Resource
@@ -44,8 +47,18 @@ public class PostService {
 		Page<Post> postPages = postRepo.findByBoardOrderByCreatedAt(boardId, pageable);
 		response.put("totalPages", postPages.getTotalPages());
 		response.put("pageNumber", postPages.getNumber());
-		response.put("previous", postPages.previousPageable());
-		response.put("next", postPages.nextPageable());
+		if (postPages.hasPrevious()) {
+			response.put("previous", postPages.previousPageable().getPageNumber());
+		}
+		else {
+			response.put("previous", -1);
+		}
+		if (postPages.hasNext()) {
+			response.put("next", postPages.nextPageable().getPageNumber());
+		}
+		else {
+			response.put("next", -1);
+		}
         
         List<PostDTO> postDTOs = new ArrayList<>();
 		if (memberId != null) {
@@ -74,8 +87,19 @@ public class PostService {
 		Page<Post> postPages = postRepo.findByBoardIdAndTitleOrContent(keyword, boardId, pageable);
 		response.put("totalPages", postPages.getTotalPages());
 		response.put("pageNumber", postPages.getNumber());
-		response.put("previous", postPages.previousPageable());
-		response.put("next", postPages.nextPageable());
+		if (postPages.hasPrevious()) {
+			response.put("previous", postPages.previousPageable().getPageNumber());
+		}
+		else {
+			response.put("previous", -1);
+		}
+		if (postPages.hasNext()) {
+			response.put("next", postPages.nextPageable().getPageNumber());
+		}
+		else {
+			response.put("next", -1);
+		}
+
 
 		List<PostDTO> postDTOs = new ArrayList<>();
 		if (memberId != null) {
@@ -165,21 +189,75 @@ public class PostService {
 		return null;
 	}
 
+	// 조회수 추가
+	public String updateViews(Long postId, Long memberId) throws JsonProcessingException {
+		Map<String, Object> response = new HashMap<>();
+
+		Post post = postRepo.findById(postId).orElse(null);
+		if (post != null) {
+			if (memberId == null || memberId != post.getAuthor().getId()) {
+				post.setViews(post.getViews() + 1);
+				postRepo.save(post);
+				response.put("status", "success");
+			}
+		}
+
+		return JSONFactory.getJSONStringFromMap(response);
+	}
+
 	// 공감, 스크랩 추가 | 삭제
-	public String changeEngagementAction(Long memberId, Long refId, EngagementAction.ActionType action) throws JsonProcessingException {
+	public String changeEngagementAction(Long memberId, Long refId, ActionType action) throws JsonProcessingException {
 		Map<String, Object> response = new HashMap<>();
 
 		EngagementAction engagementAction = engagementActionRepo.findByMemberIdAndRefIdAndAction(memberId, refId, action);
 		if (engagementAction != null) {
 			engagementActionRepo.delete(engagementAction);
+			if (action == ActionType.clike) {
+				Comment comment = commentRepo.findById(refId).orElse(null);
+				if (comment != null) {
+					comment.setLikes(comment.getLikes() - 1);
+					commentRepo.save(comment);
+				}
+			} else {
+				Post post = postRepo.findById(refId).orElse(null);
+				if (post != null) {
+					if (action == ActionType.plike) {
+						post.setLikes(post.getLikes() - 1);
+					}
+					else if (action == ActionType.scrap) {
+						post.setScraps(post.getScraps() - 1);
+					}
+					postRepo.save(post);
+				}
+			}
+
 			response.put("status", "removed");
 		}
 		else {
 			Member member = memberRepo.findById(memberId).orElse(null);
 			if (member != null) {
 				engagementAction = new EngagementAction(member, refId, action);
+				engagementActionRepo.save(engagementAction);
+				if (action == ActionType.clike) {
+					Comment comment = commentRepo.findById(refId).orElse(null);
+					if (comment != null) {
+						comment.setLikes(comment.getLikes() + 1);
+						commentRepo.save(comment);
+					}
+				} else {
+					Post post = postRepo.findById(refId).orElse(null);
+					if (post != null) {
+						if (action == ActionType.plike) {
+							post.setLikes(post.getLikes() + 1);
+						}
+						else if (action == ActionType.scrap) {
+							post.setScraps(post.getScraps() + 1);
+						}
+						postRepo.save(post);
+					}
+				}
 			}
-			engagementActionRepo.save(engagementAction);
+
 			response.put("status", "added");
 		}
 
@@ -207,9 +285,9 @@ public class PostService {
 		List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndRefId(memberId, post.getId());
 		if (engagementActions != null) {
 			for (EngagementAction engagementAction : engagementActions) {
-				if (engagementAction.getAction() == EngagementAction.ActionType.plike) {
+				if (engagementAction.getAction() == ActionType.plike) {
 					isLiked = true;
-				} else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
+				} else if (engagementAction.getAction() == ActionType.scrap) {
 					isScraped = true;
 				}
 			}
@@ -225,9 +303,9 @@ public class PostService {
 		List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndRefId(memberId, post.getId());
 		if (engagementActions != null) {
 			for (EngagementAction engagementAction : engagementActions) {
-				if (engagementAction.getAction() == EngagementAction.ActionType.plike) {
+				if (engagementAction.getAction() == ActionType.plike) {
 					isLiked = true;
-				} else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
+				} else if (engagementAction.getAction() == ActionType.scrap) {
 					isScraped = true;
 				}
 			}
@@ -239,8 +317,8 @@ public class PostService {
 	private CommentDTO setCommentWithEngagementAction(Long memberId, Comment comment) {
 		boolean isLiked = false;
 
-		EngagementAction engagementAction = engagementActionRepo.findByMemberIdAndRefIdAndAction(memberId, comment.getId(), EngagementAction.ActionType.clike);
-		if (engagementAction != null && engagementAction.getAction() == EngagementAction.ActionType.clike) {
+		EngagementAction engagementAction = engagementActionRepo.findByMemberIdAndRefIdAndAction(memberId, comment.getId(), ActionType.clike);
+		if (engagementAction != null && engagementAction.getAction() == ActionType.clike) {
 			isLiked = true;
 		}
 
@@ -250,8 +328,8 @@ public class PostService {
 	private CommentChildDTO setCommentChildWithEngagementAction(Long memberId, Comment comment) {
 		boolean isLiked = false;
 
-		EngagementAction engagementAction = engagementActionRepo.findByMemberIdAndRefIdAndAction(memberId, comment.getId(), EngagementAction.ActionType.clike);
-		if (engagementAction != null && engagementAction.getAction() == EngagementAction.ActionType.clike) {
+		EngagementAction engagementAction = engagementActionRepo.findByMemberIdAndRefIdAndAction(memberId, comment.getId(), ActionType.clike);
+		if (engagementAction != null && engagementAction.getAction() == ActionType.clike) {
 			isLiked = true;
 		}
 

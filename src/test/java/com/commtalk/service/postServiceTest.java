@@ -33,8 +33,8 @@ public class postServiceTest {
 	@Test
 	public void getPostsByKeyword() {
 		try {
-			Pageable pageable = (Pageable) PageRequest.of(0, 2);
-			String jsonStr = postService.getPostsByBoardAndKeyword("글", 1L, 10L, pageable);
+			Pageable pageable = (Pageable) PageRequest.of(0, 10);
+			String jsonStr = postService.getPostsByBoardAndKeyword("", 1L, 10L, pageable);
 			System.out.println(jsonStr);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public class postServiceTest {
 		try {
 			Map<String, Object> command = new HashMap<>();
 			command.put("refId", 1);
-			command.put("actionType", "clike");
+			command.put("actionType", "plike");
 			Long refId = new Long((Integer) command.get("refId"));
 			EngagementAction.ActionType action = EngagementAction.ActionType.valueOf(command.get("actionType").toString());
 			String jsonStr = postService.changeEngagementAction(10L, refId, action);

@@ -22,7 +22,7 @@
                 <div class="title">{{ board.title }}</div>
               
               </div>
-              <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(board)" />
+              <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(board, board.postId)" />
             </div>
 
             <div class="list-content">{{ board.content }}</div>
@@ -110,14 +110,11 @@ export default {
         'Content-Type': 'application/json',
       };
     },
-    changeImg(board) {
+    changeImg(board, postId) {
         event.preventDefault();
-        
         const data = {
-            params: {
-                "refId": '',
+                "refId": postId,
                 "actionType": "scrap"
-            }
         }
         axios
         .post(`/api/post/changeEngagementAction`, data, { headers: this.headers })
@@ -215,16 +212,13 @@ export default {
     },
     fetchPosts() {
       if (!this.keyword) return;
-//         const boardId = this.$route.query.boardId;
-       const data = {
-        page: this.pageNumber,
-        size: this.pageSize,
-      };
-
+        
+    const boardId = this.$route.query.boardId;
+         console.log(boardId);
       axios
-//        .get(`/api/common/getPosts/${boardId}/${this.keyword}`, data, { headers: this.headers })
-        .get(`/api/common/getPosts/${this.keyword}`, data, { headers: this.headers })
+        .get(`/api/post/getPosts/${boardId}/${this.keyword}`, { headers: this.headers })
         .then(response => {
+            console.log(response.data);
           this.boards = response.data.posts.map(post => {
             if (post.scraped === false) {
               post.imgName = 'fi-rr-bookmark';

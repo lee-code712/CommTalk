@@ -81,8 +81,11 @@
                         <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
                         대댓글 달기 {{ comment.childCnt }}
                       </div>
-                      <div class="like-btn">
-                        <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
+                      <div class="like-btn" @click="toggleLike(comment.commentId)">
+                        <img
+        style="width: 14px; height: 14px;"
+        :src="comment.likeStatus ? likeImgActive : likeImg"
+      />
                         공감하기 {{ comment.likes }}
                       </div>
                     </div>
@@ -132,12 +135,15 @@
                       </div>
 
                       <div class="activity-wrap">
-                        <div class="like-btn">
-                          <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
-                          공감하기 {{ reply.likes }}
-                        </div>
-                      </div>
-                    </div>
+  <div class="like-btn" @click="toggleReplyLike(reply.commentId)">
+    <img
+      style="width: 14px; height: 14px;"
+      :src="reply.likeStatus ? likeImgActive : likeImg"
+    />
+    공감하기 {{ reply.likes }}
+  </div>
+</div>
+</div>
                   </div>
                 </div>
               </div>
@@ -182,6 +188,8 @@ export default {
   },
   data() {
     return {
+       likeImg: require('@/assets/images/fi-rr-thumbs-up.png'),
+      likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
         postId: this.$route.query.postId,
       showComment: {
         open: 'true'
@@ -222,6 +230,23 @@ export default {
       },
     },
     methods: {
+        toggleLike(commentId) {
+      const comment = this.comments.find(comment => comment.commentId === commentId);
+      if (comment) {
+        comment.likeStatus = !comment.likeStatus;
+        
+        this.$forceUpdate(); 
+      }
+    },
+    
+     toggleReplyLike(commentId) {
+    const reply = this.replies.find(reply => reply.commentId === commentId);
+    if (reply) {
+      reply.likeStatus = !reply.likeStatus;
+      
+      this.$forceUpdate(); 
+    }
+  },
       toggleComment() {
         this.showComment.open = !this.showComment.open;
       },

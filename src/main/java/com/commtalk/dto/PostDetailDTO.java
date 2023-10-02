@@ -24,11 +24,14 @@ public class PostDetailDTO {
 	private Long scraps;
 	private MemberSimpleDTO author;
 	private BoardSimpleDTO board;
+	private int commentCnt;
 	private List<CommentDTO> comments;
 	private List<AttachmentSimpleDTO> attachments;
 	private List<PostHashtagSimpleDTO> hashtags;
+	private boolean isLiked;
+	private boolean isScraped;
 	
-	public PostDetailDTO(Post post) {
+	public PostDetailDTO(Post post, boolean isLiked, boolean isScraped) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 날짜 포맷 지정
 		
 		this.postId = post.getId();
@@ -44,12 +47,17 @@ public class PostDetailDTO {
 			this.author.setNickname("익명"); // 익명여부를 확인하여 닉네임을 익명으로 변경
 		}
 		this.board = new BoardSimpleDTO(post.getBoard());
+		this.commentCnt = 0;
 		this.comments = new ArrayList<>();
-		for (Comment comment : post.getComments()) {
-			this.comments.add(new CommentDTO(comment));
-		}
 		this.attachments = new ArrayList<>();
 		this.hashtags = new ArrayList<>();
+		this.isLiked = isLiked;
+		this.isScraped = isScraped;
+	}
+
+	public void setComments(List<CommentDTO> comments) {
+		this.commentCnt = comments.size();
+		this.comments = comments;
 	}
 	
 	public void setAttachments(List<Attachment> attachments) {

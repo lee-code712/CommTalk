@@ -28,15 +28,23 @@ public class EngagementAction {
 	private ActionType action;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-	private Post post;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
 	private Member member;
+
+	@Column(name = "ref_id")
+	private Long refId;
 	
 	public enum ActionType {
-	    like, scrap
+	    plike, clike, scrap
+	}
+
+	public EngagementAction() {
+	}
+
+	public EngagementAction(Member member, Long refId, ActionType action) {
+		this.member = member;
+		this.refId = refId;
+		this.action = action;
 	}
 	
 }

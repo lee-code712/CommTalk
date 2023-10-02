@@ -24,26 +24,29 @@ public class commentRepositoryTest {
 	private CommentRepository commentRepository;
 	
 	@Test
-	@Transactional
+//	@Transactional
 	public void testSave() {
-		
+
 		Member writer = memberRepository.findById(10L).orElse(null);
 		assertNotNull(writer);
 		Post post = postRepository.findById(1L).orElse(null);
 		assertNotNull(post);
-		
-		if (writer != null && post != null) {
+		Comment parentComment = commentRepository.findById(1L).orElse(null);
+		assertNotNull(parentComment);
+
+		if (writer != null && post != null && parentComment != null) {
 			Comment comment = new Comment();
-			comment.setContent("이것은 댓글~");
+			comment.setContent("이것은 대댓글22~");
 			comment.setPost(post);
 			comment.setWriter(writer);
 			comment.setIsAnonymous(true);
-			
+			comment.setParent(parentComment);
+
 			commentRepository.save(comment);
-			
+
 			Comment findComment = commentRepository.findById(comment.getId()).orElse(null);
 			assertNotNull(findComment);
 		}
-		
+
 	}
 }

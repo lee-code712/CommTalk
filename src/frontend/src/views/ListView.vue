@@ -14,7 +14,7 @@
 
       <div class="list-wrap">
         <ul>
-          <li class="list" v-for="board in boards" :key="board.postId">
+          <li class="list" v-for="board in boards" :key="board.postId" @click="updateViews(board.postId)">
             <a :href="'/detail?postId=' + board.postId">
             <div class="list-title-wrap">
                 <div class="boardname-title-wrap">
@@ -112,6 +112,22 @@ export default {
     },
     changeImg(board) {
         event.preventDefault();
+        
+        const data = {
+            params: {
+                "refId": '',
+                "actionType": "scrap"
+            }
+        }
+        axios
+        .post(`/api/post/changeEngagementAction`, data, { headers: this.headers })
+        .then(response => {
+          console.log(response.data.status);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    
       if (board.scraped === false) {
         board.imgName = 'fi-sr-bookmark';
         board.scraped = true;
@@ -181,6 +197,17 @@ export default {
         .get(`/api/post/getBoard/${boardId}`, { headers: this.headers })
         .then(response => {
           this.boardName = response.data.boardName;
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+    updateViews(postId) {
+        console.log("####@222");
+        axios
+        .post(`/api/post/updateViews`, { postId }, { headers: this.headers })
+        .then(response => {
+          console.log("views: " + response.data);
         })
         .catch(err => {
           console.error(err);

@@ -79,7 +79,7 @@
                     <div class="activity-wrap">
                        <div class="comment-btn" @click="toggleReply(index)">
                         <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
-                        대댓글 달기 {{ comment.commentCount }}
+                        대댓글 달기 {{ comment.childCnt }}
                       </div>
                       <div class="like-btn">
                         <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-thumbs-up.png"/>
@@ -90,23 +90,23 @@
                 </div>
                   
                 <div class="comment-box on reply" v-if="comment.showReply">
-                    <div class="comment-box-inner">
-                      <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
-                      <div class="my-comment-wrap">
-                        <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
-                        <div class="my-comment-btn-wrap">
-                          <div class="file-anonymous-wrap">
-                            <div class="anonymous">
-                              <label>
-                                <input type="checkbox"/>
-                                <span>익명</span>
-                              </label>
-                            </div>
+                  <div class="comment-box-inner">
+                    <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
+                    <div class="my-comment-wrap">
+                      <textarea v-model="replyData.reply" class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+                      <div class="my-comment-btn-wrap">
+                        <div class="file-anonymous-wrap">
+                          <div class="anonymous">
+                            <label>
+                              <input type="checkbox" v-model="replyData.isReplyAnonymous"/>
+                              <span>익명</span>
+                            </label>
                           </div>
-                          <button class="submit-btn">등록</button>
                         </div>
+                        <button class="submit-btn" @click="createComment(postId, comment.commentId)">등록</button>
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
 
@@ -145,19 +145,19 @@
           </div>
 
           <div class="my-comment-wrap">
-            <textarea class="my-comment" placeholder="댓글을 입력하세요."></textarea>
-            <div class="my-comment-btn-wrap">
-              <div class="file-anonymous-wrap">
-                <div class="anonymous">
-                  <label>
-                    <input type="checkbox"/>
-                    <span>익명</span>
-                  </label>
-                </div>
+          <textarea v-model="commentData.myComment" class="my-comment" placeholder="댓글을 입력하세요."></textarea>
+          <div class="my-comment-btn-wrap">
+            <div class="file-anonymous-wrap">
+              <div class="anonymous">
+                <label>
+                  <input type="checkbox" v-model="commentData.isCommentAnonymous"/>
+                  <span>익명</span>
+                </label>
               </div>
-              <button class="submit-btn">등록</button>
             </div>
+            <button class="submit-btn" @click="createComment(postId)">등록</button>
           </div>
+        </div>
 
             <a :href="'/list?boardId=' + boardId">
           <button type="button" class="list-btn">목록보기</button>
@@ -182,6 +182,7 @@ export default {
   },
   data() {
     return {
+        postId: this.$route.query.postId,
       showComment: {
         open: 'true'
       },
@@ -198,11 +199,20 @@ export default {
       scrapImgName: 'fi-rr-bookmark',
       likeImgName: 'fi-rr-thumbs-up',
       comments: [],
-      replies: []
+      replies: [],
+       commentData: {
+      myComment: '', // For main comments
+      isCommentAnonymous: false
+    },
+    replyData: {
+      reply: '', // For replies
+      isReplyAnonymous: false
+    }
     };
   },
  created() {
     this.getPostDetail();
+    this.getCommentsByPost();
   },
    computed: {
       angleIconSrc() {
@@ -225,6 +235,36 @@ export default {
             this.scrapImgName = 'fi-rr-bookmark';
         }
       },
+      createComment(postId, parentId) {
+          let content;
+          let isAnonymous;
+        
+          if (parentId) {
+            content = this.replyData.reply;
+            isAnonymous = this.replyData.isReplyAnonymous ? 1 : 0;
+          } else {
+            content = this.commentData.myComment;
+            isAnonymous = this.commentData.isCommentAnonymous ? 1 : 0;
+          }
+        
+          const data = {
+            params: {
+              postId: postId,
+              parentId: parentId,
+              content: content,
+              isAnonymous: isAnonymous,
+            },
+          };
+        
+          axios
+            .post(`/api/post/createComment`, data, { headers: this.headers })
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        },
       changeLikeImg() {
         if (this.likeImgName === 'fi-rr-thumbs-up') {
             this.likeImgName = 'fi-sr-thumbs-up';
@@ -232,14 +272,35 @@ export default {
             this.likeImgName = 'fi-rr-thumbs-up';
         }
       },
+      getCommentsByPost() {
+          const postId = this.$route.query.postId;
+          
+                axios
+        .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
+        .then(response => {
+            console.log(response.data);
+            const post = response.data;
+            post.comments.map(comment => {
+                    this.comments.push(comment);
+                    
+                    comment.childs.map(child => {
+                        this.replies.push(child);  
+ });
+                    
+            });
+            console.log(this.comments);
+            console.log(this.replies);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      },
       getPostDetail() {
           const postId = this.$route.query.postId;
-          console.log(postId);
           
            axios
         .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
         .then(response => {
-            console.log(response.data);
             const post = response.data;
             this.boardLabel = post.board.boardName;
             this.boardId = post.board.boardId;
@@ -251,13 +312,6 @@ export default {
             this.commentCount = post.commentCnt;
             this.likeCount = post.likes;
             this.scrapCount = post.scraps;
-            post.comments.map(comment => {
-                if (!comment.parentId) {
-                    this.comments.push(comment);
-                } else {
-                    this.replies.push(comment);
-                }
-            });
         })
         .catch(err => {
           console.error(err);

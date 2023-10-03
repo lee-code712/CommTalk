@@ -83,9 +83,9 @@
                       </div>
                       <div class="like-btn" @click="toggleLike(comment.commentId)">
                         <img
-        style="width: 14px; height: 14px;"
-        :src="comment.likeStatus ? likeImgActive : likeImg"
-      />
+                            style="width: 14px; height: 14px;"
+                            :src="comment.likeStatus ? likeImgActive : likeImg"
+                          />
                         공감하기 {{ comment.likes }}
                       </div>
                     </div>
@@ -135,15 +135,15 @@
                       </div>
 
                       <div class="activity-wrap">
-  <div class="like-btn" @click="toggleReplyLike(reply.commentId)">
-    <img
-      style="width: 14px; height: 14px;"
-      :src="reply.likeStatus ? likeImgActive : likeImg"
-    />
-    공감하기 {{ reply.likes }}
-  </div>
-</div>
-</div>
+                      <div class="like-btn" @click="toggleReplyLike(reply.commentId)">
+                        <img
+                          style="width: 14px; height: 14px;"
+                          :src="reply.likeStatus ? likeImgActive : likeImg"
+                        />
+                        공감하기 {{ reply.likes }}
+                      </div>
+                    </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -188,6 +188,8 @@ export default {
   },
   data() {
     return {
+        headers: [],
+        link: '',
        likeImg: require('@/assets/images/fi-rr-thumbs-up.png'),
       likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
         postId: this.$route.query.postId,
@@ -219,6 +221,7 @@ export default {
     };
   },
  created() {
+     this.setupHeaders();
     this.getPostDetail();
     this.getCommentsByPost();
   },
@@ -230,6 +233,15 @@ export default {
       },
     },
     methods: {
+        setupHeaders() {
+      const token = localStorage.getItem('token');
+      console.log(token);
+      this.link = 'http://' + window.location.host;
+      this.headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+    },
         toggleLike(commentId) {
       const comment = this.comments.find(comment => comment.commentId === commentId);
       if (comment) {
@@ -273,18 +285,17 @@ export default {
           }
         
           const data = {
-            params: {
               postId: postId,
               parentId: parentId,
               content: content,
               isAnonymous: isAnonymous,
-            },
           };
-        
+          
           axios
             .post(`/api/post/createComment`, data, { headers: this.headers })
             .then((response) => {
               console.log(response.data);
+              this.$router.go();
             })
             .catch((err) => {
               console.error(err);

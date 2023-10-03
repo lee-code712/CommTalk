@@ -58,7 +58,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"JOIN FETCH p.board b " +
 			"JOIN FETCH p.author a " +
 			"LEFT JOIN FETCH p.comments c " +
-			"WHERE p.id = :postId")
+			"WHERE p.id = :postId ORDER BY c.createdAt")
 	Optional<Post> findById(@Param("postId") Long postId);
 
 }

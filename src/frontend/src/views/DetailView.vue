@@ -98,10 +98,18 @@
                     <div class="my-comment-btn-wrap">
                       <div class="file-anonymous-wrap">
                         <div class="anonymous">
-                          <label>
-                            <input type="checkbox" v-model="replyData.isReplyAnonymous"/>
-                            <span>익명</span>
-                          </label>
+                            
+                             <div class="checkbox-container">
+        <input
+          type="checkbox"
+          :id="'checkbox-' + commentIndex"
+          v-model="replyData.isReplyAnonymous"
+        />
+        <label :for="'checkbox-' + commentIndex">
+          <span class="checkbox-icon"></span>
+            익명
+        </label>
+      </div>     
                         </div>
                       </div>
                       <button class="submit-btn" @click="createComment(postId, comment.commentId)">등록</button>
@@ -152,10 +160,19 @@
           <div class="my-comment-btn-wrap">
             <div class="file-anonymous-wrap">
               <div class="anonymous">
-                <label>
-                  <input type="checkbox" v-model="commentData.isCommentAnonymous"/>
-                  <span>익명</span>
-                </label>
+                  
+                       <div class="checkbox-container">
+        <input
+          type="checkbox"
+          :id="'checkbox2-' + commentIndex"
+          v-model="commentData.isCommentAnonymous"
+        />
+        <label :for="'checkbox2-' + commentIndex">
+          <span class="checkbox-icon"></span>
+            익명
+        </label>
+      </div>   
+               
               </div>
             </div>
             <button class="submit-btn" @click="createComment(postId)">등록</button>

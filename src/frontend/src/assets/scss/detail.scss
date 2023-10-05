@@ -110,7 +110,7 @@
           background-color: #FFF;
 
           .hr {
-            color: var(--gray30);
+            color: var(--gray40);
           }
 
           &:hover {
@@ -133,7 +133,7 @@
         }
         .comment-box-inner {
           padding: 28px 28px;
-          border-bottom: 1px solid var(--gray30);
+          border-bottom: 1px solid var(--gray40);
         }
         .comment-header{
           display: flex;
@@ -177,18 +177,20 @@
         height: 90px;
         border: none;
         border-radius: 10px;
+        outline: none;
       }
 
       .my-comment-btn-wrap {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid var(--gray30);
+        border-top: 1px solid var(--gray40);
         .file-anonymous-wrap {
           display: flex;
           align-items: center;
           font-size: 14px;
-          padding: 8px 28px;
+          margin-top: 10px;
+          padding: 0px 28px;
           .anonymous label {
             display: flex;
             align-items: center;

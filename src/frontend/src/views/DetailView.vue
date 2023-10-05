@@ -55,7 +55,7 @@
           </div>
 
           <div class="comment-wrap" v-if="showComment.open">
-            <div class="comment-box" v-for="(comment, index) in comments" :key="index">
+            <div class="comment-box" v-for="(comment, commentIndex) in comments" :key="commentIndex">
               <div class="comment-box-inner">
                 <div class="comment-header">
                   <div class="writer-date-wrap">
@@ -109,43 +109,42 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="comment-box on" v-for="(reply, index) in replies" :key="index">
-              <div class="comment-box-inner">
-                <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
-                <div class="detail-info">
-                  <div class="comment-header">
-                    <div class="writer-date-wrap">
-                      <span>{{ reply.writer.nickname }}</span>
-                      <span>{{ reply.createdAt }}</span>
-                    </div>
-
-                    <div class="msg-notice-wrap">
-                      <span>쪽지</span> 
-                      <span>신고</span>
-                    </div>
-                  </div>
-
-                  <div class="comment-body">
-                    <div class="comment">
-                      {{ reply.content }}
-                    </div>
-
-                    <div class="activity-wrap">
-                      <div class="like-btn" @click="toggleReplyLike(reply.commentId)">
-                        <img
-                          style="width: 14px; height: 14px;"
-                          :src="reply.likeStatus ? likeImgActive : likeImg"
-                        />
-                        공감하기 {{ reply.likes }}
+              <div class="comment-box on" v-for="(reply, replyIndex) in comment.childs" :key="replyIndex">
+                  <div class="comment-box-inner">
+                    <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
+                    <div class="detail-info">
+                      <div class="comment-header">
+                        <div class="writer-date-wrap">
+                          <span>{{ reply.writer.nickname }}</span>
+                          <span>{{ reply.createdAt }}</span>
+                        </div>
+    
+                        <div class="msg-notice-wrap">
+                          <span>쪽지</span> 
+                          <span>신고</span>
+                        </div>
+                      </div>
+    
+                      <div class="comment-body">
+                        <div class="comment">
+                          {{ reply.content }}
+                        </div>
+    
+                        <div class="activity-wrap">
+                          <div class="like-btn" @click="toggleReplyLike(reply.commentId)">
+                            <img
+                              style="width: 14px; height: 14px;"
+                              :src="reply.likeStatus ? likeImgActive : likeImg"
+                            />
+                            공감하기 {{ reply.likes }}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
         </div>
 
         <div class="my-comment-wrap">
@@ -340,31 +339,36 @@ export default {
         .then(response => {
             console.log("!!!!!");
           console.log(response.data);
-          const comments = response.data;
-          comments.map(comment => {
-            this.comments.push({
-              commentId: comment.commentId,
-              content: comment.content,
-              createdAt: comment.createdAt,
-              liked: comment.liked,
-              likes: comment.likes,
-              writer: comment.writer,
-            });
-    
-            comment.childs.map(child => {
-              this.replies.push({
-                commentId: child.commentId,
-                content: child.content,
-                createdAt: child.createdAt,
-                liked: child.liked,
-                likes: child.likes,
-                writer: child.writer,
-              });
-            });
-          });
-    
-          console.log(this.comments);
-          console.log(this.replies);
+         const commentsData = response.data;
+
+commentsData.forEach(comment => {
+  const commentData = {
+    commentId: comment.commentId,
+    content: comment.content,
+    createdAt: comment.createdAt,
+    liked: comment.liked,
+    likes: comment.likes,
+    writer: comment.writer,
+    childs: [] // 대댓글을 담을 배열 추가
+  };
+
+  comment.childs.forEach(child => {
+    const replyData = {
+      commentId: child.commentId,
+      content: child.content,
+      createdAt: child.createdAt,
+      liked: child.liked,
+      likes: child.likes,
+      writer: child.writer,
+    };
+
+    commentData.childs.push(replyData); // 대댓글을 댓글의 'childs' 배열에 추가
+    this.replies.push(replyData); // 모든 대댓글을 'replies' 배열에 추가
+  });
+
+  this.comments.push(commentData);
+});
+
         })
         .catch(err => {
           console.error(err);

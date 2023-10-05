@@ -3,7 +3,7 @@
       margin: 0 auto;
       width: 1200px;
     .board-content-wrap {
-      border: 1px solid var(--gray30);
+      border: 1px solid var(--gray40);
       border-radius: 10px;
 
       .board-content-header {
@@ -168,7 +168,7 @@
     .my-comment-wrap {
       margin-top: 20px;
       width: 100%;
-      border: 1px solid var(--gray30);
+      border: 1px solid var(--gray40);
       border-radius: 10px; 
       background-color: #FFF;
       .my-comment {
@@ -201,7 +201,7 @@
           border-radius: 0px 0px 10px 0px;
           background-color: #FFF;
           border: none;
-          border-left: 1px solid var(--gray30);
+          border-left: 1px solid var(--gray40);
 
           &:hover{
             background-color: var(--gray10);
@@ -214,7 +214,7 @@
     .list-btn {
       margin-top :20px;
       padding: 10px 20px;
-      border: 1px solid var(--gray30);
+      border: 1px solid var(--gray40);
       border-radius: 4px;
       background-color: #FFF;
     }

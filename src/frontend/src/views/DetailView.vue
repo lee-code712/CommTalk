@@ -336,16 +336,33 @@ export default {
     getCommentsByPost() {
       const postId = this.$route.query.postId;
       axios
-        .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
+        .get(`/api/post/getCommentsByPost/${postId}`, { headers: this.headers })
         .then(response => {
+            console.log("!!!!!");
           console.log(response.data);
-          const post = response.data;
-          post.comments.map(comment => {
-            this.comments.push(comment);
+          const comments = response.data;
+          comments.map(comment => {
+            this.comments.push({
+              commentId: comment.commentId,
+              content: comment.content,
+              createdAt: comment.createdAt,
+              liked: comment.liked,
+              likes: comment.likes,
+              writer: comment.writer,
+            });
+    
             comment.childs.map(child => {
-              this.replies.push(child);  
+              this.replies.push({
+                commentId: child.commentId,
+                content: child.content,
+                createdAt: child.createdAt,
+                liked: child.liked,
+                likes: child.likes,
+                writer: child.writer,
+              });
             });
           });
+    
           console.log(this.comments);
           console.log(this.replies);
         })
@@ -359,6 +376,8 @@ export default {
         .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
         .then(response => {
           const post = response.data;
+          console.log("@@@####");
+          console.log(post);
           this.boardLabel = post.board.boardName;
           this.boardId = post.board.boardId;
           this.title = post.title;

@@ -277,7 +277,7 @@ public class PostService {
 			comment.setContent(command.get("content").toString());
 			comment.setPost(post);
 			comment.setWriter(member);
-			comment.setIsAnonymous(Boolean.parseBoolean(command.get("isAnonymous").toString()));
+			comment.setIsAnonymous(Integer.valueOf(command.get("isAnonymous").toString()) != 0);
 			if (parentComment != null) {
 				comment.setParent(parentComment);
 			}

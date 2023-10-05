@@ -9,7 +9,7 @@
 
         <section>
           <div class="section-header">
-            <strong class="main-title">갤러리</strong>
+            <strong class="main-title">사진</strong>
             <router-link :to="'/list?boardId=' + '17'">
               <div class="more">더 보기<img src="@/assets/images/fi-rr-angle-small-right.png"/></div>
             </router-link>

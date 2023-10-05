@@ -41,7 +41,7 @@
               댓글 {{ commentCount }}
               <div class="hr">|</div> 
               <span class="angle-icon" @click="toggleComment">
-                <img style="width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
+                <img style="margin-top: 3px; width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
               </span>
             </div>
             <div class="like-btn" @click="changeLikeImg()">

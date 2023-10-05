@@ -1,7 +1,7 @@
 <template>
   <div class="side-bar">
     <div class="login-wrap" v-if="isExistToken">
-        <div class="login-desc">####님 환영합니다!</div>
+        <div class="login-desc">{{ user.nickname }}님 환영합니다!</div>
       <router-link :to="'/mypage/info'" class="router-link-class">
         <button type="button" class="login-button">마이페이지로 이동</button>
       </router-link>
@@ -48,11 +48,13 @@ import axios from 'axios';
     data() {
 		return {
 			popularPosts: [],
-			isExistToken: false
+			isExistToken: false,
+			user: []
 		}
 	},
     created() {
     this.getPopularPosts();
+    this.getMember();
   },
   mounted() {
     // 컴포넌트가 마운트될 때 로그인 상태 확인
@@ -83,6 +85,23 @@ import axios from 'axios';
           console.log(err);
         });
     },
+    getMember() {
+        const token = localStorage.getItem('token');
+      var link = 'http://' + window.location.host;
+      var headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+      
+        axios
+        .get(link + '/api/main/getMember', { headers: headers })
+        .then(response => {
+          this.user = response.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   }
 </script>

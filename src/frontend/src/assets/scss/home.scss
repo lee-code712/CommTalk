@@ -7,7 +7,7 @@
     background-image: url("@/assets/images/banner.png");
     background-size: cover;
     background-position: center;
-    border: 1px solid var(--gray30);
+    border: 1px solid var(--gray40);
   }
   section {
     margin-top: 32px;
@@ -159,7 +159,7 @@
       .board-box {
         padding: 8px 20px;
         width: 360px;
-        border: 1px solid var(--gray30);
+        border: 1px solid var(--gray40);
         border-radius: 10px;
         .board-box-header {
           display: flex;
@@ -218,4 +218,24 @@
       }
     }
   }
+  
+  .scrollable-container {
+  height: 400px; /* 컨테이너 높이 설정 */
+  overflow-y: scroll; /* 세로 스크롤 추가 */
+
+  /* 스크롤바 스타일링 */
+  ::-webkit-scrollbar {
+    width: 12px; 
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 6px;
+  }
+}
 }

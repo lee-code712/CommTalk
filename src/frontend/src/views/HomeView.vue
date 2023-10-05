@@ -145,16 +145,23 @@
       <div>
         <div class="desc">아래에서 선택한 최대 8개의 게시판을 메인화면에 고정할 수 있습니다.</div>
 
-        <div v-for="(checkbox, index) in checkboxes" :key="index">
-          <input 
-            type="checkbox"
-            :id="'checkbox-'+ index" 
-            v-model="checkbox.checked" 
-            @change="updateCheckedBoards(checkbox.boardId, checkbox.checked)"
-          />
-          <label :for="'checkbox-' + index"> {{ checkbox.label }}</label>
-        </div>
+   <div class="scrollable-container">
+    <div v-for="(checkbox, index) in checkboxes" :key="index">
+      <div class="checkbox-container">
+        <input
+          type="checkbox"
+          :id="'checkbox-' + index"
+          v-model="checkbox.checked"
+          @change="updateCheckedBoards(checkbox.boardId, checkbox.checked)"
+        />
+        <label :for="'checkbox-' + index">
+          <span class="checkbox-icon"></span>
+          {{ checkbox.label }}
+        </label>
       </div>
+    </div>
+  </div>
+  </div>
     </ModalComponent>
   </div>
 </template>
@@ -191,11 +198,11 @@ export default {
     },
   created() {
     this.setupHeaders();
+    this.getBoards();
     this.getPinnedBoards();
     this.getPosts('여행', 'trips');
     this.getPosts('사진', 'galleries');
     this.getPosts('패션', 'fashions');
-    this.getBoards();
   },
   methods: {
     setupHeaders() {
@@ -212,18 +219,31 @@ export default {
       const url = new URL(apiUrl, baseUrl);
       return url.href;
     },
-    getPinnedBoards() {
-      axios
-        .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
-        .then(response => {
-          this.pinnedBoards = response.data;
-          console.log("pin");
-          console.log(this.pinnedBoards);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+  getPinnedBoards() {
+  axios
+    .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
+    .then((response) => {
+      this.pinnedBoards = response.data;
+      console.log("pin");
+      console.log(this.pinnedBoards);
+
+      this.pinnedBoards.forEach((pinnedBoard) => {
+        console.log(this.checkboxes);
+        const checkbox = this.checkboxes.find((checkbox) => checkbox.boardId === pinnedBoard.board.boardId);
+        console.log("Checkbox Object:");
+        console.log(checkbox);
+        if (checkbox) {
+          checkbox.checked = true;
+          this.checkedBoardIds.push(checkbox.boardId); 
+        }
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+},
+
+
     getPosts(category, targetArray) {
       axios.get(this.link + `/api/main/getPosts/${category}`, { headers: this.headers })
         .then(response => {
@@ -241,10 +261,14 @@ export default {
         .then((response) => {
           // response.data에서 boards 배열 추출
           const boardsArray = response.data.map((category) => category.boards).flat();
-          
+
           // boards 배열의 각 요소를 순회하면서 checkboxes에 항목을 추가
           boardsArray.forEach((board) => {
-            this.checkboxes.push({ boardId: board.boardId, label: board.boardName, checked: false });
+            this.checkboxes.push({
+              boardId: board.boardId,
+              label: board.boardName,
+              checked: false, // Set it to false by default
+            });
           });
         })
         .catch((err) => {
@@ -259,6 +283,10 @@ export default {
         .post(this.link + '/api/main/updatePinnedBoards', JSON.stringify(data), { headers: this.headers })
         .then(response => {
 			console.log(response.data);
+			
+			this.$router.go();
+			this.getBoards();
+			this.getPinnedBoards();
         })
         .catch(err => {
           console.log(err);
@@ -268,6 +296,9 @@ export default {
         });
 	},
 	updateCheckedBoards(boardId, checked) {
+        console.log(boardId);
+        console.log(checked);
+        
       if (checked) {
         this.checkedBoardIds.push(boardId);
       } else {
@@ -286,4 +317,5 @@ export default {
 @import "@/assets/scss/pattern.scss";
 @import "@/assets/scss/layout1.scss";
 @import "@/assets/scss/home.scss";
+@import "@/assets/scss/common.scss";
 </style>

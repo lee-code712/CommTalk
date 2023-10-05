@@ -75,7 +75,7 @@
                   </div>
 
                   <div class="activity-wrap">
-                    <div class="comment-btn" @click="toggleReply(index)">
+                    <div class="comment-btn" @click="toggleReply(commentIndex)">
                       <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
                       대댓글 달기 {{ comment.childCnt }}
                     </div>
@@ -90,7 +90,7 @@
                 </div>
               </div>
 
-              <div class="comment-box on reply" v-if="comment.showReply">
+              <div class="comment-box on reply" v-if="comment.showReply && comment.showReply !== 'undefined'">
                 <div class="comment-box-inner">
                   <img style="width: 14px; height: 14px;" src="@/assets/images/fi-rr-chat-arrow-down.png"/>
                   <div class="my-comment-wrap">
@@ -283,8 +283,12 @@ export default {
       this.showComment.open = !this.showComment.open;
     },
     toggleReply(index) {
-      this.comments[index].showReply = !this.comments[index].showReply;
-    },
+        console.log(index);
+        console.log(this.comments[index].showReply);
+  if (this.comments[index]) {
+    this.comments[index].showReply = !this.comments[index].showReply;
+  }
+},
     changeScrapImg() {
       const postId = this.$route.query.postId;
       this.changeEngagementAction(postId, "scrap");
@@ -349,7 +353,9 @@ commentsData.forEach(comment => {
     liked: comment.liked,
     likes: comment.likes,
     writer: comment.writer,
-    childs: [] // 대댓글을 담을 배열 추가
+    childs: [],
+    childCnt: comment.childCnt,
+    showReply: false,
   };
 
   comment.childs.forEach(child => {

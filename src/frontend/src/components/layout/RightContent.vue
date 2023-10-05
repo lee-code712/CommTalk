@@ -1,14 +1,28 @@
 <template>
   <div class="side-bar">
     <div class="login-wrap" v-if="isExistToken">
-        <div class="login-desc">{{ user.nickname }}님 환영합니다!</div>
-      <router-link :to="'/mypage/info'" class="router-link-class">
-        <button type="button" class="login-button">마이페이지로 이동</button>
-      </router-link>
+        <div class="login-top">
+            <div class="login-desc">
+              <img src="@/assets/images/loginProfile.png" style="width: 64px; height: 64px;" />  
+              <div>{{ user.nickname }}님</div>
+            </div>
+            
+            
+        <button type="button" class="logout-btn" @click="logout">로그아웃</button>
+      </div>
+      <div class="mypage-btn-wrap">
+          <ul>
+              <li><a href="mypage/comment">내 댓글</a></li>
+              <li><a href="mypage/like">내 공감</a></li>
+              <li><a href="mypage/scrap">내 스크랩</a></li>
+          </ul>
+      </div>
     </div>
     
     <div class="login-wrap" v-else>
+        <div class="login-top">
       <div class="login-desc">로그인 후 이용해주세요.</div>
+      </div>
       <router-link :to="'/login'" class="router-link-class">
         <button type="button" class="login-button">커톡커톡 로그인</button>
       </router-link>
@@ -61,6 +75,22 @@ import axios from 'axios';
     this.checkLoginStatus();
   },
   methods: {
+      logout() {
+      var link = "http://" + window.location.host;
+      axios.get(link + "/api/auth/logout", null)
+      .then(response => {
+        console.log("로그아웃");
+        localStorage.clear();
+        this.isExistToken = false;
+
+        this.$router.go();
+
+        console.log(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
     checkLoginStatus() {
       if (localStorage.getItem('token')) {
         this.isExistToken = true;
@@ -97,6 +127,7 @@ import axios from 'axios';
         .get(link + '/api/main/getMember', { headers: headers })
         .then(response => {
           this.user = response.data;
+          console.log(this.user);
         })
         .catch(err => {
           console.log(err);

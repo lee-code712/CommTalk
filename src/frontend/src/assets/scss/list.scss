@@ -19,7 +19,7 @@
             gap: 8px;
             padding: 10px 10px;
             width: 240px;
-            border: 1px solid var(--gray30);
+            border: 1px solid var(--gray40);
             border-radius: 4px;
 
             input {
@@ -38,10 +38,10 @@
         margin-top: 40px;
         .list {
             padding: 32px 30px;
-            border-top: 1px solid var(--gray30);
+            border-top: 1px solid var(--gray40);
 
             &:last-child {
-                border-bottom: 1px solid var(--gray30);
+                border-bottom: 1px solid var(--gray40);
             }
 
             &:hover {
@@ -152,7 +152,7 @@
             background-color: #FFF;
             color: var(--color_primary);
             font-size: 14px;
-            border: 1px solid var(--gray30);
+            border: 1px solid var(--gray40);
             border-radius: 4px;
 
             &:hover {

@@ -9,6 +9,7 @@
     background-position: center;
     border: 1px solid var(--gray40);
   }
+  
   section {
     margin-top: 32px;
 
@@ -21,7 +22,7 @@
         .more {
           font-size: 12px;
           color: var(--gray60);
-        
+          margin: 2px;
         }
       }
     }
@@ -34,18 +35,20 @@
       .main-title {
         font-size: 18px;
         color: var(--color_primary);
+        margin-right: 2px;
       }
 
       .more {
-          display: flex;
-          align-items: center;
+        display: flex;
+        align-items: center;
         font-size: 12px;
         color: var(--gray70);
-          
-          img {
-              width: 16px;
-              height: 16px;
-          }
+        
+        img {
+          width: 16px;
+          height: 16px;
+          margin-left: 2px;
+        }
       }
 
       .setting-pin {
@@ -62,13 +65,12 @@
         }
         
         &:hover {
-            cursor: pointer;
+          cursor: pointer;
         }
       }
     }
 
     .section-body {
-      
       .pet-container,
       .fasion-container {
         ul {
@@ -108,7 +110,7 @@
           }
         }
       }
-      /* 갤러리 */
+      
       .gallery-container {
         ul {
           display: flex;
@@ -155,7 +157,6 @@
       }
     }
 
-    /* my 게시판 */
     .board-box-wrap {
       display: flex;
       gap: 20px;
@@ -177,15 +178,15 @@
           }
 
           .more {
-              display: flex;
-              align-items: center;
+            display: flex;
+            align-items: center;
             font-size: 12px;
             color: var(--gray70);
             
             img {
               width: 16px;
               height: 16px;
-          }
+            }
           }
         }
         
@@ -211,7 +212,7 @@
                   font-size: 12px;
                   color: var(--gray60);
                   img {
-                      margin-top: 3px;
+                    margin-top: 3px;
                     width: 12px;
                     height: 12px;
                   }
@@ -225,22 +226,21 @@
   }
   
   .scrollable-container {
-  height: 400px; /* 컨테이너 높이 설정 */
-  overflow-y: scroll; /* 세로 스크롤 추가 */
+    height: 400px;
+    overflow-y: scroll;
 
-  /* 스크롤바 스타일링 */
-  ::-webkit-scrollbar {
-    width: 12px; 
-  }
+    ::-webkit-scrollbar {
+      width: 12px; 
+    }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 6px;
-  }
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 6px;
+    }
 
-  ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-    border-radius: 6px;
+    ::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+      border-radius: 6px;
+    }
   }
-}
 }

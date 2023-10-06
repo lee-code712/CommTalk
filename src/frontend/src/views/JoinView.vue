@@ -47,13 +47,13 @@ export default {
     };
   },
   methods: {
-    join() { // 메서드 이름을 join으로 변경
+    join() {
       const data = {
         nickname: this.nickname,
         password: this.password,
-        username: this.username, // 추가: 이름 필드
-        email: this.email,       // 추가: 이메일 필드
-        phone: this.phone        // 추가: 전화번호 필드
+        username: this.username,
+        email: this.email,
+        phone: this.phone
       }
 
       const headers = {
@@ -65,17 +65,13 @@ export default {
         .post("/api/auth/join", JSON.stringify(data), { headers: headers })
         .then((response) => {
           console.log(response.data);
-          // 회원가입 성공 시 리다이렉트 또는 다음 단계 수행
-          // 예: this.$router.push("/dashboard");
+          
           this.$router.push('/login');
         })
         .catch((error) => {
-          // 회원가입 실패 시 에러 메시지 표시
           this.error = "회원가입 실패: " + error.response.data;
-          // Clear the password field when there's an error
           this.password = "";
           
-          // Show an alert with the error message
           alert("회원가입 실패: " + error.response.data.message);
         });
     }

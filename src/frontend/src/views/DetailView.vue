@@ -21,7 +21,7 @@
             
             <div class="writer-date-wrap">
               <span>{{ post.author.nickname }}</span>
-              <span>{{ post.createdAt }}</span>
+              <span style="margin-left: 4px;">{{ post.createdAt }}</span>
             </div>
           </div>
     
@@ -69,7 +69,7 @@
                 <div class="comment-header">
                   <div class="writer-date-wrap">
                     <span>{{ comment.writer.nickname }}</span>
-                    <span style="margin-left: 8px;">{{ comment.createdAt}}</span>
+                    <span style="margin-left: 4px;">{{ comment.createdAt}}</span>
                   </div>
 
                   <div class="msg-notice-wrap">
@@ -133,7 +133,7 @@
                       <div class="comment-header">
                         <div class="writer-date-wrap">
                           <span>{{ reply.writer.nickname }}</span>
-                          <span style="margin-left: 8px;">{{ reply.createdAt }}</span>
+                          <span style="margin-left: 4px;">{{ reply.createdAt }}</span>
                         </div>
     
                         <div class="msg-notice-wrap">
@@ -323,7 +323,8 @@ export default {
     },
     changeLikeImg() { /* 게시물 공감 상태 전환 */
       const postId = this.$route.query.postId;
-      
+      console.log("postId");
+      console.log(postId);
       /* 공감 상태를 전환 */
       this.post.liked = !this.post.liked;
       this.changeEngagementAction(postId, "plike");
@@ -333,7 +334,8 @@ export default {
     },
     changeScrapImg() { /* 게시물 스크랩 상태 전환 */
       const postId = this.$route.query.postId;
-      
+      console.log("postId");
+      console.log(postId);
       /* 스크랩 상태를 전환 */
       this.post.scraped = !this.post.scraped;
       this.changeEngagementAction(postId, "scrap");

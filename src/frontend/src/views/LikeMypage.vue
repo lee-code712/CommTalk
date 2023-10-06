@@ -75,7 +75,7 @@ import MypageHeader from '@/components/layout/MypageHeader.vue';
           commentCnt: '10',
           likeCnt: '14',
           viewCnt: '24',
-          selected: false, // 각 항목의 체크 상태를 저장
+          selected: false,
         },
         {
           title: '댓글 단 글 제목2',
@@ -85,10 +85,10 @@ import MypageHeader from '@/components/layout/MypageHeader.vue';
           commentCnt: '10',
           likeCnt: '14',
           viewCnt: '24',
-          selected: false, // 각 항목의 체크 상태를 저장
+          selected: false,
         },
       ],
-      isAllSelected: false, // 전체 체크박스 상태를 추적
+      isAllSelected: false,
     };
   },
   methods: {

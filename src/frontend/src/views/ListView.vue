@@ -249,5 +249,4 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/list.scss";
 @import "@/assets/scss/pattern.scss";
-@import "@/assets/scss/layout.scss";
 </style>

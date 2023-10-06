@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="detail">
     <HeaderLayout />
     <SubHeader />
 
@@ -9,10 +9,10 @@
           <div class="board-content-header">
             <div class="board-title-wrap">
               <div class="label-title-wrap">
-                <div class="board-label">{{ boardLabel }}</div>
-                <strong class="title">{{ title }}</strong>
+                <div class="board-label">{{ post.board.boardName }}</div>
+                <strong class="title">{{ post.title }}</strong>
               </div>
-
+    
               <div class="msg-notice-wrap">
                 <span>쪽지</span> 
                 <span>신고</span>
@@ -20,37 +20,43 @@
             </div>
             
             <div class="writer-date-wrap">
-              <span>{{ writer }}</span>
-              <span>{{ date }}</span>
+              <span>{{ post.author.nickname }}</span>
+              <span>{{ post.createdAt }}</span>
             </div>
           </div>
-
+    
           <div class="board-content-body">
-            <div class="board-content">{{ content }}</div>
-
+            <div class="board-content">{{ post.content }}</div>
+    
             <div class="hashtags">
-              <div class="hashtag" v-for="(tag, index) in hashtags" :key="index">#{{ tag.hashtag }}</div>
+              <div class="hashtag" v-for="(tag, index) in post.hashtags" :key="index">#{{ tag.hashtag }}</div>
             </div>
           </div>
         </div>
-
+    
         <div class="other-comment-wrap">
           <div class="activity-wrap" :class="{ 'no-margin' : showComment.open }">
             <div class="comment-btn">
               <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
-              댓글 {{ commentCount }}
+              댓글 {{ post.commentCnt }}
               <div class="hr">|</div> 
               <span class="angle-icon" @click="toggleComment">
                 <img style="margin-top: 3px; width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
               </span>
             </div>
             <div class="like-btn" @click="changeLikeImg()">
-              <img style="width: 14px; height: 14px;" :src="require(`@/assets/images/${likeImgName}.png`)"/>
-              공감 {{ likeCount }}
+              <img
+                style="width: 14px; height: 14px;"
+                :src="post.liked ? likeImgActive : likeImg"
+              />
+              공감 {{ post.likes }}
             </div>
             <div class="scrap-btn" @click="changeScrapImg()">
-              <img style="width: 14px; height: 14px;" :src="require(`@/assets/images/${scrapImgName}.png`)"/>
-              스크랩 {{ scrapCount }}
+              <img
+                style="width: 14px; height: 14px;"
+                :src="post.scraped ? scrapImgActive : scrapImg"
+              />
+              스크랩 {{ post.scraps }}
             </div>
           </div>
 
@@ -60,7 +66,7 @@
                 <div class="comment-header">
                   <div class="writer-date-wrap">
                     <span>{{ comment.writer.nickname }}</span>
-                    <span>{{ comment.createdAt}}</span>
+                    <span style="margin-left: 8px;">{{ comment.createdAt}}</span>
                   </div>
 
                   <div class="msg-notice-wrap">
@@ -100,16 +106,16 @@
                         <div class="anonymous">
                             
                              <div class="checkbox-container">
-        <input
-          type="checkbox"
-          :id="'checkbox-' + commentIndex"
-          v-model="replyData.isReplyAnonymous"
-        />
-        <label :for="'checkbox-' + commentIndex">
-          <span class="checkbox-icon"></span>
-            익명
-        </label>
-      </div>     
+                              <input
+                                type="checkbox"
+                                :id="'checkbox-' + commentIndex"
+                                v-model="replyData.isReplyAnonymous"
+                              />
+                              <label :for="'checkbox-' + commentIndex">
+                                <span class="checkbox-icon"></span>
+                                  익명
+                              </label>
+                            </div>     
                         </div>
                       </div>
                       <button class="submit-btn" @click="createComment(postId, comment.commentId)">등록</button>
@@ -124,7 +130,7 @@
                       <div class="comment-header">
                         <div class="writer-date-wrap">
                           <span>{{ reply.writer.nickname }}</span>
-                          <span>{{ reply.createdAt }}</span>
+                          <span style="margin-left: 8px;">{{ reply.createdAt }}</span>
                         </div>
     
                         <div class="msg-notice-wrap">
@@ -160,19 +166,17 @@
           <div class="my-comment-btn-wrap">
             <div class="file-anonymous-wrap">
               <div class="anonymous">
-                  
-                       <div class="checkbox-container">
-        <input
-          type="checkbox"
-          :id="'checkbox2-' + commentIndex"
-          v-model="commentData.isCommentAnonymous"
-        />
-        <label :for="'checkbox2-' + commentIndex">
-          <span class="checkbox-icon"></span>
-            익명
-        </label>
-      </div>   
-               
+                <div class="checkbox-container">
+                  <input
+                    type="checkbox"
+                    :id="'checkbox2-' + commentIndex"
+                    v-model="commentData.isCommentAnonymous"
+                  />
+                  <label :for="'checkbox2-' + commentIndex">
+                    <span class="checkbox-icon"></span>
+                      익명
+                  </label>
+                </div>   
               </div>
             </div>
             <button class="submit-btn" @click="createComment(postId)">등록</button>
@@ -193,8 +197,9 @@ import axios from 'axios';
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
 import FooterLayout from "@/components/layout/FooterLayout.vue";
+
 export default {
-  name: 'AboutView',
+  name: 'DetailView',
   components: {
     HeaderLayout,
     SubHeader,
@@ -206,30 +211,22 @@ export default {
       link: '',
       likeImg: require('@/assets/images/fi-rr-thumbs-up.png'),
       likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
+      scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
+      scrapImgActive: require('@/assets/images/fi-sr-bookmark.png'),
       postId: this.$route.query.postId,
       showComment: {
         open: 'true'
       },
-      boardLabel: '',
       boardId: '',
-      title: '',
-      writer: '',
-      date: '',
-      content: ``,
-      hashtags: [],
-      commentCount: '',
-      likeCount: '',
-      scrapCount: '',
-      scrapImgName: 'fi-rr-bookmark',
-      likeImgName: 'fi-rr-thumbs-up',
+      post: [],
       comments: [],
       replies: [],
       commentData: {
-        myComment: '', // For main comments
+        myComment: '',
         isCommentAnonymous: false
       },
       replyData: {
-        reply: '', // For replies
+        reply: '',
         isReplyAnonymous: false
       }
     };
@@ -247,31 +244,32 @@ export default {
     },
   },
   methods: {
-    setupHeaders() {
+    setupHeaders() { /* http 요청 헤더를 설정하고 엔드포인트에 대한 인증 토큰을 포함 */
       const token = localStorage.getItem('token');
-      console.log(token);
+      
       this.link = 'http://' + window.location.host;
       this.headers = {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
     },
-    toggleLike(commentId) {
-      const comment = this.comments.find(comment => comment.commentId === commentId);
-      if (comment) {
-        comment.likeStatus = !comment.likeStatus;
-        this.changeEngagementAction(commentId, "clike");
-        this.$forceUpdate(); 
-      }
-    },
-    changeEngagementAction(refId, actionType) {
-      console.log("&&&");
-      console.log(refId);
-      console.log(actionType);
-    
-      // actionType을 문자열로 강제 변환
-      actionType = actionType.toString();
-    
+    changeEngagementAction(refId, actionType) { /* 공감, 스크랩과 같은 상호 작용을 변경 */
+      /*
+        refId와 actionType의 사용 예시:
+        
+        1. 게시물 스크랩: 
+        - refId: postId
+        - actionType: scrap
+        
+        2. 댓글 공감:
+        - refId: commentId
+        - actionType: clike
+        
+        3. 게시물 공감:
+        - refId: postId
+        - actionType: plike
+      */
+      
       const data = {
         "refId": refId,
         "actionType": actionType
@@ -281,52 +279,84 @@ export default {
         .post(`/api/post/changeEngagementAction`, data, { headers: this.headers })
         .then((response) => {
           console.log(response.data);
+          
+          /* 현재 페이지를 리로드 */
           this.$router.go();
         })
         .catch((err) => {
           console.error(err);
         });
     },
-
-    toggleReplyLike(commentId) {
-      const reply = this.replies.find(reply => reply.commentId === commentId);
-      if (reply) {
-        reply.likeStatus = !reply.likeStatus;
+    toggleLike(commentId) { /* 댓글 공감 상태 변경 */
+      /* commentId와 일치하는 댓글을 this.comments 배열에서 찾음 */
+      const comment = this.comments.find(comment => comment.commentId === commentId);
+      
+      if (comment) {
+        /* 공감 상태 전환 ex. true -> false, false -> true로 변경 */
+        comment.likeStatus = !comment.likeStatus;
         this.changeEngagementAction(commentId, "clike");
+        
+        /* 강제로 렌더링 */
         this.$forceUpdate(); 
       }
     },
-    toggleComment() {
-      this.showComment.open = !this.showComment.open;
-    },
-    toggleReply(index) {
-        console.log(index);
-        console.log(this.comments[index].showReply);
-  if (this.comments[index]) {
-    this.comments[index].showReply = !this.comments[index].showReply;
-  }
-},
-    changeScrapImg() {
-      const postId = this.$route.query.postId;
-      this.changeEngagementAction(postId, "scrap");
-      if (this.scrapImgName === 'fi-rr-bookmark') {
-        this.scrapImgName = 'fi-sr-bookmark';
-      } else {
-        this.scrapImgName = 'fi-rr-bookmark';
+    toggleReplyLike(commentId) { /* 대댓글 공감 상태 변경 */
+    /* commentId와 일치하는 대댓글을 this.replies 배열에서 찾음 */
+      const reply = this.replies.find(reply => reply.commentId === commentId);
+      
+      if (reply) {
+        /* 공감 상태를 전환 */
+        reply.likeStatus = !reply.likeStatus;
+        this.changeEngagementAction(commentId, "clike");
+        
+        /* 강제로 렌더링 */
+        this.$forceUpdate(); 
       }
     },
-    createComment(postId, parentId) {
+    toggleComment() { /* 댓글 노출 */
+      /* 댓글 노출 상태를 전환 */
+      this.showComment.open = !this.showComment.open;
+    },
+    toggleReply(index) { /* 대댓글 노출 */
+      if (this.comments[index]) {
+        /* 대댓글 노출 상태를 전환 */
+        this.comments[index].showReply = !this.comments[index].showReply;
+      }
+    },
+    changeLikeImg() { /* 게시물 공감 상태 전환 */
+      const postId = this.$route.query.postId;
+      
+      /* 공감 상태를 전환 */
+      this.post.liked = !this.post.liked;
+      this.changeEngagementAction(postId, "plike");
+      
+      /* 강제로 렌더링 */
+      this.$forceUpdate(); 
+    },
+    changeScrapImg() { /* 게시물 스크랩 상태 전환 */
+      const postId = this.$route.query.postId;
+      
+      /* 스크랩 상태를 전환 */
+      this.post.scraped = !this.post.scraped;
+      this.changeEngagementAction(postId, "scrap");
+      
+      /* 강제로 렌더링 */
+      this.$forceUpdate();
+    },
+    createComment(postId, parentId) { /* 새 댓글 생성 */
+      /* 댓글 내용과 익명 여부 초기화 */
       let content;
       let isAnonymous;
 
-      if (parentId) {
+      if (parentId) { /* 부모 댓글 id가 있을 경우, 대댓글 데이터 사용 */
         content = this.replyData.reply;
         isAnonymous = this.replyData.isReplyAnonymous ? 1 : 0;
-      } else {
+      } else { /* 부모 댓글 id가 없을 경우, 일반 댓글 데이터 사용 */
         content = this.commentData.myComment;
         isAnonymous = this.commentData.isCommentAnonymous ? 1 : 0;
       }
 
+      /* 서버에 전송할 데이터 */
       const data = {
         postId: postId,
         parentId: parentId,
@@ -335,91 +365,77 @@ export default {
       };
 
       axios
-        .post(`/api/post/createComment`, data, { headers: this.headers })
-        .then((response) => {
-          console.log(response.data);
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      .post(`/api/post/createComment`, data, { headers: this.headers })
+      .then((response) => {
+        console.log(response.data);
+        
+        /* 현재 페이지를 리로드 */
+        this.$router.go();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     },
-    changeLikeImg() {
+    getCommentsByPost() { /* 댓글 및 대댓글 데이터 가져옴 */
       const postId = this.$route.query.postId;
-      this.changeEngagementAction(postId, "plike");
-      if (this.likeImgName === 'fi-rr-thumbs-up') {
-        this.likeImgName = 'fi-sr-thumbs-up';
-      } else {
-        this.likeImgName = 'fi-rr-thumbs-up';
-      }
-    },
-    getCommentsByPost() {
-      const postId = this.$route.query.postId;
+      
       axios
-        .get(`/api/post/getCommentsByPost/${postId}`, { headers: this.headers })
-        .then(response => {
-            console.log("!!!!!");
-          console.log(response.data);
-         const commentsData = response.data;
+      .get(`/api/post/getCommentsByPost/${postId}`, { headers: this.headers })
+      .then(response => {
+        const commentsData = response.data;
 
-commentsData.forEach(comment => {
-  const commentData = {
-    commentId: comment.commentId,
-    content: comment.content,
-    createdAt: comment.createdAt,
-    liked: comment.liked,
-    likes: comment.likes,
-    writer: comment.writer,
-    childs: [],
-    childCnt: comment.childCnt,
-    showReply: false,
-  };
-
-  comment.childs.forEach(child => {
-    const replyData = {
-      commentId: child.commentId,
-      content: child.content,
-      createdAt: child.createdAt,
-      liked: child.liked,
-      likes: child.likes,
-      writer: child.writer,
-    };
-
-    commentData.childs.push(replyData); // 대댓글을 댓글의 'childs' 배열에 추가
-    this.replies.push(replyData); // 모든 대댓글을 'replies' 배열에 추가
-  });
-
-  this.comments.push(commentData);
-});
-
-        })
-        .catch(err => {
-          console.error(err);
+        /* commentsData 배열읭 각 요소를 순회하면서 댓글 및 대댓글에 필요한 정보를 추출 */
+        commentsData.forEach(comment => {
+          const commentData = {
+            commentId: comment.commentId,
+            content: comment.content,
+            createdAt: comment.createdAt,
+            liked: comment.liked,
+            likes: comment.likes,
+            writer: comment.writer,
+            childs: [],
+            childCnt: comment.childCnt,
+            showReply: false,
+          };
+        
+          comment.childs.forEach(child => {
+            const replyData = {
+              commentId: child.commentId,
+              content: child.content,
+              createdAt: child.createdAt,
+              liked: child.liked,
+              likes: child.likes,
+              writer: child.writer,
+            };
+        
+            /* commentData.childs 배열에 대댓글 데이터 저장 */
+            commentData.childs.push(replyData);
+            /* this.replies 배열에 대댓글 데이터 저장 */
+            this.replies.push(replyData);
+          });
+        
+          /* this.comments 배열에 댓글 및 대댓글 데이터 저장 */
+          this.comments.push(commentData);
         });
+
+      })
+      .catch(err => {
+        console.error(err);
+      });
     },
-    getPostDetail() {
+    getPostDetail() { /* 게시물의 세부 정보를 가져옴 */
       const postId = this.$route.query.postId;
+      
       axios
-        .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
-        .then(response => {
-          const post = response.data;
-          console.log("@@@####");
-          console.log(post);
-          this.boardLabel = post.board.boardName;
-          this.boardId = post.board.boardId;
-          this.title = post.title;
-          this.writer = post.author.nickname;
-          this.date = post.createdAt;
-          this.content = post.content;
-          this.hashtags = post.hashtags;
-          this.commentCount = post.commentCnt;
-          this.likeCount = post.likes;
-          this.scrapCount = post.scraps;
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    },
+      .get(`/api/post/getPostDetail/${postId}`, { headers: this.headers })
+      .then(response => {
+        /* this.post 배열에 게시물의 세부 정보를 저장 */
+        this.post = response.data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    }
   },
 };
 </script>

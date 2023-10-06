@@ -95,6 +95,8 @@ export default {
   },
   data() {
     return {
+      headers: [],
+      link: '',
       boards: [],
       boardName: '',
       scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
@@ -110,8 +112,9 @@ export default {
     this.getBoardName();
   },
   methods: {
-    setupHeaders() {
+    setupHeaders() { /* http 요청 헤더를 설정하고 엔드포인트에 대한 인증 토큰을 포함 */
       const token = localStorage.getItem('token');
+      
       this.link = 'http://' + window.location.host;
       this.headers = {
         'Authorization': `Bearer ${token}`,

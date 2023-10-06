@@ -41,7 +41,10 @@
               댓글 {{ post.commentCnt }}
               <div class="hr">|</div> 
               <span class="angle-icon" @click="toggleComment">
-                <img style="margin-top: 3px; width: 16px; height: 16px;" v-bind:src="angleIconSrc" />
+                <img 
+                  style="margin-top: 3px; width: 16px; height: 16px;" 
+                  :src="showComment.open ? angleUpImg : angleDownImg"
+                />
               </span>
             </div>
             <div class="like-btn" @click="changeLikeImg()">
@@ -213,6 +216,8 @@ export default {
       likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
       scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
       scrapImgActive: require('@/assets/images/fi-sr-bookmark.png'),
+      angleUpImg: require('@/assets/images/fi-rr-angle-small-up.png'),
+      angleDownImg: require('@/assets/images/fi-rr-angle-small-down.png'),
       postId: this.$route.query.postId,
       showComment: {
         open: 'true'
@@ -235,13 +240,6 @@ export default {
     this.setupHeaders();
     this.getPostDetail();
     this.getCommentsByPost();
-  },
-  computed: {
-    angleIconSrc() {
-      return this.showComment.open
-        ? require('@/assets/images/fi-rr-angle-small-up.png')
-        : require('@/assets/images/fi-rr-angle-small-down.png');
-    },
   },
   methods: {
     setupHeaders() { /* http 요청 헤더를 설정하고 엔드포인트에 대한 인증 토큰을 포함 */

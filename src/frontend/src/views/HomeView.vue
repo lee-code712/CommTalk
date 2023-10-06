@@ -18,14 +18,14 @@
             <div class="gallery-container">
               <ul>
                 <li v-for="(gallery, index) in galleries" :key="index">
-                <router-link :to="'/detail?postId=' + gallery.postId">
-                  <div class="img-box-wrap">
-                    <div class="img-box">
-                      <img :src="getImageUrl(gallery.thumbnail.fileName)"/>
+                  <router-link :to="'/detail?postId=' + gallery.postId">
+                    <div class="img-box-wrap">
+                      <div class="img-box">
+                        <img :src="getImageUrl(gallery.thumbnail.fileName)"/>
+                      </div>
+                      <div class="img-txt">{{ gallery.title.length > 18 ? gallery.title.slice(0, 18) + '...' : gallery.title }}</div>
                     </div>
-                    <div class="img-txt">{{ gallery.title.length > 18 ? gallery.title.slice(0, 18) + '...' : gallery.title }}</div>
-                  </div>
-                    </router-link>
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -85,16 +85,16 @@
                 <div class="pet-container">
                   <ul>
                     <li v-for="(trip, index) in trips" :key="index">
-                        <router-link :to="'/detail?postId=' + trip.postId">
-                      <div class="img-box-wrap">
-                        <div class="img-box">
+                      <router-link :to="'/detail?postId=' + trip.postId">
+                        <div class="img-box-wrap">
+                          <div class="img-box">
                             <img :src="getImageUrl(trip.thumbnail.fileName)"/>
+                          </div>
+                          <div class="img-txt">
+                            {{ trip.title.length > 12 ? trip.title.slice(0, 12) + '...' : trip.title }}
+                          </div>
                         </div>
-                        <div class="img-txt">
-                          {{ trip.title.length > 12 ? trip.title.slice(0, 12) + '...' : trip.title }}
-                        </div>
-                      </div>
-                        </router-link>
+                      </router-link>
                     </li>
                   </ul>
                 </div>
@@ -112,16 +112,16 @@
                 <div class="fasion-container">
                   <ul>
                     <li v-for="(fashion, index) in fashions" :key="index">
-                        <router-link :to="'/detail?postId=' + fashion.postId">
-                      <div class="img-box-wrap">
-                        <div class="img-box">
+                      <router-link :to="'/detail?postId=' + fashion.postId">
+                        <div class="img-box-wrap">
+                          <div class="img-box">
                             <img :src="getImageUrl(fashion.thumbnail.fileName)"/>
+                          </div>
+                          <div class="img-txt">
+                            {{ fashion.title.length > 12 ? fashion.title.slice(0, 12) + '...' : fashion.title }}
+                          </div>
                         </div>
-                        <div class="img-txt">
-                          {{ fashion.title.length > 12 ? fashion.title.slice(0, 12) + '...' : fashion.title }}
-                        </div>
-                      </div>
-                        </router-link>
+                      </router-link>
                     </li>
                   </ul>
                 </div>
@@ -145,37 +145,38 @@
       <div>
         <div class="desc">아래에서 선택한 최대 8개의 게시판을 메인화면에 고정할 수 있습니다.</div>
 
-   <div class="scrollable-container">
-    <div v-for="(checkbox, index) in checkboxes" :key="index">
-      <div class="checkbox-container">
-        <input
-          type="checkbox"
-          :id="'checkbox-' + index"
-          v-model="checkbox.checked"
-          @change="updateCheckedBoards(checkbox.boardId, checkbox.checked)"
-        />
-        <label :for="'checkbox-' + index">
-          <span class="checkbox-icon"></span>
-          {{ checkbox.label }}
-        </label>
+        <div class="scrollable-container">
+          <div v-for="(checkbox, index) in checkboxes" :key="index">
+            <div class="checkbox-container">
+              <input
+                type="checkbox"
+                :id="'checkbox-' + index"
+                v-model="checkbox.checked"
+                @change="updateCheckedBoards(checkbox.boardId, checkbox.checked)"
+              />
+              <label :for="'checkbox-' + index">
+                <span class="checkbox-icon"></span>
+                {{ checkbox.label }}
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  </div>
     </ModalComponent>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import ModalComponent from "@/components/ModalComponent.vue";
+
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import RightContent from "@/components/layout/RightContent.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
 import FooterLayout from "@/components/layout/FooterLayout.vue";
+import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
-  name: 'TestView',
+  name: 'HomeView',
   components: {
     HeaderLayout,
     RightContent,
@@ -184,130 +185,127 @@ export default {
     ModalComponent,
   },
   data() {
-      return {
-        pinnedBoards: [],
-        galleries: [],   // Initialize as an empty array
-        trips: [],       // Initialize as an empty array
-        fashions: [],    // Initialize as an empty array
-        showModal: false,
-        checkboxes: [],
-        link: '',
-        boards: [],
-        checkedBoardIds : []
-      };
-    },
+    return {
+      headers: [],
+      link: '',
+      boards: [],
+      pinnedBoards: [],
+      galleries: [],
+      trips: [],
+      fashions: [],
+      showModal: false,
+      checkboxes: [],
+      checkedBoardIds : []
+    };
+  },
   created() {
     this.setupHeaders();
     this.getBoards();
     this.getPinnedBoards();
-    this.getPosts('여행', 'trips');
     this.getPosts('사진', 'galleries');
+    this.getPosts('여행', 'trips');
     this.getPosts('패션', 'fashions');
   },
   methods: {
-    setupHeaders() {
+    setupHeaders() { /* http 요청 헤더를 설정하고 엔드포인트에 대한 인증 토큰을 포함 */
       const token = localStorage.getItem('token');
+      
       this.link = 'http://' + window.location.host;
       this.headers = {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
     },
-    getImageUrl(fileName) {
-      const baseUrl = 'http://' + window.location.host;
-      const apiUrl = '/api/file/load/' + fileName;
-      const url = new URL(apiUrl, baseUrl);
-      return url.href;
-    },
-  getPinnedBoards() {
-  axios
-    .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
-    .then((response) => {
-      this.pinnedBoards = response.data;
-      console.log("pin");
-      console.log(this.pinnedBoards);
-
-      this.pinnedBoards.forEach((pinnedBoard) => {
-        console.log(this.checkboxes);
-        const checkbox = this.checkboxes.find((checkbox) => checkbox.boardId === pinnedBoard.board.boardId);
-        console.log("Checkbox Object:");
-        console.log(checkbox);
-        if (checkbox) {
-          checkbox.checked = true;
-          this.checkedBoardIds.push(checkbox.boardId); 
-        }
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-},
-
-
-    getPosts(category, targetArray) {
-      axios.get(this.link + `/api/main/getPosts/${category}`, { headers: this.headers })
-        .then(response => {
-          this[targetArray] = response.data;
-//          console.log(`${category}###`);
-//          console.log(this[targetArray]);
-        })
-        .catch(err => {
-          console.error(`Error fetching posts for category ${category}:`, err);
-        });
-    },
-    getBoards() {
+    getBoards() { /* 핀 고정 게시판 모달에 사용할 전체 카테고리 조회 */
       axios
-        .get(this.link + '/api/common/getCategories', { headers: this.headers })
-        .then((response) => {
-          // response.data에서 boards 배열 추출
-          const boardsArray = response.data.map((category) => category.boards).flat();
+      .get(this.link + '/api/common/getCategories', { headers: this.headers })
+      .then((response) => {
+        const boardsArray = response.data.map((category) => category.boards).flat();
 
-          // boards 배열의 각 요소를 순회하면서 checkboxes에 항목을 추가
-          boardsArray.forEach((board) => {
-            this.checkboxes.push({
-              boardId: board.boardId,
-              label: board.boardName,
-              checked: false, // Set it to false by default
-            });
+        boardsArray.forEach((board) => { /* boards 배열의 각 요소를 순회하면서 checkboxes에 항목을 추가 */
+          this.checkboxes.push({
+            boardId: board.boardId,
+            label: board.boardName,
+            checked: false,
           });
-        })
-        .catch((err) => {
-          console.log(err);
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
-    savePin() {
-		const data = {
-			boards: this.checkedBoardIds
-		}
-		axios
-        .post(this.link + '/api/main/updatePinnedBoards', JSON.stringify(data), { headers: this.headers })
-        .then(response => {
-			console.log(response.data);
-			
-			this.$router.go();
-			this.getBoards();
-			this.getPinnedBoards();
-        })
-        .catch(err => {
-          console.log(err);
-          if (err.response && err.response.status === 403) {
-              // logout 처리 함수 호출
+    getPinnedBoards() { /* 핀 고정 게시판 인기 게시글 조회 */
+      axios
+      .get(this.link + '/api/main/getPinnedBoards', { headers: this.headers })
+      .then((response) => {
+        this.pinnedBoards = response.data;
+  
+        this.pinnedBoards.forEach((pinnedBoard) => {
+          /* pinnedBoard.board.boardId와 일치하는 댓글을 this.checkboxes 배열에서 찾음 */
+          const checkbox = this.checkboxes.find((checkbox) => checkbox.boardId === pinnedBoard.board.boardId);
+
+          if (checkbox) {
+            /* 체크박스를 선택된 상태로 표시 */
+            checkbox.checked = true;
+            
+            /* 선택된 게시판 Id를 checkedBoardIds 배열에 추가 */
+            this.checkedBoardIds.push(checkbox.boardId); 
           }
         });
-	},
-	updateCheckedBoards(boardId, checked) {
-        console.log(boardId);
-        console.log(checked);
-        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },
+    updateCheckedBoards(boardId, checked) { /* 모달 내 체크박스 클릭 시, 실행되는 함수 */
       if (checked) {
+        /* 체크박스가 선택된 경우, boardId를 배열에 추가 */
         this.checkedBoardIds.push(boardId);
       } else {
-        // checkbox가 체크 해제되면 boardId를 배열에서 제거
+        /* checkbox가 체크 해제되면 boardId를 배열에서 제거 */
         const index = this.checkedBoardIds.indexOf(boardId);
+        
         if (index !== -1) {
           this.checkedBoardIds.splice(index, 1);
         }
       }
+    },
+    savePin() { /* 모달 저장 버튼 선택 시, 실행되는 함수 */
+      const data = {
+        boards: this.checkedBoardIds
+      }
+      axios
+      .post(this.link + '/api/main/updatePinnedBoards', JSON.stringify(data), { headers: this.headers })
+      .then(response => {
+        console.log(response.data);
+    
+        this.$router.go();
+    
+        this.getBoards();
+        this.getPinnedBoards();
+      })
+      .catch(err => {
+        console.log(err);
+        if (err.response && err.response.status === 403) {
+            // logout 처리 함수 호출
+        }
+      });
+    },
+    getPosts(category, targetArray) { /* 사진, 여행, 패션 게시판 인기 게시글 조회 */
+      axios.get(this.link + `/api/main/getPosts/${category}`, { headers: this.headers })
+      .then(response => {
+        this[targetArray] = response.data;
+      })
+      .catch(err => {
+        console.error(`Error fetching posts for category ${category}:`, err);
+      });
+    },
+    getImageUrl(fileName) { /* 사진, 여행, 패션 이미지 URL 가져옴 */
+      const baseUrl = 'http://' + window.location.host;
+      const apiUrl = '/api/file/load/' + fileName;
+      const url = new URL(apiUrl, baseUrl);
+      
+      return url.href;
     },
   }
 }

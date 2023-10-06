@@ -431,6 +431,7 @@ export default {
       .then(response => {
         /* this.post 배열에 게시물의 세부 정보를 저장 */
         this.post = response.data;
+        console.log(this.post);
       })
       .catch(err => {
         console.error(err);

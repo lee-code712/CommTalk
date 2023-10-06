@@ -20,9 +20,11 @@
                 <div class="boardname-title-wrap">
                     <div v-if="isAllList" class="board-name">{{ board.board.boardName }}</div>
                 <div class="title">{{ board.title }}</div>
-              
               </div>
-              <img :src="require(`@/assets/images/${board.imgName}.png`)" @click="changeImg(board, board.postId)" />
+              <img 
+                :src="board.scraped ? scrapImgActive : scrapImg" 
+                @click="changeImg(board, board.postId)" 
+              />
             </div>
 
             <div class="list-content">{{ board.content }}</div>
@@ -55,11 +57,16 @@
 
       <div class="paging-wrap">
         <div class="paging-inner">
-          <div class="prev-btn" @click="loadPage('previous')" :disabled="pageNumber === 1">이전</div>
+          <div class="prev-btn" @click="loadPage('previous')" :disabled="pageNumber === 0">이전</div>
           <div class="paging-num-wrap">
-            <div v-for="page in totalPages" :key="page" :class="{ 'on': page === pageNumber }" @click="gotoPage(page)">{{ page }}</div>
+            <div v-for="page in totalPages" 
+              :key="page - 1" 
+              :class="{ 'on': page - 1 === pageNumber }" 
+              @click="gotoPage(page - 1)">
+              {{ page }}
+            </div>
           </div>
-          <div class="next-btn" @click="loadPage('next')" :disabled="pageNumber === totalPages">다음</div>
+          <div class="next-btn" @click="loadPage('next')" :disabled="pageNumber === totalPages - 1">다음</div>
         </div>
       </div>
 
@@ -90,10 +97,11 @@ export default {
     return {
       boards: [],
       boardName: '',
-      pageNumber: 1,
-      pageSize: 10, // 페이지당 게시글 수
-      totalPages: '', // 전체 페이지 수
-      isAllList: false
+      scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
+      scrapImgActive: require('@/assets/images/fi-sr-bookmark.png'),
+      pageNumber: 0,
+      totalPages: '',
+      isAllList: false,
     };
   },
   created() {
@@ -110,8 +118,14 @@ export default {
         'Content-Type': 'application/json',
       };
     },
-    changeImg(board, postId) {
+    changeImg(board, postId) { /* 스크랩 상태 전환 */
+        /* 이벤트의 기본 동작을 막음 (ex. 스크랩 아이콘 클릭 시, /detail 화면 이동 막음) */
         event.preventDefault();
+        
+        console.log(board);
+        /* 스크랩 상태를 전환 */
+        board.scraped = !board.scraped;
+        
         const data = {
                 "refId": postId,
                 "actionType": "scrap"
@@ -120,76 +134,17 @@ export default {
         .post(`/api/post/changeEngagementAction`, data, { headers: this.headers })
         .then(response => {
           console.log(response.data.status);
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    
-      if (board.scraped === false) {
-        board.imgName = 'fi-sr-bookmark';
-        board.scraped = true;
-      } else {
-        board.imgName = 'fi-rr-bookmark';
-        board.scraped = false;
-      }
-    },
-    loadPage(action) {
-      if (action === 'previous' && this.pageNumber > 1) {
-        this.pageNumber--;
-      } else if (action === 'next' && this.pageNumber < this.totalPages) {
-        this.pageNumber++;
-      }
-      this.fetchData();
-    },
-    gotoPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.pageNumber = page;
-        this.fetchData();
-      }
-    },
-    fetchData() {
-      const boardId = this.$route.query.boardId;
-      const commonKeyword = this.$route.query.commonKeyword;
-      
-      const data = {
-        page: this.pageNumber,
-        size: this.pageSize,
-      };
-      
-      var url = "";
-      if (commonKeyword) {
-          console.log(commonKeyword);
-          url = "/api/common/getPosts/" + commonKeyword;
-          this.boardName = "전체";
-          this.isAllList = true;
-      } 
-      
-      if (boardId) {
-          url = "/api/post/getPostsByBoard/" + boardId;
-      }
-
-      axios
-        .get(url, data, { headers: this.headers })
-        .then(response => {
-            console.log("@@@@");
-            console.log(response.data.posts);
-          this.boards = response.data.posts.map(post => {
-            if (post.scraped === false) {
-              post.imgName = 'fi-rr-bookmark';
-            } else {
-              post.imgName = 'fi-sr-bookmark';
-            }
-            return post;
-          });
-
-          this.totalPages = response.data.totalPages;
+          
+          /* 강제로 렌더링 */
+          this.$forceUpdate();
         })
         .catch(err => {
           console.error(err);
         });
     },
-    getBoardName() {
+    getBoardName() { /* 게시판 이름 가져옴 */
       const boardId = this.$route.query.boardId;
+      
       axios
         .get(`/api/post/getBoard/${boardId}`, { headers: this.headers })
         .then(response => {
@@ -199,8 +154,7 @@ export default {
           console.error(err);
         });
     },
-    updateViews(postId) {
-        console.log("####@222");
+    updateViews(postId) { /* 조회수 업데이트 */
         axios
         .post(`/api/post/updateViews`, { postId }, { headers: this.headers })
         .then(response => {
@@ -210,29 +164,80 @@ export default {
           console.error(err);
         });
     },
-    fetchPosts() {
+    fetchData() { /* 데이터 조회 함수: 전체 게시글 검색 및 게시글 리스트 조회 */
+      const boardId = this.$route.query.boardId;
+      const commonKeyword = this.$route.query.commonKeyword;
+  
+      console.log("pageNumber" + this.pageNumber);
+      const data = {
+          params: {
+              page: this.pageNumber,
+              size: 10
+          }
+      };
+  
+      var url = "";
+  
+      if (commonKeyword) { /* 헤더에 있는 검색창에서 검색 시, 공통 검색어 리스트 조회 */
+          url = "/api/common/getPosts/" + commonKeyword;
+          
+          /* 현재 게시판 이름을 "전체"로 설정 */
+          this.boardName = "전체";
+          /* 전체 게시글 리스트 플래그 활성화 */
+          this.isAllList = true;
+      } 
+  
+      if (boardId) { /* 해당 게시글 리스트 조회 */
+          url = "/api/post/getPostsByBoard/" + boardId;
+      }
+  
+      axios
+          .get(url, data, { headers: this.headers })
+          .then(response => {
+              console.log(response.data.posts);
+              this.boards = response.data.posts;
+              
+              /* 전체 페이지 수 할당 */
+              this.totalPages = response.data.totalPages;
+          })
+          .catch(err => {
+              console.error(err);
+          });
+    },
+    fetchPosts() { /* 게시글 리스트 내에서 검색 시, 실행되는 함수 */
       if (!this.keyword) return;
         
-    const boardId = this.$route.query.boardId;
-         console.log(boardId);
+      const boardId = this.$route.query.boardId;
+      
       axios
         .get(`/api/post/getPosts/${boardId}/${this.keyword}`, { headers: this.headers })
         .then(response => {
-            console.log(response.data);
-          this.boards = response.data.posts.map(post => {
-            if (post.scraped === false) {
-              post.imgName = 'fi-rr-bookmark';
-            } else {
-              post.imgName = 'fi-sr-bookmark';
-            }
-            return post;
-          });
+          this.boards = response.data.posts;
 
+          /* 전체 페이지 수 할당 */
           this.totalPages = response.data.totalPages;
         })
         .catch(err => {
           console.error(err);
         });
+    },
+    loadPage(action) { /* 페이지를 이전 또는 다음으로 이동 */
+      if (action === 'previous' && this.pageNumber > 0) {
+        this.pageNumber--;
+      } else if (action === 'next' && this.pageNumber < this.totalPages - 1) {
+        this.pageNumber++;
+      }
+      
+      /* 게시글 리스트 재조회 */
+      this.fetchData();
+    },
+    gotoPage(page) { /* 페이지 번호를 지정된 페이지로 이동  */
+      if (page >= 0 && page <= this.totalPages - 1) {
+        this.pageNumber = page;
+
+        /* 게시글 리스트 재조회 */
+        this.fetchData();
+      }
     },
   },
 };

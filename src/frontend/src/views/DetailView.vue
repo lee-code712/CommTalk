@@ -35,7 +35,7 @@
         </div>
     
         <div class="other-comment-wrap">
-          <div class="activity-wrap" :class="{ 'no-margin' : showComment.open }">
+          <div class="activity-wrap" :class="{ 'no-margin' : showComment }">
             <div class="comment-btn">
               <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
               댓글 {{ post.commentCnt }}
@@ -43,7 +43,7 @@
               <span class="angle-icon" @click="toggleComment">
                 <img 
                   style="margin-top: 3px; width: 16px; height: 16px;" 
-                  :src="showComment.open ? angleUpImg : angleDownImg"
+                  :src="showComment ? angleUpImg : angleDownImg"
                 />
               </span>
             </div>
@@ -63,7 +63,7 @@
             </div>
           </div>
 
-          <div class="comment-wrap" v-if="showComment.open">
+          <div class="comment-wrap" v-if="showComment">
             <div class="comment-box" v-for="(comment, commentIndex) in comments" :key="commentIndex">
               <div class="comment-box-inner">
                 <div class="comment-header">
@@ -107,18 +107,17 @@
                     <div class="my-comment-btn-wrap">
                       <div class="file-anonymous-wrap">
                         <div class="anonymous">
-                            
-                             <div class="checkbox-container">
-                              <input
-                                type="checkbox"
-                                :id="'checkbox-' + commentIndex"
-                                v-model="replyData.isReplyAnonymous"
-                              />
-                              <label :for="'checkbox-' + commentIndex">
-                                <span class="checkbox-icon"></span>
-                                  익명
-                              </label>
-                            </div>     
+                           <div class="checkbox-container">
+                            <input
+                              type="checkbox"
+                              :id="'checkbox-' + commentIndex"
+                              v-model="replyData.isReplyAnonymous"
+                            />
+                            <label :for="'checkbox-' + commentIndex">
+                              <span class="checkbox-icon"></span>
+                                익명
+                            </label>
+                          </div>     
                         </div>
                       </div>
                       <button class="submit-btn" @click="createComment(postId, comment.commentId)">등록</button>
@@ -197,6 +196,7 @@
 
 <script>
 import axios from 'axios';
+
 import HeaderLayout from "@/components/layout/HeaderLayout.vue";
 import SubHeader from "@/components/layout/SubHeader.vue";
 import FooterLayout from "@/components/layout/FooterLayout.vue";
@@ -219,9 +219,7 @@ export default {
       angleUpImg: require('@/assets/images/fi-rr-angle-small-up.png'),
       angleDownImg: require('@/assets/images/fi-rr-angle-small-down.png'),
       postId: this.$route.query.postId,
-      showComment: {
-        open: 'true'
-      },
+      showComment: true,
       boardId: '',
       post: [],
       comments: [],
@@ -274,16 +272,16 @@ export default {
       };
     
       axios
-        .post(`/api/post/changeEngagementAction`, data, { headers: this.headers })
-        .then((response) => {
-          console.log(response.data);
-          
-          /* 현재 페이지를 리로드 */
-          this.$router.go();
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      .post(`/api/post/changeEngagementAction`, data, { headers: this.headers })
+      .then((response) => {
+        console.log(response.data);
+        
+        /* 현재 페이지를 리로드 */
+        this.$router.go();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     },
     toggleLike(commentId) { /* 댓글 공감 상태 변경 */
       /* commentId와 일치하는 댓글을 this.comments 배열에서 찾음 */
@@ -313,7 +311,7 @@ export default {
     },
     toggleComment() { /* 댓글 노출 */
       /* 댓글 노출 상태를 전환 */
-      this.showComment.open = !this.showComment.open;
+      this.showComment = !this.showComment;
     },
     toggleReply(index) { /* 대댓글 노출 */
       if (this.comments[index]) {
@@ -334,8 +332,7 @@ export default {
     },
     changeScrapImg() { /* 게시물 스크랩 상태 전환 */
       const postId = this.$route.query.postId;
-      console.log("postId");
-      console.log(postId);
+      
       /* 스크랩 상태를 전환 */
       this.post.scraped = !this.post.scraped;
       this.changeEngagementAction(postId, "scrap");

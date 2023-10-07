@@ -37,7 +37,7 @@
         }
         .msg-notice-wrap {
           display: flex;
-          gap: 2px;
+          gap: 10px;
           font-size: 12px;
           color: #606060;
         }
@@ -64,7 +64,7 @@
     .hashtags {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 6px;
       margin-bottom: 20px;
       .hashtag {
         padding: 8px 10px;
@@ -150,7 +150,7 @@
         color: #606060;
         .msg-notice-wrap {
           display: flex;
-          gap: 2px;
+          gap: 10px;
         }
 
         .writer-date-wrap {

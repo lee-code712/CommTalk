@@ -82,6 +82,7 @@
 
 <script>
 import axios from 'axios';
+
 import HeaderLayout from '@/components/layout/HeaderLayout.vue';
 import SubHeader from '@/components/layout/SubHeader.vue';
 import FooterLayout from '@/components/layout/FooterLayout.vue';
@@ -104,6 +105,7 @@ export default {
       pageNumber: 0,
       totalPages: '',
       isAllList: false,
+      boardId: this.$route.query.boardId,
     };
   },
   created() {

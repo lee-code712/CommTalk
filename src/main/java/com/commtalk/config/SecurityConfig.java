@@ -41,7 +41,10 @@ public class SecurityConfig {
 	        .antMatchers("/api/main/updatePinnedBoards",
 					"/api/main/getMember",
 					"/api/post/changeEngagementAction",
-					"/api/post/createComment").authenticated()   // 인증 필요 URI
+					"/api/post/createComment",
+					"/api/post/createPost",
+					"/api/file/upload/**",
+					"/api/myPage/**").authenticated()   // 인증 필요 URI
 	        .anyRequest().permitAll();
 	    http
 	        .sessionManagement()

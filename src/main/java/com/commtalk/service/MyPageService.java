@@ -1,10 +1,16 @@
 package com.commtalk.service;
 
 import com.commtalk.dto.MemberDTO;
+import com.commtalk.dto.PostDTO;
 import com.commtalk.model.Account;
+import com.commtalk.model.EngagementAction;
+import com.commtalk.model.EngagementAction.ActionType;
 import com.commtalk.model.Member;
+import com.commtalk.model.Post;
 import com.commtalk.repository.AccountRepository;
+import com.commtalk.repository.EngagementActionRepository;
 import com.commtalk.repository.MemberRepository;
+import com.commtalk.repository.PostRepository;
 import com.commtalk.security.JwtTokenProvider;
 import com.commtalk.util.JSONFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,13 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MyPageService {
@@ -33,6 +41,10 @@ public class MyPageService {
     private AccountRepository accountRepo;
     @Resource
     private MemberRepository memberRepo;
+    @Resource
+    private PostRepository postRepo;
+    @Resource
+    private EngagementActionRepository engagementActionRepo;
 
     /* 회원 정보 조회 */
     public String getMember(Long memberId) throws JsonProcessingException {
@@ -102,6 +114,57 @@ public class MyPageService {
             }
         }
         return JSONFactory.getJSONStringFromMap(response);
+    }
+
+    /* 타입별 게시글 목록 조회 */
+    public String getPostsByType(Long memberId, String type) throws JsonProcessingException {
+        List<Post> posts = new ArrayList<>();
+        if (type.equals("post")) {
+            posts = postRepo.findByAuthorOrderByCreatedAt(memberId);
+        }
+        else if (type.equals("comment")) {
+            posts = postRepo.findByCommentOrderByCreatedAt(memberId);
+        }
+        else if (type.equals("liked")) {
+            posts = postRepo.findByIds(getPostIdsFromEngagementAction(memberId, ActionType.plike));
+        }
+        else if (type.equals("scraped")) {
+            posts = postRepo.findByIds(getPostIdsFromEngagementAction(memberId, ActionType.scrap));
+        }
+
+        List<PostDTO> postDTOs = new ArrayList<>();
+        for (Post post : posts) {
+            if (!post.getIsDeleted()) {
+                postDTOs.add(setPostWithEngagementAction(memberId, post));
+            }
+        }
+
+        return JSONFactory.getJSONStringFromObject(postDTOs);
+    }
+
+    private PostDTO setPostWithEngagementAction(Long memberId, Post post) {
+        boolean isLiked = false;
+        boolean isScraped = false;
+
+        List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndRefId(memberId, post.getId());
+        if (engagementActions != null) {
+            for (EngagementAction engagementAction : engagementActions) {
+                if (engagementAction.getAction() == EngagementAction.ActionType.plike) {
+                    isLiked = true;
+                } else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
+                    isScraped = true;
+                }
+            }
+        }
+
+        return new PostDTO(post, isLiked, isScraped);
+    }
+
+    private List<Long> getPostIdsFromEngagementAction(Long memberId, ActionType actionType) {
+        List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndActionType(memberId, actionType);
+        return engagementActions.stream()
+                .map(EngagementAction::getRefId)
+                .collect(Collectors.toList());
     }
 
 }

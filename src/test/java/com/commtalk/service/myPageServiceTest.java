@@ -1,5 +1,6 @@
 package com.commtalk.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.commtalk.CommtalkApplication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,17 @@ public class myPageServiceTest {
             command.put("email", "commtalk@example.com");
             command.put("phone", "010-1222-1212");
             String jsonStr = myPageService.updateMember(10L, command);
+            System.out.println(jsonStr);
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetPostByType() {
+        try {
+            String jsonStr = myPageService.getPostsByType(11L, "scraped");
             System.out.println(jsonStr);
         }
         catch (JsonProcessingException e) {

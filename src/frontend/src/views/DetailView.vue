@@ -91,7 +91,7 @@
                     <div class="like-btn" @click="toggleLike(comment.commentId)">
                       <img
                         style="width: 14px; height: 14px;"
-                        :src="comment.likeStatus ? likeImgActive : likeImg"
+                        :src="comment.liked ? likeImgActive : likeImg"
                       />
                       공감하기 {{ comment.likes }}
                     </div>
@@ -267,6 +267,8 @@ export default {
         - actionType: plike
       */
       
+      refId = eval(refId);
+      
       const data = {
         "refId": refId,
         "actionType": actionType
@@ -434,6 +436,8 @@ export default {
         if (this.post.commentable) {
           this.commentOpen = true;
         }
+        
+        this.boardId = this.post.board.boardId;
       })
       .catch(err => {
         console.error(err);

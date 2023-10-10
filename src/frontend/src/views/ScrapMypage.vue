@@ -70,7 +70,7 @@ export default {
      console.log(this.link);
       console.log(this.headers);
       axios
-        .get(this.link + '/api/myPage/getPosts/scarped', { headers: this.headers })
+        .get(this.link + '/api/myPage/getPosts/scraped', { headers: this.headers })
         .then((response) => {
           this.scrapPosts = response.data;
           console.log(this.scrapPosts);

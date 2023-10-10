@@ -195,6 +195,8 @@ export default {
       if (boardId) { /* 해당 게시글 리스트 조회 */
           url = "/api/post/getPostsByBoard/" + boardId;
       }
+      
+      console.log(this.headers);
   
       axios
           .get(url, data, { headers: this.headers })

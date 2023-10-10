@@ -63,7 +63,7 @@ export default {
         'Content-Type': 'application/json',
       };
     },
-    getScrap() { /* 내 스크랩 */
+    getScrap() { /* 내 스크랩 가져오기 */
       axios
         .get(this.link + '/api/myPage/getPosts/scarped', { headers: this.headers })
         .then((response) => {

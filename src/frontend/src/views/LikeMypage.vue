@@ -70,7 +70,7 @@ export default {
         'Content-Type': 'application/json',
       };
     },
-    getLike() { /* 내 공감 */
+    getLike() { /* 내 공감 가져오기 */
       axios
         .get(this.link + '/api/myPage/getPosts/liked', { headers: this.headers })
         .then((response) => {

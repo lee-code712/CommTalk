@@ -193,7 +193,6 @@ export default {
         formData.append('images', image.file);
       }
 
-      /* 파일 업로드 요청 헤더 설정 */
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',

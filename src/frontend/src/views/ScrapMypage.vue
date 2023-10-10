@@ -47,6 +47,8 @@ export default {
   },
   data() {
     return {
+      headers: [],
+      link: '',
       scrapPosts: [],
     };
   },
@@ -57,6 +59,7 @@ export default {
   methods: {
     setupHeaders() { /* http 요청 헤더를 설정하고 엔드포인트에 대한 인증 토큰을 포함 */
       const token = localStorage.getItem('token');
+      console.log(token);
       this.link = 'http://' + window.location.host;
       this.headers = {
         'Authorization': `Bearer ${token}`,
@@ -64,6 +67,8 @@ export default {
       };
     },
     getScrap() { /* 내 스크랩 가져오기 */
+     console.log(this.link);
+      console.log(this.headers);
       axios
         .get(this.link + '/api/myPage/getPosts/scarped', { headers: this.headers })
         .then((response) => {

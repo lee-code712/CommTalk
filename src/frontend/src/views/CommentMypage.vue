@@ -93,6 +93,8 @@ export default {
   },
   data() {
     return {
+      headers: [],
+      link: '',
       tabs: ['내가 쓴 글', '댓글 단 글'],
       activeTab: '내가 쓴 글',
       mycomments: [],

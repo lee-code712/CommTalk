@@ -48,6 +48,18 @@
                 익명
               </label>
             </div>
+            
+            <div class="checkbox-container">
+              <input
+                type="checkbox"
+                :id="'checkbox02'"
+                v-model="isCommentable"
+              />
+              <label :for="'checkbox02'">
+                <span class="checkbox-icon"></span>
+                댓글 허용
+              </label>
+            </div>
 
             <input type="file" ref="fileInput" multiple @change="handleFileChange" />
           </div>

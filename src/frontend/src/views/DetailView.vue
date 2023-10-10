@@ -36,7 +36,7 @@
     
         <div class="other-comment-wrap">
           <div class="activity-wrap" :class="{ 'no-margin' : showComment }">
-            <div class="comment-btn">
+            <div class="comment-btn" v-if="commentOpen">
               <img style="width: 12px; height: 12px;" src="@/assets/images/fi-rr-comment.png"/>
               댓글 {{ post.commentCnt }}
               <div class="hr">|</div> 
@@ -163,7 +163,7 @@
             </div>
         </div>
 
-        <div class="my-comment-wrap">
+        <div class="my-comment-wrap" v-if="commentOpen">
           <textarea v-model="commentData.myComment" class="my-comment" placeholder="댓글을 입력하세요."></textarea>
           <div class="my-comment-btn-wrap">
             <div class="file-anonymous-wrap">
@@ -212,6 +212,7 @@ export default {
     return {
       headers: [],
       link: '',
+      commentOpen: false,
       likeImg: require('@/assets/images/fi-rr-thumbs-up.png'),
       likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
       scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
@@ -429,6 +430,10 @@ export default {
         /* this.post 배열에 게시물의 세부 정보를 저장 */
         this.post = response.data;
         console.log(this.post);
+        
+        if (this.post.commentable) {
+          this.commentOpen = true;
+        }
       })
       .catch(err => {
         console.error(err);

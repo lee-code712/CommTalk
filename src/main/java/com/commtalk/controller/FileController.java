@@ -54,7 +54,7 @@ public class FileController {
     }
 
 	@PostMapping("/upload/{postId}")
-	public ResponseEntity<?> uploadImages(HttpServletRequest request, @RequestParam("files") List<MultipartFile> files) {
+	public ResponseEntity<?> uploadImages(HttpServletRequest request, @RequestParam("images") List<MultipartFile> files) {
 		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
 		ErrorMsg errors = new ErrorMsg();
 

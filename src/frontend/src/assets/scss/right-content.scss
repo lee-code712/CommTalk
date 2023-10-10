@@ -22,6 +22,16 @@
         align-items: center;
         gap: 14px;
         margin: 2px;
+        
+        .nick-user-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          .username {
+            font-size: 12px;
+            color: var(--gray70);
+          } 
+        }
       }
 
       .logout-btn {
@@ -167,6 +177,7 @@
             .view-like-wrap {
               display: flex;
               align-items: center;
+              gap: 8px;
               font-size: 12px;
               color: #606060;
 
@@ -174,22 +185,11 @@
               .like-wrap {
                 display: flex;
                 align-items: center;
+                gap: 4px;
               }
-
-              .view-wrap::before,
-              .like-wrap::before {
-                content: "";
-                display: inline-block;
-                margin: 0px 2px;
-                width: 2px;
-                height: 2px;
-                background-color: #d3d5d7;
-                border-radius: 50%;
-                vertical-align: top;
-              }
-
+              
               img {
-                margin-right: 6px;
+                margin-top: 2px;
                 width: 12px;
                 height: 12px;
               }

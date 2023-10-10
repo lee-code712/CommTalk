@@ -27,7 +27,10 @@
                 <li v-for="(mycomment, index) in mycomments" :key="index">
                   <a :href="'/detail?postId=' + mycomment.postId">
                     <div class="list-content">
-                      <div class="title">{{ mycomment.title }}</div>
+                      <div class="boardname-tit-wrap">
+                        <div class="boardname">{{ mycomment.board.boardName }}</div>
+                        <div class="title">{{ mycomment.title }}</div>
+                      </div>
                       <div class="content">{{ mycomment.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">
@@ -49,7 +52,10 @@
                 <li v-for="(commentPost, index) in commentPosts" :key="index">
                   <a :href="'/detail?postId=' + commentPost.postId">
                     <div class="list-content">
-                      <div class="title">{{ commentPost.title }}</div>
+                      <div class="boardname-tit-wrap">
+                        <div class="boardname">{{ commentPost.board.boardName }}</div>
+                        <div class="title">{{ commentPost.title }}</div>
+                      </div>
                       <div class="content">{{ commentPost.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">

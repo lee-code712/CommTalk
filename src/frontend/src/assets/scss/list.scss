@@ -34,9 +34,9 @@
       margin-top: 40px;
       .list {
         padding: 32px 30px;
-        border-top: 1px solid var(--gray40);
-        &:last-child {
-          border-bottom: 1px solid var(--gray40);
+        border-top: 1px dashed var(--gray40);
+        &:first-child {
+          border-top: none;
         }
         &:hover {
           .title {

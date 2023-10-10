@@ -8,12 +8,11 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        margin: 0 auto;
-        width: 1480px;
 
         .user-profile {
             display: flex;
             align-items: center;
+            margin: 0px 38px;
             gap: 4px;
             font-size: 14px;
             color: var(--gray70);

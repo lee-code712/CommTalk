@@ -26,14 +26,14 @@ public class CommonFileUtils {
 
 		// 디렉토리 준비
 		File file = new File(fileDirPath);
-		if (file.exists() == false) {
+		if (!file.exists()) {
 			file.mkdirs();
 		}
 		
 		// 파일 저장
 		int fileIndex = 0;
 		for (MultipartFile multipartFile : multipartFiles) {
-			if (multipartFile.isEmpty() == false) {
+			if (!multipartFile.isEmpty()) {
 				String fileName = multipartFile.getOriginalFilename();
 				String ext = fileName.substring(fileName.lastIndexOf("."));
 

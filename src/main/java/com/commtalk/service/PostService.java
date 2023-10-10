@@ -15,6 +15,7 @@ import com.commtalk.model.*;
 import com.commtalk.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import com.commtalk.dto.PostDTO;
@@ -123,7 +124,6 @@ public class PostService {
 	
 	// 게시글 상세 조회
 	public String getPostById(Long postId, Long memberId) throws JsonProcessingException {
-
 		Post post = postRepo.findById(postId).orElse(null);
 		if (post != null) {
 			PostDetailDTO postDTO = null;
@@ -134,7 +134,7 @@ public class PostService {
 				postDTO = new PostDetailDTO(post, false, false);
 			}
 			List<Comment> comments = post.getComments();
-			if (comments.size() > 0) {
+			if (!comments.isEmpty()) {
 				Map<Long, CommentDTO> commentDTOMap = new HashMap<>();
 				for (Comment comment : comments) {
 					if (comment.getParent() == null) {
@@ -163,12 +163,11 @@ public class PostService {
 
 	// 특정 게시글의 댓글 리스트 조회
 	public String getCommentsByPost(Long postId, Long memberId) throws JsonProcessingException {
-
 		Post post = postRepo.findById(postId).orElse(null);
 		if (post != null) {
 			List<Comment> comments = post.getComments();
 			List<CommentDTO> commentDTOs = new ArrayList<>();
-			if (comments.size() > 0) {
+			if (!comments.isEmpty()) {
 				Map<Long, CommentDTO> commentDTOMap = new HashMap<>();
 				for (Comment comment : comments) {
 					if (comment.getParent() == null) {
@@ -195,7 +194,7 @@ public class PostService {
 
 		Post post = postRepo.findById(postId).orElse(null);
 		if (post != null) {
-			if (memberId == null || memberId != post.getAuthor().getId()) {
+			if (memberId == null || !memberId.equals(post.getAuthor().getId())) {
 				post.setViews(post.getViews() + 1);
 				postRepo.save(post);
 				response.put("status", "success");
@@ -267,29 +266,28 @@ public class PostService {
 	// 댓글 생성
 	public String createComment(Long memberId, Map<String, Object> command) throws JsonProcessingException {
 		Member member = memberRepo.findById(memberId).orElse(null);
-		Post post = postRepo.findById(new Long(command.get("postId").toString())).orElse(null);
+		Post post = postRepo.findById(Long.valueOf(command.get("postId").toString())).orElse(null);
 		Comment parentComment = null;
 		if (command.get("parentId") != null) {
-			parentComment = commentRepo.findById(new Long(command.get("parentId").toString())).orElse(null);
+			parentComment = commentRepo.findById(Long.valueOf(command.get("parentId").toString())).orElse(null);
 		}
 		if (member != null && post != null) {
 			Comment comment = new Comment();
 			comment.setContent(command.get("content").toString());
 			comment.setPost(post);
 			comment.setWriter(member);
-			comment.setIsAnonymous(Integer.valueOf(command.get("isAnonymous").toString()) != 0);
+			comment.setIsAnonymous(Integer.parseInt(command.get("isAnonymous").toString()) != 0);
 			if (parentComment != null) {
 				comment.setParent(parentComment);
 			}
 			commentRepo.save(comment);
 		}
 
-		return getCommentsByPost(new Long(command.get("postId").toString()), memberId);
+		return getCommentsByPost(Long.valueOf(command.get("postId").toString()), memberId);
 	}
 
 	// 특정 게시판의 게시판 정보 조회
 	public String getBoard(Long boardId) throws JsonProcessingException {
-
 		Board board = boardRepo.findById(boardId).orElse(null);
 
 		if (board != null) {
@@ -299,6 +297,37 @@ public class PostService {
 		}
 
 		return null;
+	}
+
+	// 게시글 생성
+	public String createPost(Long memberId, Map<String, Object> command) throws JsonProcessingException {
+		Map<String, Object> response = new HashMap<>();
+
+		Member member = memberRepo.findById(memberId).orElse(null);
+		Board board = boardRepo.findById(Long.valueOf(command.get("boardId").toString())).orElse(null);
+
+		if (member != null && board != null) {
+			Post post = new Post();
+			post.setTitle(command.get("title").toString());
+			post.setContent(command.get("content").toString());
+			post.setBoard(board);
+			post.setAuthor(member);
+			post.setIsAnonymous(Integer.parseInt(command.get("isAnonymous").toString()) != 0);
+			post.setIsCommentable(Integer.parseInt(command.get("isCommentable").toString()) != 0);
+			postRepo.save(post);
+
+			List<String> hashtags = (List<String>) command.get("hashtags");
+			for (String hashtag : hashtags) {
+				PostHashtag postHashtag = new PostHashtag();
+				postHashtag.setPost(post);
+				postHashtag.setHashtag(hashtag);
+				postHashtagRepo.save(postHashtag);
+			}
+
+			response.put("postId", post.getId());
+		}
+
+		return JSONFactory.getJSONStringFromMap(response);
 	}
 
 	private PostDTO setPostWithEngagementAction(Long memberId, Post post) {

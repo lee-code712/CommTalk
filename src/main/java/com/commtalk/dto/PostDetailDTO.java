@@ -28,6 +28,7 @@ public class PostDetailDTO {
 	private List<CommentDTO> comments;
 	private List<AttachmentSimpleDTO> attachments;
 	private List<PostHashtagSimpleDTO> hashtags;
+	private boolean isCommentable;
 	private boolean isLiked;
 	private boolean isScraped;
 	
@@ -51,6 +52,7 @@ public class PostDetailDTO {
 		this.comments = new ArrayList<>();
 		this.attachments = new ArrayList<>();
 		this.hashtags = new ArrayList<>();
+		this.isCommentable = post.getIsCommentable();
 		this.isLiked = isLiked;
 		this.isScraped = isScraped;
 	}

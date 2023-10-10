@@ -19,9 +19,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board b WHERE b.id = :boardId ORDER BY p.views DESC")
 	List<Post> findByBoardAndViewsWithCommentsAndBoard(@Param("boardId") Long boardId, Pageable pageable);
 
-	@Query("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments c JOIN FETCH p.board b WHERE b.id = :boardId ORDER BY p.createdAt DESC")
-	List<Post> findByCreatedAtWithCommentsAndBoard(@Param("boardId") Long boardId, Pageable pageable);
-
 	@Query(value = "SELECT DISTINCT p FROM Post p " +
 			"JOIN FETCH p.board b " +
 			"JOIN FETCH p.author a " +
@@ -52,6 +49,35 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
 	Page<Post> findByBoardOrderByCreatedAt(@Param("boardId") Long boardId, Pageable pageable);
 
+	@Query(value = "SELECT DISTINCT p FROM Post p " +
+			"JOIN FETCH p.board b " +
+			"JOIN FETCH p.author a " +
+			"LEFT JOIN FETCH p.comments c " +
+			"WHERE a.id = :authorId ORDER BY p.createdAt DESC",
+			countQuery = "SELECT COUNT(p) FROM Post p " +
+					"JOIN p.board b " +
+					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
+	List<Post> findByAuthorOrderByCreatedAt(@Param("authorId") Long authorId);
+
+	@Query(value = "SELECT DISTINCT p FROM Post p " +
+			"JOIN FETCH p.board b " +
+			"JOIN FETCH p.author a " +
+			"LEFT JOIN FETCH p.comments c " +
+			"WHERE c.writer.id = :writerId ORDER BY p.createdAt DESC",
+			countQuery = "SELECT COUNT(p) FROM Post p " +
+					"JOIN p.board b " +
+					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
+	List<Post> findByCommentOrderByCreatedAt(@Param("writerId") Long writerId);
+
+	@Query(value = "SELECT DISTINCT p FROM Post p " +
+			"JOIN FETCH p.board b " +
+			"JOIN FETCH p.author a " +
+			"LEFT JOIN FETCH p.comments c " +
+			"WHERE p.id IN :ids ORDER BY p.createdAt DESC",
+			countQuery = "SELECT COUNT(p) FROM Post p " +
+					"JOIN p.board b " +
+					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
+	List<Post> findByIds(List<Long> ids);
 
 	@Query("SELECT DISTINCT p " +
 			"FROM Post p " +

@@ -132,7 +132,7 @@ public class PostController {
 
 		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
-			Long refId = new Long((Integer) command.get("refId"));
+			Long refId = Long.valueOf((Integer) command.get("refId"));
 			ActionType action = ActionType.valueOf(command.get("actionType").toString());
 			response = postSvc.changeEngagementAction(memberId, refId, action);
 
@@ -155,7 +155,7 @@ public class PostController {
 
 		Long memberId = jwtTokenProvider.getMemberId(request);
 		try {
-			Long postId = new Long((Integer) command.get("postId"));
+			Long postId = Long.valueOf((Integer) command.get("postId"));
 			response = postSvc.updateViews(postId, memberId);
 
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
@@ -198,6 +198,27 @@ public class PostController {
 
 		try {
 			response = postSvc.getBoard(boardId);
+
+			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
+		} catch (Exception e) {
+			return ExceptionUtils.setException(errors, 500, e.getMessage(), header);
+		}
+	}
+
+	/* 게시글 등록 */
+	@RequestMapping(value="/createPost", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = String.class),
+			@ApiResponse(code = 500, message = "실패", response = ErrorMsg.class)
+	})
+	public ResponseEntity<?> createPost(@RequestBody Map<String, Object> command, HttpServletRequest request) {
+		MultiValueMap<String, String> header = new LinkedMultiValueMap<String, String>();
+		ErrorMsg errors = new ErrorMsg();
+		String response = "[]";
+
+		Long memberId = jwtTokenProvider.getMemberId(request);
+		try {
+			response = postSvc.createPost(memberId, command);
 
 			return new ResponseEntity<String>(response, header, HttpStatus.valueOf(200));
 		} catch (Exception e) {

@@ -2,13 +2,19 @@ package com.commtalk.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
+
+import com.commtalk.model.Post;
 import org.apache.commons.codec.binary.Base64;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +27,7 @@ public class CommonFileUtils {
 	@Value("${servlet.multipart.location}")
 	private String fileDirPath;
 
-	public List<Attachment> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+	public List<Attachment> storePostFiles(List<MultipartFile> multipartFiles, Post post) throws IOException {
 		List<Attachment> attachments = new ArrayList<>();
 
 		// 디렉토리 준비
@@ -48,7 +54,7 @@ public class CommonFileUtils {
 				}
 				file = new File(createPath(fileName, ext, i));
 				
-				Attachment attachment = new Attachment(fileName);
+				Attachment attachment = new Attachment(fileName, post);
 				attachments.add(attachment);
 			}
 			multipartFile.transferTo(file);
@@ -84,6 +90,10 @@ public class CommonFileUtils {
 		return images;
 	}
 
+	public Path getFilePath(String fileName) throws MalformedURLException {
+		return Paths.get(createPath(fileName));
+	}
+
 	private String createPath(String fileName, String ext, int i) {
 		if (i >= 2) {
 			return fileDirPath + fileName + "(" + i + ")" + ext;
@@ -91,7 +101,7 @@ public class CommonFileUtils {
 		return fileDirPath + fileName + ext;
 	}
 	
-	public String createPath(String fileName) {
+	private String createPath(String fileName) {
 		return fileDirPath + fileName;
 	}
 

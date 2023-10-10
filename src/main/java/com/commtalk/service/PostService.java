@@ -330,6 +330,10 @@ public class PostService {
 		return JSONFactory.getJSONStringFromMap(response);
 	}
 
+	public Post findById(Long postId) {
+		return postRepo.findById(postId).orElse(null);
+	}
+
 	private PostDTO setPostWithEngagementAction(Long memberId, Post post) {
 		boolean isLiked = false;
 		boolean isScraped = false;

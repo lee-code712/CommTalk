@@ -40,8 +40,9 @@ public class Attachment {
 	public Attachment() {
 	}
 	
-	public Attachment(String fileName) {
+	public Attachment(String fileName, Post post) {
 		this.fileName = fileName;
+		this.post = post;
 	}
 	
 	@PrePersist

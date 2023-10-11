@@ -47,14 +47,13 @@ public class CommonFileUtils {
 				int idx = fileName.lastIndexOf("."); // 확장자명 *번째
 				fileName = fileName.substring(0, idx);
 
-				file = new File(createPath(fileName, ext, i));
-
+				file = new File(createPath(setFileName(fileName, ext, i)));
 				while (file.isFile()) { // 디렉토리에 파일이 있으면 true 없으면 false
 					i++;
 				}
-				file = new File(createPath(fileName, ext, i));
+				file = new File(createPath(setFileName(fileName, ext, i)));
 				
-				Attachment attachment = new Attachment(fileName, post);
+				Attachment attachment = new Attachment(setFileName(fileName, ext, i), post);
 				attachments.add(attachment);
 			}
 			multipartFile.transferTo(file);
@@ -94,11 +93,11 @@ public class CommonFileUtils {
 		return Paths.get(createPath(fileName));
 	}
 
-	private String createPath(String fileName, String ext, int i) {
+	private String setFileName(String fileName, String ext, int i) {
 		if (i >= 2) {
-			return fileDirPath + fileName + "(" + i + ")" + ext;
+			return fileName + "(" + i + ")" + "." + ext;
 		}
-		return fileDirPath + fileName + ext;
+		return fileName + "." + ext;
 	}
 	
 	private String createPath(String fileName) {

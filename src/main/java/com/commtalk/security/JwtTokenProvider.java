@@ -23,106 +23,106 @@ import java.security.Key;
 
 @Component
 public class JwtTokenProvider {
-  
-  private final Key key;
 
-  @Value("${jwt.expiration}")
-  private long expire_time;
+    private final Key key;
 
-  @Autowired
-  private UserDetailsService userDetailsService;
-  
-  public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
-      byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-      this.key = Keys.hmacShaKeyFor(keyBytes);
-  }
+    @Value("${jwt.expiration}")
+    private long expire_time;
 
-  /**
-   * 적절한 설정을 통해 토큰을 생성하여 반환
-   * @param authentication
-   * @return
-   */
-  public String generateToken(Authentication authentication) {
-	CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-    Date now = new Date();
-    Date expiresIn = new Date(now.getTime() + expire_time);
-    
-    return Jwts.builder()
-            .setSubject(authentication.getName())
-            .claim("memberId", userDetails.getMemberId())
-            .setExpiration(expiresIn)
-            .signWith(key, SignatureAlgorithm.HS256)
-            .compact();
-  }
-
-  /**
-   * 토큰으로부터 클레임을 만들고, 이를 통해 User 객체를 생성하여 Authentication 객체를 반환
-   * @param token
-   * @return
-   */
-  public Authentication getAuthentication(String token) {
-    String username = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-    
-    return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-  }
-
-  /**
-   * http 헤더로부터 bearer 토큰을 가져옴.
-   * @param req
-   * @return
-   */
-  public String resolveToken(HttpServletRequest req) {
-    String bearerToken = req.getHeader("Authorization");
-    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-      return bearerToken.substring(7);
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
-    return null;
-  }
 
-  /**
-   * 토큰을 검증
-   * @param token
-   * @return
-   */
-  public boolean validateToken(String token) {
-    try {
-    	Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-      return true;
-    } catch (JwtException e) {
-    	return false;
+    /**
+     * 적절한 설정을 통해 토큰을 생성하여 반환
+     * @param authentication
+     * @return
+     */
+    public String generateToken(Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        Date now = new Date();
+        Date expiresIn = new Date(now.getTime() + expire_time);
+
+        return Jwts.builder()
+                .setSubject(authentication.getName())
+                .claim("memberId", userDetails.getMemberId())
+                .setExpiration(expiresIn)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
-  }
-  
-  /**
-   * 토큰으로 memberId를 찾아 반환
-   * @param req
-   * @return
-   */
-  public Long getMemberId(HttpServletRequest req) {
-	  String token = resolveToken(req);
-      if (token == null || token.equals("null")) {
+
+    /**
+     * 토큰으로부터 클레임을 만들고, 이를 통해 User 객체를 생성하여 Authentication 객체를 반환
+     * @param token
+     * @return
+     */
+    public Authentication getAuthentication(String token) {
+        String username = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    /**
+     * http 헤더로부터 bearer 토큰을 가져옴.
+     * @param req
+     * @return
+     */
+    public String resolveToken(HttpServletRequest req) {
+        String bearerToken = req.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
         return null;
-      }
-	  Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-	  return ((Integer)claims.get("memberId")).longValue();
-  }
-  
-  // secret key 랜덤 생성 용도
-  public static void main(String[] args) {
-	  String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	  
-	  SecureRandom random = new SecureRandom();
-      StringBuilder sb = new StringBuilder(64);
+    }
 
-      for (int i = 0; i < 64; i++) {
-          int randomIndex = random.nextInt(CHARACTERS.length());
-          char randomChar = CHARACTERS.charAt(randomIndex);
-          sb.append(randomChar);
-      }
-      
-      System.out.println(sb.toString());
-  }
-  
+    /**
+     * 토큰을 검증
+     * @param token
+     * @return
+     */
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 토큰으로 memberId를 찾아 반환
+     * @param req
+     * @return
+     */
+    public Long getMemberId(HttpServletRequest req) {
+        String token = resolveToken(req);
+        if (token == null || token.equals("null") || !validateToken(token)) {
+            return null;
+        }
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return ((Integer)claims.get("memberId")).longValue();
+    }
+
+    // secret key 랜덤 생성 용도
+    public static void main(String[] args) {
+        String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(64);
+
+        for (int i = 0; i < 64; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+
+        System.out.println(sb.toString());
+    }
+
 }

@@ -25,6 +25,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"LEFT JOIN FETCH p.comments c " +
 			"WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% ORDER BY p.createdAt DESC",
 			countQuery = "SELECT COUNT(p) FROM Post p " +
+					"JOIN p.board b " +
+					"JOIN FETCH p.author a " +
+					"LEFT JOIN FETCH p.comments c " +
 					"WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% ORDER BY p.createdAt DESC")
 	Page<Post> findByTitleOrContent(@Param("keyword") String keyword, Pageable pageable);
 
@@ -35,6 +38,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"WHERE b.id = :boardId AND (p.title LIKE %:keyword% OR p.content LIKE %:keyword%) ORDER BY p.createdAt DESC",
 			countQuery = "SELECT COUNT(p) FROM Post p " +
 					"JOIN p.board b " +
+					"JOIN FETCH p.author a " +
+					"LEFT JOIN FETCH p.comments c " +
 					"WHERE b.id = :boardId AND (p.title LIKE %:keyword% OR p.content LIKE %:keyword%) ORDER BY p.createdAt DESC")
 	Page<Post> findByBoardIdAndTitleOrContent(@Param("keyword") String keyword, @Param("boardId") Long boardId, Pageable pageable);
 
@@ -45,6 +50,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"WHERE b.id = :boardId ORDER BY p.createdAt DESC",
 			countQuery = "SELECT COUNT(p) FROM Post p " +
 					"JOIN p.board b " +
+					"JOIN FETCH p.author a " +
+					"LEFT JOIN FETCH p.comments c " +
 					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
 	Page<Post> findByBoardOrderByCreatedAt(@Param("boardId") Long boardId, Pageable pageable);
 

@@ -31,6 +31,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 				Authentication auth = jwtTokenProvider.getAuthentication(token);
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
+			else {
+				response.sendError(403, "토큰 인증 실패");
+				return;
+			}
 		} catch (Exception e) {
 			response.sendError(403, e.getMessage());
 			return;

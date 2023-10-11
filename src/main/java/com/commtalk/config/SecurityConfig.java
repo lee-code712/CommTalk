@@ -37,14 +37,15 @@ public class SecurityConfig {
 	        .csrf().disable();
 	    http
 	        .authorizeRequests()
-	        .antMatchers("/**").permitAll()
+	        .antMatchers("/api/**").permitAll() // 인증 불필요 URI
 	        .antMatchers("/api/main/updatePinnedBoards",
 					"/api/main/getMember",
 					"/api/post/changeEngagementAction",
 					"/api/post/createComment",
 					"/api/post/createPost",
 					"/api/file/upload/**",
-					"/api/myPage/**").authenticated();   // 인증 필요 URI
+					"/api/myPage/**").authenticated()   // 인증 필요 URI
+	        .anyRequest().permitAll();
 	    http
 	        .sessionManagement()
 	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

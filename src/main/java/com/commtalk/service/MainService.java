@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.commtalk.dto.MemberSimpleDTO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -138,6 +139,19 @@ public class MainService {
 				.collect(Collectors.toList());
 
 		return JSONFactory.getJSONStringFromList(postDTOs);
+	}
+
+	// 회원 정보(닉네임) 조회
+	public String getMember(Long memberId) throws JsonProcessingException {
+
+		Member member = memberRepo.findById(memberId).orElse(null);
+		if (member != null) {
+			MemberSimpleDTO memberDTO = new MemberSimpleDTO(member);
+
+			return JSONFactory.getJSONStringFromObject(memberDTO);
+		}
+
+		return null;
 	}
 
 }

@@ -65,4 +65,14 @@ public class mainServiceTest {
 		}
 	}
 
+	@Test
+	public void testGetMember() {
+		try {
+			String jsonStr = mainService.getMember(10L);
+			System.out.println(jsonStr);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

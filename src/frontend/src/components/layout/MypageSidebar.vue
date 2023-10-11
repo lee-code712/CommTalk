@@ -1,7 +1,9 @@
 <template>
     <div class="mypage-sidebar">
         <div class="logo-wrap">
-          <img src="@/assets/images/logo.png"/>
+            <a href="/">
+            <img src="@/assets/images/logo.png"/>
+            </a>
         </div>
         <ul>
             <li :class="{ 'active': $route.path === '/mypage/info' }">

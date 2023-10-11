@@ -33,6 +33,7 @@ export default {
 		},
 		saveModal() {
 			this.$emit("save");
+			this.closeModal(); 
 		}
 	},
 };

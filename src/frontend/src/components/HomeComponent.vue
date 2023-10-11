@@ -21,6 +21,12 @@
         </div>
       </div>
     </div>
+    <div>
+      <div v-for="post in photoPosts">
+        <span>{{ post.title }}</span>
+        <img :src="getImageUrl(post.thumbnail.fileName)" alt="Image">
+      </div>
+    </div>
     <ModalComponent v-if="showModal" @close="showModal = false">
       <template #header>
         <div class="modal-title">나의 핀 설정하기</div>
@@ -41,6 +47,8 @@
 
 <script>
 import ModalComponent from "@/components/ModalComponent.vue";
+import axios from 'axios';
+
 export default {
   name: 'HomeComponent',
   props: {
@@ -95,7 +103,8 @@ export default {
             { title: '게시물 제목', date: '2023-08-15' }
           ]
         },
-      ]
+      ],
+      photoPosts: []
     };
   },
   computed: {
@@ -106,6 +115,56 @@ export default {
       }
       return divided;
     }
+  },
+  methods: {
+    getImageUrl(fileName) {
+      const baseUrl = 'http://' + window.location.host;
+      const apiUrl = '/api/file/load/' + fileName;
+      const url = new URL(apiUrl, baseUrl);
+      return url.href;
+    }
+  },
+  created () {
+    const token = localStorage.getItem('token');
+
+    // Axios를 사용하여 HTTP 요청을 보냅니다.
+    var link = 'http://' + window.location.host;
+    var headers = {
+      'Authorization': `Bearer ${token}`, // "Authorization" 헤더에 토큰 추가
+      'Content-Type': 'application/json',
+    };
+    axios.get(link + '/api/main/getPinnedBoards', { headers: headers })
+      .then(response => {
+        console.log(response.data)
+        // 응답 처리
+      })
+      .catch(error => {
+        // 오류 처리
+      });
+
+      const paging = {
+        params: {
+          page: 0
+        }
+      }
+      axios.get(link + '/api/post/getPostsByBoard/1', paging, { headers: headers })
+            .then(response => {
+              console.log(response.data)
+              // 응답 처리
+            })
+            .catch(error => {
+              // 오류 처리
+            });
+
+      axios.get(link + '/api/main/getPosts/패션')
+        .then(response => {
+          console.log(response.data)
+          // 응답 처리
+          this.photoPosts = response.data
+        })
+        .catch(error => {
+          // 오류 처리
+        });
   }
 }
 </script>

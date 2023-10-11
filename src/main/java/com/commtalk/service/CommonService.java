@@ -55,26 +55,24 @@ public class CommonService {
 		Page<Post> postPages = postRepo.findByTitleOrContent(keyword, pageable);
 		response.put("totalPages", postPages.getTotalPages());
 		response.put("pageNumber", postPages.getNumber());
-		response.put("previous", postPages.previousPageable());
-		response.put("next", postPages.nextPageable());
+		if (postPages.hasPrevious()) {
+			response.put("previous", postPages.previousPageable().getPageNumber());
+		}
+		else {
+			response.put("previous", -1);
+		}
+		if (postPages.hasNext()) {
+			response.put("next", postPages.nextPageable().getPageNumber());
+		}
+		else {
+			response.put("next", -1);
+		}
         
         List<PostDTO> postDTOs = new ArrayList<>();
 		if (memberId != null) {
-			boolean isLiked = false;
-			boolean isScraped = false;
-
 			for (Post post : postPages) {
 				if (!post.getIsDeleted()) {
-					List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndPostId(memberId, post.getId());
-					for (EngagementAction engagementAction : engagementActions) {
-						if (engagementAction.getAction() == EngagementAction.ActionType.like) {
-							isLiked = true;
-						}
-						else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
-							isScraped = true;
-						}
-					}
-					postDTOs.add(new PostDTO(post, isLiked, isScraped));
+					postDTOs.add(setPostWithEngagementAction(memberId, post));
 				}
 			}
 		}
@@ -88,6 +86,24 @@ public class CommonService {
 		response.put("posts", postDTOs);
 		
 		return JSONFactory.getJSONStringFromMap(response);
+	}
+
+	private PostDTO setPostWithEngagementAction(Long memberId, Post post) {
+		boolean isLiked = false;
+		boolean isScraped = false;
+
+		List<EngagementAction> engagementActions = engagementActionRepo.findByMemberIdAndRefId(memberId, post.getId());
+		if (engagementActions != null) {
+			for (EngagementAction engagementAction : engagementActions) {
+				if (engagementAction.getAction() == EngagementAction.ActionType.plike) {
+					isLiked = true;
+				} else if (engagementAction.getAction() == EngagementAction.ActionType.scrap) {
+					isScraped = true;
+				}
+			}
+		}
+
+		return new PostDTO(post, isLiked, isScraped);
 	}
 
 }

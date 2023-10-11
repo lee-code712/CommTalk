@@ -10,16 +10,16 @@
                     <strong class="page-title">신고 관리</strong>
 
                     <div class="report-options-container">
-                            <select>
-                                <option>게시판 전체</option>
-                                <option>자유게시판</option>
-                            </select>
-                            <select>
-                                <option>상태</option>
-                                <option>대기중</option>
-                                <option>처리됨</option>
-                                <option>거부됨</option>
-                            </select>
+                      <select>
+                          <option>게시판 전체</option>
+                          <option>자유게시판</option>
+                      </select>
+                      <select>
+                          <option>상태</option>
+                          <option>대기중</option>
+                          <option>처리됨</option>
+                          <option>거부됨</option>
+                      </select>
                     </div>
 
                     <div class="grid-table">

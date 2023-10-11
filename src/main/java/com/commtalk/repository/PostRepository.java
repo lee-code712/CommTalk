@@ -26,6 +26,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% ORDER BY p.createdAt DESC",
 			countQuery = "SELECT COUNT(p) FROM Post p " +
 					"JOIN p.board b " +
+					"JOIN FETCH p.author a " +
+					"LEFT JOIN FETCH p.comments c " +
 					"WHERE p.title LIKE %:keyword% OR p.content LIKE %:keyword% ORDER BY p.createdAt DESC")
 	Page<Post> findByTitleOrContent(@Param("keyword") String keyword, Pageable pageable);
 
@@ -36,6 +38,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"WHERE b.id = :boardId AND (p.title LIKE %:keyword% OR p.content LIKE %:keyword%) ORDER BY p.createdAt DESC",
 			countQuery = "SELECT COUNT(p) FROM Post p " +
 					"JOIN p.board b " +
+					"JOIN FETCH p.author a " +
+					"LEFT JOIN FETCH p.comments c " +
 					"WHERE b.id = :boardId AND (p.title LIKE %:keyword% OR p.content LIKE %:keyword%) ORDER BY p.createdAt DESC")
 	Page<Post> findByBoardIdAndTitleOrContent(@Param("keyword") String keyword, @Param("boardId") Long boardId, Pageable pageable);
 
@@ -46,6 +50,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"WHERE b.id = :boardId ORDER BY p.createdAt DESC",
 			countQuery = "SELECT COUNT(p) FROM Post p " +
 					"JOIN p.board b " +
+					"JOIN FETCH p.author a " +
+					"LEFT JOIN FETCH p.comments c " +
 					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
 	Page<Post> findByBoardOrderByCreatedAt(@Param("boardId") Long boardId, Pageable pageable);
 
@@ -53,31 +59,22 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 			"JOIN FETCH p.board b " +
 			"JOIN FETCH p.author a " +
 			"LEFT JOIN FETCH p.comments c " +
-			"WHERE a.id = :authorId ORDER BY p.createdAt DESC",
-			countQuery = "SELECT COUNT(p) FROM Post p " +
-					"JOIN p.board b " +
-					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
+			"WHERE a.id = :authorId ORDER BY p.createdAt DESC")
 	List<Post> findByAuthorOrderByCreatedAt(@Param("authorId") Long authorId);
 
 	@Query(value = "SELECT DISTINCT p FROM Post p " +
 			"JOIN FETCH p.board b " +
 			"JOIN FETCH p.author a " +
 			"LEFT JOIN FETCH p.comments c " +
-			"WHERE c.writer.id = :writerId ORDER BY p.createdAt DESC",
-			countQuery = "SELECT COUNT(p) FROM Post p " +
-					"JOIN p.board b " +
-					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
+			"WHERE c.writer.id = :writerId ORDER BY p.createdAt DESC")
 	List<Post> findByCommentOrderByCreatedAt(@Param("writerId") Long writerId);
 
 	@Query(value = "SELECT DISTINCT p FROM Post p " +
 			"JOIN FETCH p.board b " +
 			"JOIN FETCH p.author a " +
 			"LEFT JOIN FETCH p.comments c " +
-			"WHERE p.id IN :ids ORDER BY p.createdAt DESC",
-			countQuery = "SELECT COUNT(p) FROM Post p " +
-					"JOIN p.board b " +
-					"WHERE b.id = :boardId ORDER BY p.createdAt DESC")
-	List<Post> findByIds(List<Long> ids);
+			"WHERE p.id IN :ids ORDER BY p.createdAt DESC")
+	List<Post> findByIds(@Param("ids") List<Long> ids);
 
 	@Query("SELECT DISTINCT p " +
 			"FROM Post p " +

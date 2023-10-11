@@ -213,7 +213,7 @@ export default {
       headers: [],
       link: '',
       commentOpen: false,
-      likeImg: require('@/assets/images/fi-rr-thumbs-up.png'),
+      likeImg: require('@/assets/images/fi-rr-bookmark-detail.png'),
       likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
       scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
       scrapImgActive: require('@/assets/images/fi-sr-bookmark.png'),

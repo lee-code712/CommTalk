@@ -288,6 +288,7 @@ export default {
         console.log(err);
         if (err.response && err.response.status === 403) {
             // logout 처리 함수 호출
+            localStorage.clear();
         }
       });
     },

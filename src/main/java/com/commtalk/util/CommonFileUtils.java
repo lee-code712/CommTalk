@@ -95,9 +95,9 @@ public class CommonFileUtils {
 
 	private String setFileName(String fileName, String ext, int i) {
 		if (i >= 2) {
-			return fileName + "(" + i + ")" + "." + ext;
+			return fileName + "(" + i + ")" + ext;
 		}
-		return fileName + "." + ext;
+		return fileName + ext;
 	}
 	
 	private String createPath(String fileName) {

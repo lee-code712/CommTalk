@@ -12,7 +12,10 @@
                 <li v-for="(scrapPost, index) in scrapPosts" :key="index">
                   <a :href="'/detail?postId=' + scrapPost.postId">
                     <div class="list-content">
-                      <div class="title">{{ scrapPost.title }}</div>
+                      <div class="boardname-tit-wrap">
+                        <div class="boardname">{{ scrapPost.board.boardName }}</div>
+                        <div class="title">{{ scrapPost.title }}</div>
+                      </div>
                       <div class="content">{{ scrapPost.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">

@@ -13,7 +13,7 @@
                 <strong class="title">{{ post.title }}</strong>
               </div>
     
-              <div class="msg-notice-wrap">
+              <div class="msg-notice-wrap" style="display: none;">
                 <span>쪽지</span> 
                 <span>신고</span>
               </div>
@@ -76,7 +76,7 @@
                     <span style="margin-left: 4px;">{{ comment.createdAt}}</span>
                   </div>
 
-                  <div class="msg-notice-wrap">
+                  <div class="msg-notice-wrap" style="display: none;">
                     <span>쪽지</span> 
                     <span>신고</span>
                   </div>
@@ -139,7 +139,7 @@
                           <span style="margin-left: 4px;">{{ reply.createdAt }}</span>
                         </div>
     
-                        <div class="msg-notice-wrap">
+                        <div class="msg-notice-wrap" style="display: none;">
                           <span>쪽지</span> 
                           <span>신고</span>
                         </div>
@@ -217,7 +217,7 @@ export default {
       headers: [],
       link: '',
       commentOpen: false,
-      likeImg: require('@/assets/images/fi-rr-bookmark-detail.png'),
+      likeImg: require('@/assets/images/fi-rr-thumbs-up.png'),
       likeImgActive: require('@/assets/images/fi-sr-thumbs-up.png'),
       scrapImg: require('@/assets/images/fi-rr-bookmark.png'),
       scrapImgActive: require('@/assets/images/fi-sr-bookmark.png'),

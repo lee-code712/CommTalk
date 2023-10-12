@@ -14,7 +14,10 @@
                 <li v-for="(likePost, index) in likePosts" :key="index">
                   <a :href="'/detail?postId=' + likePost.postId">
                     <div class="list-content">
-                      <div class="title">{{ likePost.title }}</div>
+                      <div class="boardname-tit-wrap">
+                        <div class="boardname">{{ likePost.board.boardName }}</div>
+                        <div class="title">{{ likePost.title }}</div>
+                      </div>
                       <div class="content">{{ likePost.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">

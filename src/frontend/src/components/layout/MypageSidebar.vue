@@ -18,10 +18,10 @@
             <li :class="{ 'active': $route.path === '/mypage/scrap' }">
                 <router-link to="/mypage/scrap">내 스크랩</router-link>
             </li>
-            <li :class="{ 'active': $route.path === '/mypage/report' }">
+            <li style="display: none;" :class="{ 'active': $route.path === '/mypage/report' }">
                 <router-link to="/mypage/report">내 신고</router-link>
             </li>
-            <li>회원 탈퇴</li>
+            <li style="display: none;">회원 탈퇴</li>
         </ul>
     </div>
 </template>

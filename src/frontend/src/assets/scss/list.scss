@@ -14,19 +14,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 8px;
-        padding: 10px 10px;
-        width: 240px;
+        width: 280px;
+        height: 38px;
         border: 1px solid var(--gray40);
         border-radius: 4px;
         input {
+          padding: 0px 10px;
           width: 100%;
-          border: none;
-          outline: none;
+          height: 100%;
+          border: transparent;
+          border-radius: 4px;
+          &:focus {
+          outline: 1px solid var(--blue80);
+          }
         }
         img {
+          margin-right: 10px;
           width: 14px;
           height: 14px;
+          
+          &:hover {
+            cursor: pointer;
+          }
         }
       }
     }

@@ -8,7 +8,7 @@
         <strong class="board-name">{{ boardName }}</strong>
         <div class="search-wrap">
           <input type="search" v-model="keyword" placeholder="내용을 입력해주세요." />
-          <img src="@/assets/images/fi-rr-search.png" @click="fetchPosts" />
+          <img src="@/assets/images/list-search.png" @click="fetchPosts" />
         </div>
       </div>
 
@@ -193,6 +193,7 @@ export default {
         .get(url, { params, headers: this.headers })
         .then(response => {
           this.boards = response.data.posts;
+          console.log(this.boards);
           this.totalPages = response.data.totalPages;
         })
         .catch(err => {

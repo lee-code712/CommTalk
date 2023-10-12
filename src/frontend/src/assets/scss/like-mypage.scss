@@ -156,9 +156,17 @@
                 
                 .active-wrap {
                   display: flex;
-                  gap: 10px;
+                  align-items: center;
+                  gap: 14px;
                   font-size: 12px;
-                  color: #8694A9;
+                   color: #8694A9;
+                  .comment-box,
+                  .like-box,
+                  .view-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                  }
                 }
               }
             }

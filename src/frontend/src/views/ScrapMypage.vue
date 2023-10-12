@@ -19,9 +19,18 @@
                       <div class="content">{{ scrapPost.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">
-                          <div>댓글 {{ scrapPost.commentCnt }}</div>
-                          <div>공감 {{ scrapPost.likes }}</div>
-                          <div>조회수 {{ scrapPost.views }}</div>
+                          <div class="comment-box">
+                            <img src="@/assets/images/fi-rr-comment.png" style="width: 12px; height: 12px;" />
+                              댓글 {{ scrapPost.commentCnt }}
+                            </div>
+                            <div class="like-box">
+                              <img src="@/assets/images/fi-rr-thumbs-up.png" style="width: 14px; height: 14px;" />
+                              공감 {{ scrapPost.likes }}
+                            </div>
+                            <div class="view-box">
+                              <img src="@/assets/images/fi-rr-eye.png" style="width: 14px; height: 14px;" />
+                              조회수 {{ scrapPost.views }}
+                            </div>
                         </div>
                         <div class="writer-date-wrap">{{ scrapPost.createdAt }}</div>
                       </div>

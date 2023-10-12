@@ -132,6 +132,10 @@
             &.on {
               border: 1px solid var(--gray60);
             }
+            
+            &:hover {
+              cursor: pointer;
+            }
           }
         }
       }

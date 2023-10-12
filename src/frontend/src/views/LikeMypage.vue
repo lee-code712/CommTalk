@@ -21,9 +21,18 @@
                       <div class="content">{{ likePost.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">
-                          <div>댓글 {{ likePost.commentCnt }}</div>
-                          <div>공감 {{ likePost.likeCnt }}</div>
-                          <div>조회수 {{ likePost.viewCnt }}</div>
+                          <div class="comment-box">
+                            <img src="@/assets/images/fi-rr-comment.png" style="width: 12px; height: 12px;" />
+                            댓글 {{ likePost.commentCnt }}
+                          </div>
+                          <div class="like-box">
+                            <img src="@/assets/images/fi-rr-thumbs-up.png" style="width: 14px; height: 14px;" />
+                            공감 {{ likePost.likes }}
+                          </div>
+                          <div class="view-box">
+                            <img src="@/assets/images/fi-rr-eye.png" style="width: 14px; height: 14px;" />
+                            조회수 {{ likePost.views }}
+                          </div>
                         </div>
 
                         <div class="writer-date-wrap">

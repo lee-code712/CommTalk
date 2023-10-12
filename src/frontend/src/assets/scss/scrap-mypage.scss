@@ -69,24 +69,6 @@
             }
           }
         }
-        
-        .search-wrap {
-          display: flex;
-          align-items: center;
-          padding: 0px 10px;
-          border-radius: 4px;
-          box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-          
-          input {
-            width: 180px;
-            border: none;
-          }
-          
-          img {
-            width: 16px;
-            height: 16px;
-          }
-        }
       }
       
       .list-wrap {
@@ -156,9 +138,17 @@
                 
                 .active-wrap {
                   display: flex;
-                  gap: 10px;
+                  align-items: center;
+                  gap: 14px;
                   font-size: 12px;
-                  color: #8694A9;
+                   color: #8694A9;
+                  .comment-box,
+                  .like-box,
+                  .view-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                  }
                 }
               }
             }

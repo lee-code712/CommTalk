@@ -3,7 +3,9 @@
     <div class="login-wrap" v-if="isExistToken">
       <div class="login-top">
         <div class="login-desc">
-          <img src="@/assets/images/loginProfile.png" style="width: 64px; height: 64px;" />
+          <router-link :to="'/mypage/info'">
+            <img src="@/assets/images/loginProfile.png" style="width: 64px; height: 64px;" />
+          </router-link>
           <div class="nick-user-wrap">
             <div>{{ user.nickname }}님</div>
             <div class="username">{{ user.username }}</div>

@@ -34,9 +34,18 @@
                       <div class="content">{{ mycomment.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">
-                          <div>댓글 {{ mycomment.commentCnt }}</div>
-                          <div>공감 {{ mycomment.likes }}</div>
-                          <div>조회수 {{ mycomment.views }}</div>
+                          <div class="comment-box">
+                            <img src="@/assets/images/fi-rr-comment.png" style="width: 12px; height: 12px;" />
+                            댓글 {{ mycomment.commentCnt }}
+                          </div>
+                          <div class="like-box">
+                            <img src="@/assets/images/fi-rr-thumbs-up.png" style="width: 14px; height: 14px;" />
+                            공감 {{ mycomment.likes }}
+                          </div>
+                          <div class="view-box">
+                            <img src="@/assets/images/fi-rr-eye.png" style="width: 14px; height: 14px;" />
+                            조회수 {{ mycomment.views }}
+                          </div>
                         </div>
                         <div class="writer-date-wrap">
                           <div class="date">{{ mycomment.createdAt }}</div>
@@ -59,9 +68,18 @@
                       <div class="content">{{ commentPost.content }}</div>
                       <div class="detail-info-wrap">
                         <div class="active-wrap">
-                          <div>댓글 {{ commentPost.commentCnt }}</div>
-                          <div>공감 {{ commentPost.likes }}</div>
-                          <div>조회수 {{ commentPost.views }}</div>
+                          <div class="comment-box">
+                            <img src="@/assets/images/fi-rr-comment.png" style="width: 12px; height: 12px;" />
+                            댓글 {{ commentPost.commentCnt }}
+                          </div>
+                          <div class="like-box">
+                            <img src="@/assets/images/fi-rr-thumbs-up.png" style="width: 14px; height: 14px;" />
+                            공감 {{ commentPost.likes }}
+                          </div>
+                          <div class="view-box">
+                            <img src="@/assets/images/fi-rr-eye.png" style="width: 14px; height: 14px;" />
+                            조회수 {{ commentPost.views }}
+                          </div>
                         </div>
                         <div class="writer-date-wrap">
                           {{ commentPost.createdAt }}

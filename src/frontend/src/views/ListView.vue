@@ -6,7 +6,7 @@
     <div class="full-container">
       <div class="sub-top-wrap">
         <strong class="board-name">{{ boardName }}</strong>
-        <div class="search-wrap">
+        <div class="search-wrap" v-if="!isAllList">
           <input type="search" v-model="keyword" placeholder="내용을 입력해주세요." />
           <img src="@/assets/images/list-search.png" @click="fetchPosts" />
         </div>

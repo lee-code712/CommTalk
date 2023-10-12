@@ -1,5 +1,6 @@
 package com.commtalk.config;
 
+import com.commtalk.security.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.commtalk.security.JwtTokenProvider;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
+
+	private static final String[] authList = {
+			"/api/main/updatePinnedBoards",
+			"/api/main/getMember",
+			"/api/post/changeEngagementAction",
+			"/api/post/createComment",
+			"/api/post/createPost",
+			"/api/file/upload/**",
+			"/api/myPage/**"
+	};
+
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
@@ -32,29 +44,23 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http
-	        .csrf().disable();
-	    http
-	        .authorizeRequests()
-	        .antMatchers("/**").permitAll()
-	        .antMatchers("/api/main/updatePinnedBoards",
-					"/api/main/getMember",
-					"/api/post/changeEngagementAction",
-					"/api/post/createComment",
-					"/api/post/createPost",
-					"/api/file/upload/**",
-					"/api/myPage/**").authenticated();   // 인증 필요 URI
-	    http
-	        .sessionManagement()
-	        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	    http
-		    .logout()
-		    .logoutUrl("/api/auth/logout");
-	    http
-			.apply(new JwtSecurityConfig(jwtTokenProvider));
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+			.csrf().disable();
+		http
+			.authorizeRequests()
+			.antMatchers(authList).authenticated()   // 인증 필요 URI
+			.anyRequest().permitAll();
+		http
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http
+			.logout()
+			.logoutUrl("/api/auth/logout");
+		http
+			.apply(new JwtSecurityConfig(jwtTokenProvider, authList));
 
-	    return http.build();
-	  }
+		return http.build();
+	}
 
 }

@@ -31,6 +31,10 @@
             <div class="hashtags">
               <div class="hashtag" v-for="(tag, index) in post.hashtags" :key="index">#{{ tag.hashtag }}</div>
             </div>
+            
+            <div class="img-wrap">
+              <img v-for="(imageurl, index) in post.attachments" :key="index" :src="getImageUrl(imageurl.fileName)" alt="Image" style="margin-bottom: 20px; width: 140px; height: 100px; border: 1px solid var(--gray40); border-radius: 10px;" />
+            </div>
           </div>
         </div>
     
@@ -442,7 +446,14 @@ export default {
       .catch(err => {
         console.error(err);
       });
-    }
+    },
+    getImageUrl(fileName) { /* 이미지 URL 가져옴 */
+      const baseUrl = 'http://' + window.location.host;
+      const apiUrl = '/api/file/load/' + fileName;
+      const url = new URL(apiUrl, baseUrl);
+      
+      return url.href;
+    },
   },
 };
 </script>

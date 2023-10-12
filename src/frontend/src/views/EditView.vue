@@ -192,6 +192,7 @@ export default {
         .post(`/api/post/createPost`, data, { headers: this.headers })
         .then(response => {
           console.log(response.data);
+          
           this.uploadImageUrl(response.data.postId);
         })
         .catch(err => {
@@ -201,26 +202,31 @@ export default {
     uploadImageUrl(postId) {
       const formData = new FormData();
 
-      for (const image of this.imagePreviews) {
-        formData.append('images', image.file);
-      }
+for (const image of this.imagePreviews) {
+  formData.append('images', image.file);
+}
 
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      };
+if (formData.has('images')) { // 이미지가 있는 경우에만 요청을 보냅니다.
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+  };
 
-      /* 파일 업로드 요청 보내기 */
-      axios
-        .post(`/api/file/upload/${postId}`, formData, config)
-        .then((response) => {
-          console.log('파일 업로드 성공:', response.data);
-        })
-        .catch((err) => {
-          console.error('파일 업로드 실패:', err);
-        });
+  /* 파일 업로드 요청 보내기 */
+  axios
+    .post(`/api/file/upload/${postId}`, formData, config)
+    .then((response) => {
+      console.log('파일 업로드 성공:', response.data);
+    })
+    .catch((err) => {
+      console.error('파일 업로드 실패:', err);
+    });
+} else {
+  console.log('이미지가 없어서 파일 업로드 요청을 보내지 않습니다.');
+}
+
     }
   }
 };

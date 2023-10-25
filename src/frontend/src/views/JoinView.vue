@@ -40,9 +40,9 @@ export default {
     return {
       nickname: "",
       password: "",
-      username: "", // 추가: 이름 필드
-      email: "",    // 추가: 이메일 필드
-      phone: "",    // 추가: 전화번호 필드
+      username: "",
+      email: "",
+      phone: "",
       error: ""
     };
   },
@@ -80,6 +80,6 @@ export default {
 </script>
 
 <style lang="scss">
-    @import "@/assets/scss/pattern.scss";
+    @import "@/assets/scss/pattern/pattern.scss";
     @import "@/assets/scss/join.scss";
 </style>

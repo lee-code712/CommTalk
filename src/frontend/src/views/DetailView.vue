@@ -167,6 +167,10 @@
             </div>
         </div>
 
+        <div v-if="!commentOpen" class="commentDisableDesc">
+          댓글 기능이 비활성화된 게시글입니다.
+        </div>
+        
         <div class="my-comment-wrap" v-if="commentOpen">
           <textarea v-model="commentData.myComment" class="my-comment" placeholder="댓글을 입력하세요."></textarea>
           <div class="my-comment-btn-wrap">
@@ -189,9 +193,11 @@
           </div>
         </div>
 
-        <a :href="'/list?boardId=' + boardId">
-          <button type="button" class="list-btn">목록보기</button>
-        </a>
+        <div class="btn-wrap">
+          <a :href="'/list?boardId=' + boardId">
+            <button type="button" class="list-btn"><img src="@/assets/images/fi-rr-list.png" style="width: 14px; heigth: 14px;" />목록보기</button>
+          </a>
+        </div>
       </div>
     </div>
     <FooterLayout/>
@@ -201,9 +207,9 @@
 <script>
 import axios from 'axios';
 
-import HeaderLayout from "@/components/layout/HeaderLayout.vue";
-import SubHeader from "@/components/layout/SubHeader.vue";
-import FooterLayout from "@/components/layout/FooterLayout.vue";
+import HeaderLayout from "@/components/layout/common/HeaderLayout.vue";
+import SubHeader from "@/components/layout/common/SubHeader.vue";
+import FooterLayout from "@/components/layout/common/FooterLayout.vue";
 
 export default {
   name: 'DetailView',
@@ -231,11 +237,11 @@ export default {
       replies: [],
       commentData: {
         myComment: '',
-        isCommentAnonymous: false
+        isCommentAnonymous: true
       },
       replyData: {
         reply: '',
-        isReplyAnonymous: false
+        isReplyAnonymous: true
       }
     };
   },

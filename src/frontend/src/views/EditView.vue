@@ -61,11 +61,16 @@
               </label>
             </div>
 
-            <input type="file" ref="fileInput" multiple @change="handleFileChange" />
+            <label for="file">
+              <div class="btn-upload"><img src="@/assets/images/fi-rr-cloud-upload.png" style="width: 14px; height: 14px;"/>파일 업로드하기</div>
+            </label>
+            <input type="file" id="file" ref="fileInput" multiple @change="handleFileChange" />
           </div>
 
           <div class="btn-wrap">
-            <button type="button" class="cancel-btn">취소</button>
+            <router-link :to="'/list?boardId=' + boardId" class="router-link-class">
+              <button type="button" class="cancel-btn">취소</button>
+            </router-link>
             <button type="submit" class="register-btn" @click="submitPost">등록</button>
           </div>
         </div>
@@ -78,9 +83,9 @@
 <script>
 import axios from 'axios';
 
-import HeaderLayout from "@/components/layout/HeaderLayout.vue";
-import SubHeader from "@/components/layout/SubHeader.vue";
-import FooterLayout from "@/components/layout/FooterLayout.vue";
+import HeaderLayout from "@/components/layout/common/HeaderLayout.vue";
+import SubHeader from "@/components/layout/common/SubHeader.vue";
+import FooterLayout from "@/components/layout/common/FooterLayout.vue";
 
 export default {
   name: 'EditView',
@@ -92,8 +97,9 @@ export default {
       newHashtag: '',
       hashtags: [],
       boardName: '',
-      isAnonymous: false,
-      isCommentable: false
+      isAnonymous: true,
+      isCommentable: true,
+      boardId: this.$route.query.boardId
     };
   },
   created() {
@@ -194,6 +200,8 @@ export default {
           console.log(response.data);
           
           this.uploadImageUrl(response.data.postId);
+          
+          this.$router.push(`/list?boardId=${boardId}`);
         })
         .catch(err => {
           console.error(err);
@@ -233,8 +241,8 @@ if (formData.has('images')) { // 이미지가 있는 경우에만 요청을 보�
 </script>
 
 <style lang="scss">
-  @import "@/assets/scss/layout1.scss";
-  @import "@/assets/scss/pattern.scss";
+  @import "@/assets/scss/pattern/pattern.scss";
+  @import "@/assets/scss/pattern/layout.scss";
   @import "@/assets/scss/edit.scss";
   @import "@/assets/scss/common.scss";
 </style>

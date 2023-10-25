@@ -1,0 +1,202 @@
+.right-content {
+  .login-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray40);
+    border-radius: 10px;
+
+    .login-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      width: calc(100% - 40px);
+      font-size: 14px;
+      margin: 2px;
+
+      .login-desc {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        margin: 2px;
+        
+        .nick-user-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          .username {
+            font-size: 12px;
+            color: var(--gray70);
+          } 
+        }
+      }
+
+      .logout-btn {
+        padding: 6px 20px;
+        background-color: #FFF;
+        border: none;
+        border-radius: 50px;
+        border: 1px solid var(--gray40);
+        color: var(--gray80);
+
+        &:hover {
+          background-color: var(--gray10);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .mypage-btn-wrap {
+      background-color: var(--gray10);
+      padding: 16px 0px;
+      width: 100%;
+      border-top: 1px solid var(--gray40);
+      border-radius: 0px 0px 10px 10px;
+      margin: 2px;
+
+      ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        li {
+          text-align: center;
+          font-size: 14px;
+          width: calc(100% / 3);
+
+          &:not(:last-child) {
+            border-right: 1px solid var(--gray40);
+          }
+
+          a {
+            color: var(--color_primary);
+          }
+        }
+      }
+    }
+  }
+
+  .router-link-class {
+    width: 100%;
+
+    .login-button {
+      padding: 12px 0;
+      width: calc(100% - 40px);
+      margin: 0px 20px 20px 20px;
+      background-color: var(--blue80);
+      color: #fff;
+      border: transparent;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: var(--blue80);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .category-wrap {
+    margin-bottom: 16px;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    margin: 2px;
+
+    .title-angle-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+
+      h3 {
+        font-size: 16px;
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .popular-posts {
+    border: 1px solid var(--gray40);
+    border-radius: 10px;
+
+    h3 {
+      padding: 20px;
+      font-size: 16px;
+    }
+
+    ul {
+      padding: 10px 20px;
+      list-style: none;
+
+      li {
+        margin-bottom: 14px;
+
+        .router-link-class {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+          color: var(--color_primary);
+
+          .num {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 18px;
+            height: 18px;
+            font-size: 24px;
+            font-weight: bold;
+
+            &.on {
+              color: var(--blue80);
+            }
+          }
+
+          .popular-posts-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 14px;
+
+            .title-comment-wrap {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+
+              .comment {
+                font-size: 12px;
+                color: var(--blue80);
+              }
+            }
+
+            .view-like-wrap {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              font-size: 12px;
+              color: #606060;
+
+              .view-wrap,
+              .like-wrap {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              }
+              
+              img {
+                margin-top: 2px;
+                width: 12px;
+                height: 12px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

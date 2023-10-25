@@ -142,16 +142,25 @@
     }
     .btn-wrap {
       margin-top: 20px;
-      .write-btn {
-        padding: 10px 20px;
-        background-color: #FFF;
-        color: var(--color_primary);
-        font-size: 14px;
-        border: 1px solid var(--gray40);
-        border-radius: 4px;
-        &:hover {
-          background-color: var(--gray10);
-          cursor: pointer;
+      .router-link-class {
+        .write-btn {
+          display: flex;
+          align-items: center;
+          padding: 10px 20px;
+          background-color: #FFF;
+          color: var(--color_primary);
+          font-size: 14px;
+          border: 1px solid var(--gray40);
+          border-radius: 4px;
+          
+          img {
+            margin-right: 4px;
+          }
+          
+          &:hover {
+            background-color: var(--gray10);
+            cursor: pointer;
+          }
         }
       }
     }

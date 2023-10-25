@@ -13,7 +13,3 @@ export default {
 <style lang="scss">
   @import '@/assets/scss/common.scss';
 </style>
-
-<style scoped lang="scss">
-  @import '@/assets/scss/app.scss';
-</style>

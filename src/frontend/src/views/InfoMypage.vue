@@ -11,31 +11,13 @@
 
           <div class="info-box-wrap">
             <div class="info-box-content-wrap">
-              <div class="sub-title">개인정보를 변경해주세요.</div>
+              <div class="sub-title">개인정보를 변경 시, 기존 비밀번호를 입력해 주세요.</div>
 
               <div class="info-box">
                 <div class="info-box-inner">
                   <label>아이디</label>
                   <div class="form-control">
                     <input type="text" :placeholder="member.nickname" v-model="member.nickname" disabled />
-                  </div>
-                </div>
-                <div class="info-box-inner">
-                  <label>기존 비밀번호</label>
-                  <div class="form-control">
-                    <input type="password" placeholder="비밀번호" v-model="orgPassword" />
-                  </div>
-                </div>
-                <div class="info-box-inner">
-                  <label>새로운 비밀번호</label>
-                  <div class="form-control">
-                    <input type="password" placeholder="새로운 비밀번호" v-model="newPassword" />
-                  </div>
-                </div>
-                <div class="info-box-inner">
-                  <label>비밀번호 확인</label>
-                  <div class="form-control">
-                    <input type="password" placeholder="비밀번호 확인" v-model="passwordCheck" />
                   </div>
                 </div>
                 <div class="info-box-inner">
@@ -56,6 +38,35 @@
                     <input type="number" :placeholder="member.phone" v-model="member.phone" />
                   </div>
                 </div>
+                <div class="info-box-inner">
+                  <label>기존 비밀번호</label>
+                  <div class="form-control">
+                    <input type="password" placeholder="비밀번호" v-model="orgPassword" />
+                  </div>
+                </div>
+                
+                <div @click="togglePwd" class="change-pwd-wrap">
+                  비밀번호 변경
+                  <div class="angle-icon">
+                    <img 
+                      style="width: 16px; height: 16px;" 
+                      :src="showChangePwd ? angleUpImg : angleDownImg"
+                    />
+                  </div>
+                </div>
+                
+                <div class="info-box-inner" v-if="showChangePwd">
+                  <label>새로운 비밀번호</label>
+                  <div class="form-control">
+                    <input type="password" placeholder="새로운 비밀번호" v-model="newPassword" />
+                  </div>
+                </div>
+                <div class="info-box-inner" v-if="showChangePwd">
+                  <label>비밀번호 확인</label>
+                  <div class="form-control">
+                    <input type="password" placeholder="비밀번호 확인" v-model="passwordCheck" />
+                  </div>
+                </div>
               </div>
 
               <button type="submit" @click="updateMember()">변경하기</button>
@@ -70,8 +81,8 @@
 <script>
 import axios from 'axios';
 
-import MypageSidebar from '@/components/layout/MypageSidebar.vue';
-import MypageHeader from '@/components/layout/MypageHeader.vue';
+import MypageSidebar from '@/components/layout/mypage/MypageSidebar.vue';
+import MypageHeader from '@/components/layout/mypage/MypageHeader.vue';
 
 export default {
   name: 'InfoMypage',
@@ -91,6 +102,9 @@ export default {
       username: '',
       email: '',
       phone: '',
+      showChangePwd: false,
+      angleUpImg: require('@/assets/images/fi-rr-angle-small-up.png'),
+      angleDownImg: require('@/assets/images/fi-rr-angle-small-down.png'),
     };
   },
   created() {
@@ -145,6 +159,11 @@ export default {
           const status = response.data.status;
           const message = response.data.message;
 
+          if (!this.orgPassword) {
+            alert("개인정보를 변경 시, 기존 비밀번호를 입력해 주세요.");
+            return;
+          }
+          
           if (status == 'success') {
             alert("개인정보가 성공적으로 변경되었습니다.");
           } else if (status == 'error') {
@@ -157,11 +176,15 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    }
+    },
+    togglePwd() { /* 비밀번호 변경 노출 */
+      /* 비밀번호 변경 노출 상태를 전환 */
+      this.showChangePwd = !this.showChangePwd;
+    },
   }
 }
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/info-mypage.scss";
+@import "@/assets/scss/mypage/info-mypage.scss";
 </style>

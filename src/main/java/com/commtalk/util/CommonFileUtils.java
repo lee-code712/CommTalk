@@ -50,6 +50,7 @@ public class CommonFileUtils {
 				file = new File(createPath(setFileName(fileName, ext, i)));
 				while (file.isFile()) { // 디렉토리에 파일이 있으면 true 없으면 false
 					i++;
+					file = new File(createPath(setFileName(fileName, ext, i)));
 				}
 				file = new File(createPath(setFileName(fileName, ext, i)));
 				

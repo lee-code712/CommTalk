@@ -59,6 +59,9 @@ public class PostDetailDTO {
 
 	public void setComments(List<CommentDTO> comments) {
 		this.commentCnt = comments.size();
+		for (CommentDTO comment : comments) {
+			this.commentCnt += comment.getChildCnt();
+		}
 		this.comments = comments;
 	}
 	

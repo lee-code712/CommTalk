@@ -69,6 +69,6 @@ export default {
 </script>
 
 <style lang="scss">
-	@import "@/assets/scss/pattern.scss";
+	@import "@/assets/scss/pattern/pattern.scss";
 	@import "@/assets/scss/login.scss";
 </style>

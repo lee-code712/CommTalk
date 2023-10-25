@@ -54,7 +54,7 @@ const routes = [
       },
       {
         path: 'report',
-        component: () => import('../views/ReportMypage.vue')
+        component: () => import('../views/later/ReportMypage.vue')
       }, 
     ]
   },
@@ -64,11 +64,11 @@ const routes = [
     children: [
       {
         path: 'board',
-        component: () => import('../views/BoardAdmin.vue')
+        component: () => import('../views/later/BoardAdmin.vue')
       }, 
       {
         path: 'report',
-        component: () => import('../views/ReportAdmin.vue')
+        component: () => import('../views/later/ReportAdmin.vue')
       }, 
       
     ]

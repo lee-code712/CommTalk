@@ -72,7 +72,7 @@
 
       <div class="btn-wrap">
         <router-link :to="'/edit?boardId=' + boardId" class="router-link-class">
-          <button class="write-btn">글쓰기</button>
+          <button class="write-btn"><img src="@/assets/images/fi-rr-edit.png" style="width: 14px; height: 14px;" />글쓰기</button>
         </router-link>
       </div>
     </div>
@@ -83,9 +83,9 @@
 <script>
 import axios from 'axios';
 
-import HeaderLayout from '@/components/layout/HeaderLayout.vue';
-import SubHeader from '@/components/layout/SubHeader.vue';
-import FooterLayout from '@/components/layout/FooterLayout.vue';
+import HeaderLayout from '@/components/layout/common/HeaderLayout.vue';
+import SubHeader from '@/components/layout/common/SubHeader.vue';
+import FooterLayout from '@/components/layout/common/FooterLayout.vue';
 
 export default {
   name: 'ListView',
@@ -241,5 +241,5 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/list.scss";
-@import "@/assets/scss/pattern.scss";
+@import "@/assets/scss/pattern/pattern.scss";
 </style>

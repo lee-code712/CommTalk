@@ -43,12 +43,12 @@
   width: 300px;
   height: 40px;
   border-radius: 4px;
-  background-color: #4976EF;
+  background-color: var(--blue80);
   color: #FFF;
   border: transparent;
 
   &:hover {
-    background-color: #496EEF;
+    background-color: var(--blue80);
     cursor: pointer;
   }
 }

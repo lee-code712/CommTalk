@@ -169,10 +169,10 @@
 <script>
 import axios from 'axios';
 
-import HeaderLayout from "@/components/layout/HeaderLayout.vue";
-import RightContent from "@/components/layout/RightContent.vue";
-import SubHeader from "@/components/layout/SubHeader.vue";
-import FooterLayout from "@/components/layout/FooterLayout.vue";
+import HeaderLayout from "@/components/layout/common/HeaderLayout.vue";
+import RightContent from "@/components/layout/common/RightContent.vue";
+import SubHeader from "@/components/layout/common/SubHeader.vue";
+import FooterLayout from "@/components/layout/common/FooterLayout.vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 
 export default {
@@ -313,8 +313,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/pattern.scss";
-@import "@/assets/scss/layout1.scss";
+@import "@/assets/scss/pattern/pattern.scss";
+@import "@/assets/scss/pattern/layout.scss";
 @import "@/assets/scss/home.scss";
 @import "@/assets/scss/common.scss";
 </style>

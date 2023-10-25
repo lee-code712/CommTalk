@@ -54,8 +54,8 @@
 <script>
 import axios from 'axios';
 
-import MypageSidebar from '@/components/layout/MypageSidebar.vue';
-import MypageHeader from '@/components/layout/MypageHeader.vue';
+import MypageSidebar from '@/components/layout/mypage/MypageSidebar.vue';
+import MypageHeader from '@/components/layout/mypage/MypageHeader.vue';
 
 export default {
   name: 'LikeMypage',
@@ -103,5 +103,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/like-mypage.scss";
+@import "@/assets/scss/mypage/like-mypage.scss";
 </style>

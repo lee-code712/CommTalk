@@ -1,13 +1,13 @@
 .content-wrap {
-    display: flex;
-    gap: 20px;
-    margin: 0 auto;
-    width: 1200px;
+  display: flex;
+  gap: 20px;
+  margin: 0 auto;
+  width: 1200px;
 
-    .left-content {
+  .left-content {
     width: 70%;
-    }
-    .right-content {
+  }
+  .right-content {
     width: 30%;
-    }
+  }
 }

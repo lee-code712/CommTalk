@@ -163,5 +163,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/mypage/commentmypage.scss";
+@import "@/assets/scss/mypage/comment.scss";
 </style>

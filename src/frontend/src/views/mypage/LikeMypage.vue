@@ -103,5 +103,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/mypage/like-mypage.scss";
+@import "@/assets/scss/mypage/like.scss";
 </style>

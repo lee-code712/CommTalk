@@ -96,5 +96,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/mypage/scrap-mypage.scss";
+@import "@/assets/scss/mypage/scrap.scss";
 </style>

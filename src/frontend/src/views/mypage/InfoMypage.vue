@@ -186,5 +186,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/mypage/info-mypage.scss";
+@import "@/assets/scss/mypage/info.scss";
 </style>

@@ -38,19 +38,19 @@ const routes = [
     children: [
       {
         path: 'info',
-        component: () => import('../views/InfoMypage.vue')
+        component: () => import('../views/mypage/InfoMypage.vue')
       }, 
       {
         path: 'comment',
-        component: () => import('../views/CommentMypage.vue')
+        component: () => import('../views/mypage/CommentMypage.vue')
       },
       {
         path: 'like',
-        component: () => import('../views/LikeMypage.vue')
+        component: () => import('../views/mypage/LikeMypage.vue')
       },
       {
         path: 'scrap',
-        component: () => import('../views/ScrapMypage.vue')
+        component: () => import('../views/mypage/ScrapMypage.vue')
       },
       {
         path: 'report',

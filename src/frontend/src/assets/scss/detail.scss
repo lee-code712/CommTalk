@@ -24,7 +24,7 @@
           .board-label {
             padding: 6px 10px;
             background-color: #E8EEFF;
-            color: #4976EF;
+            color: var(--blue80);
             border-radius: 4px;
             font-size: 12px;
           }
@@ -78,6 +78,7 @@
         border-radius: 4px;
       }
     }
+    
     .board-content-body {
       .activity-wrap {
         margin-bottom: 2px;

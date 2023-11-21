@@ -2,6 +2,10 @@
 종합 커뮤니티 사이트
 </br></br>
 
+## ✔ 프로젝트 데모
+https://www.youtube.com/watch?v=2CtmzoWrwbc
+</br></br>
+
 ## ✔ 프로젝트 소개
 Vue와 Spring 기반 기술을 공부하고 적용하기 위해 기본적인 CRUD 기능을 포함한 커뮤니티 사이트를 구현했습니다.
 

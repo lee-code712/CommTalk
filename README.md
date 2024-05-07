@@ -2,7 +2,7 @@
 종합 커뮤니티 사이트
 </br></br>
 
-## ✔ 프로젝트 데모
+## ✔ 프로젝트 시연 영상
 https://www.youtube.com/watch?v=2CtmzoWrwbc
 </br></br>
 

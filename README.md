@@ -20,7 +20,7 @@ Vue와 Spring 기반 기술을 공부하고 적용하기 위해 기본적인 CRU
 - IDE : IntelliJ IDEA (Community Edition)
 - Programming Language : Java 11, JavaScript
 - Backend Framework : `Spring Boot 2.7.14`
-- Frontend Framework : `Vue3`
+- Frontend Framework : `Vue2 (Options API)`
 - Database Access Technology : `JPA`
 - Database : MySQL 8.0.34
 - Version Control: Git

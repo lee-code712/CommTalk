@@ -33,3 +33,7 @@ Vue와 Spring 기반 기술을 공부하고 적용하기 위해 기본적인 CRU
 ### 게시글 작성
 ### 공감&스크랩
 ### 댓글
+
+## ✔ 리팩토링
+백엔드: https://github.com/lee-code712/commtalk-refact-api
+프론트엔드: https://github.com/hyeran0513/commtalk-nuxt
